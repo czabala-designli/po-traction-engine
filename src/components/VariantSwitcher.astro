@@ -1,0 +1,76 @@
+---
+// Layout variant switcher — lives in sticky nav, stores preference in localStorage
+---
+
+<div id="variant-switcher" role="group" aria-label="Layout variants">
+  <button class="variant-btn active" data-variant="center-stage">Center Stage</button>
+  <button class="variant-btn" data-variant="side-by-side">Side by Side</button>
+  <button class="variant-btn" data-variant="split">Split</button>
+</div>
+
+<script is:inline>
+  (function () {
+    var switcher = document.getElementById('variant-switcher');
+    var buttons  = switcher.querySelectorAll('.variant-btn');
+    var MOBILE_BP = 600;
+
+    function isMobile() { return window.innerWidth <= MOBILE_BP; }
+
+    function applyVariant(name, fromClick) {
+      var effective = isMobile() ? 'center-stage' : name;
+      document.documentElement.setAttribute('data-variant', effective);
+      buttons.forEach(function (btn) {
+        btn.classList.toggle('active', btn.dataset.variant === effective);
+      });
+      if (!isMobile()) localStorage.setItem('layout-variant', name);
+      if (fromClick) window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    applyVariant(localStorage.getItem('layout-variant') || 'center-stage');
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () { applyVariant(btn.dataset.variant, true); });
+    });
+
+    window.addEventListener('resize', function () {
+      applyVariant(localStorage.getItem('layout-variant') || 'center-stage');
+    });
+  })();
+</script>
+
+<style>
+  #variant-switcher {
+    display: flex;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 3px;
+  }
+
+  .variant-btn {
+    background: none;
+    border: none;
+    border-radius: 4px;
+    color: var(--muted-blue);
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+
+  .variant-btn:hover:not(.active) {
+    color: var(--off-white);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .variant-btn.active {
+    background: var(--coral);
+    color: var(--white);
+  }
+</style>

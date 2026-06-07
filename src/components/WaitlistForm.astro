@@ -1,0 +1,245 @@
+---
+interface Props {
+  instanceId?: string;
+}
+const { instanceId = 'main' } = Astro.props;
+const ids = {
+  form:      `wf-${instanceId}`,
+  firstName: `wf-fn-${instanceId}`,
+  email:     `wf-em-${instanceId}`,
+  topProblem:`wf-tp-${instanceId}`,
+  error:     `wf-err-${instanceId}`,
+  success:   `wf-ok-${instanceId}`,
+  btn:       `wf-btn-${instanceId}`,
+};
+---
+<form id={ids.form} novalidate>
+  <div class="field-row">
+    <div class="field">
+      <label for={ids.firstName}>First name <span class="req" aria-hidden="true">*</span></label>
+      <input type="text" id={ids.firstName} name="first_name" placeholder="Ada" required autocomplete="given-name" />
+    </div>
+    <div class="field">
+      <label for={ids.email}>Email <span class="req" aria-hidden="true">*</span></label>
+      <input type="email" id={ids.email} name="email" placeholder="ada@designli.co" required autocomplete="email" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for={ids.topProblem}>
+      What problem are you hoping to solve?
+      <span class="optional">optional</span>
+    </label>
+    <textarea id={ids.topProblem} name="top_problem" placeholder="Describe the problem…" rows="3"></textarea>
+  </div>
+
+  <p id={ids.error} class="form-error" aria-live="polite" hidden></p>
+
+  <button type="submit" id={ids.btn}>
+    <span class="btn-text">Join the waitlist</span>
+    <span class="btn-arrow" aria-hidden="true">→</span>
+  </button>
+
+  <div id={ids.success} class="form-success" aria-live="polite" hidden>
+    <span class="success-mark">✓</span>
+    <p>You're on the list. We'll be in touch.</p>
+  </div>
+</form>
+
+<script define:vars={{ ids }}>
+  (function () {
+    var form      = document.getElementById(ids.form);
+    if (!form) return;
+    var errorEl   = document.getElementById(ids.error);
+    var successEl = document.getElementById(ids.success);
+    var btn       = document.getElementById(ids.btn);
+
+    function getUTMSource() {
+      try { return new URLSearchParams(window.location.search).get('utm_source') || ''; }
+      catch (e) { return ''; }
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var firstName  = (form.querySelector('[name="first_name"]').value || '').trim();
+      var email      = (form.querySelector('[name="email"]').value || '').trim();
+      var topProblem = (form.querySelector('[name="top_problem"]').value || '').trim();
+
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+
+      if (!firstName || !email) {
+        errorEl.textContent = 'Please fill in your first name and email.';
+        errorEl.hidden = false;
+        window.posthog?.capture('waitlist_signup_failed', {
+          reason: 'validation_error',
+          missing_first_name: !firstName,
+          missing_email: !email
+        });
+        return;
+      }
+
+      btn.disabled = true;
+      btn.querySelector('.btn-text').textContent = 'Joining…';
+
+      try {
+        window.posthog?.identify(email, { first_name: firstName });
+        window.posthog?.capture('waitlist_signup_submitted', {
+          first_name: firstName,
+          email: email,
+          top_problem: topProblem,
+          source: getUTMSource()
+        });
+        form.style.display = 'none';
+        successEl.hidden = false;
+      } catch (err) {
+        window.posthog?.captureException(err);
+        window.posthog?.capture('waitlist_signup_failed', { reason: 'unexpected_error' });
+        errorEl.textContent = 'Something went wrong. Please try again.';
+        errorEl.hidden = false;
+        btn.disabled = false;
+        btn.querySelector('.btn-text').textContent = 'Join the waitlist';
+      }
+    });
+  })();
+</script>
+
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-blue);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .req { color: var(--coral); }
+
+  .optional {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--coral);
+    background: rgba(248, 117, 101, 0.12);
+    border: 1px solid rgba(248, 117, 101, 0.35);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  input, textarea {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-mid);
+    border-radius: 6px;
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--navy-mid);
+  }
+
+  input:focus, textarea:focus {
+    border-color: var(--coral);
+    box-shadow: 0 0 0 3px rgba(248, 117, 101, 0.12);
+  }
+
+  textarea { resize: vertical; min-height: 80px; }
+
+  button[type="submit"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--coral);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 13px 24px;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  button[type="submit"]:hover:not(:disabled) {
+    background: #f96b57;
+    transform: translateY(-1px);
+  }
+
+  button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-arrow {
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+
+  button[type="submit"]:hover:not(:disabled) .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  .form-error {
+    font-size: 13px;
+    color: var(--coral);
+    padding: 10px 14px;
+    background: rgba(248, 117, 101, 0.08);
+    border: 1px solid rgba(248, 117, 101, 0.2);
+    border-radius: 6px;
+  }
+
+  .form-success {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-mid);
+    border-left: 3px solid var(--coral);
+    border-radius: 6px;
+    font-size: 15px;
+    color: var(--off-white);
+  }
+
+  .success-mark {
+    color: var(--coral);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  @media (max-width: 500px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+</style>

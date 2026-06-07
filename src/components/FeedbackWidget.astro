@@ -1,0 +1,347 @@
+---
+// Feedback widget — fixed bottom right on every page
+---
+
+<div id="fw-root">
+  <button id="fw-trigger" aria-label="Send feedback" aria-expanded="false">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M14 1H2C1.45 1 1 1.45 1 2v9c0 .55.45 1 1 1h9l3 3V2c0-.55-.45-1-1-1z" fill="currentColor"/>
+    </svg>
+    <span>Feedback</span>
+  </button>
+
+  <div id="fw-panel" role="dialog" aria-modal="true" aria-label="Send feedback" hidden>
+    <div class="fw-header">
+      <p class="fw-title">Send feedback</p>
+      <button id="fw-close" aria-label="Close feedback panel">✕</button>
+    </div>
+
+    <form id="fw-form" novalidate>
+      <div class="fw-field">
+        <label class="fw-label">Type</label>
+        <div class="fw-type-row">
+          <label class="fw-type-option">
+            <input type="radio" name="fw_type" value="Suggestion" checked />
+            <span>Suggestion</span>
+          </label>
+          <label class="fw-type-option">
+            <input type="radio" name="fw_type" value="Bug" />
+            <span>Bug</span>
+          </label>
+          <label class="fw-type-option">
+            <input type="radio" name="fw_type" value="Question" />
+            <span>Question</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="fw-field">
+        <label class="fw-label" for="fw-email">
+          Your email <span class="fw-optional">optional</span>
+        </label>
+        <input type="email" id="fw-email" name="fw_email" placeholder="you@designli.co" autocomplete="email" />
+      </div>
+
+      <div class="fw-field">
+        <label class="fw-label" for="fw-message">Message <span class="fw-req" aria-hidden="true">*</span></label>
+        <textarea id="fw-message" name="fw_message" placeholder="What's on your mind?" rows="4" required></textarea>
+      </div>
+
+      <p id="fw-error" class="fw-error" aria-live="polite" hidden></p>
+
+      <button type="submit" id="fw-submit" class="fw-submit-btn">
+        <span id="fw-btn-text">Send</span>
+      </button>
+    </form>
+
+    <div id="fw-success" class="fw-success" hidden>
+      <span class="fw-success-mark">✓</span>
+      <p>Got it — thanks for the feedback.</p>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var trigger  = document.getElementById('fw-trigger');
+    var panel    = document.getElementById('fw-panel');
+    var closeBtn = document.getElementById('fw-close');
+    var form     = document.getElementById('fw-form');
+    var errorEl  = document.getElementById('fw-error');
+    var successEl = document.getElementById('fw-success');
+    var submitBtn = document.getElementById('fw-submit');
+    var btnText  = document.getElementById('fw-btn-text');
+
+    if (!trigger || !panel) return;
+
+    function openPanel() {
+      panel.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      document.getElementById('fw-message').focus();
+    }
+
+    function closePanel() {
+      panel.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.focus();
+    }
+
+    trigger.addEventListener('click', openPanel);
+    closeBtn.addEventListener('click', closePanel);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !panel.hidden) closePanel();
+    });
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      var type    = form.querySelector('input[name="fw_type"]:checked').value;
+      var email   = (document.getElementById('fw-email').value || '').trim();
+      var message = (document.getElementById('fw-message').value || '').trim();
+
+      errorEl.hidden = true;
+
+      if (!message) {
+        errorEl.textContent = 'Please enter a message.';
+        errorEl.hidden = false;
+        return;
+      }
+
+      submitBtn.disabled = true;
+      btnText.textContent = 'Sending…';
+
+      try {
+        var res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: type,
+            message: message,
+            email: email || null,
+            url: window.location.href
+          })
+        });
+
+        if (!res.ok) throw new Error('Request failed');
+
+        form.hidden = true;
+        successEl.hidden = false;
+        setTimeout(closePanel, 2500);
+      } catch (err) {
+        errorEl.textContent = 'Something went wrong. Please try again.';
+        errorEl.hidden = false;
+        submitBtn.disabled = false;
+        btnText.textContent = 'Send';
+      }
+    });
+  })();
+</script>
+
+<style>
+  #fw-root {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 200;
+    font-family: var(--sans);
+  }
+
+  /* ── Trigger button ────────────────────────────────────── */
+  #fw-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--coral);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(248, 117, 101, 0.35);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+
+  #fw-trigger:hover {
+    background: #f96b57;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(248, 117, 101, 0.45);
+  }
+
+  /* ── Panel ─────────────────────────────────────────────── */
+  #fw-panel {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    right: 0;
+    width: 320px;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-mid);
+    border-radius: 10px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+
+  .fw-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--navy-mid);
+  }
+
+  .fw-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--off-white);
+  }
+
+  #fw-close {
+    background: none;
+    border: none;
+    color: var(--muted-blue);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 2px 4px;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+  #fw-close:hover { color: var(--off-white); }
+
+  /* ── Form ──────────────────────────────────────────────── */
+  #fw-form {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .fw-field { display: flex; flex-direction: column; gap: 7px; }
+
+  .fw-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted-blue);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .fw-req { color: var(--coral); }
+
+  .fw-optional {
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: none;
+    color: var(--navy-mid);
+    background: rgba(255,255,255,0.04);
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+
+  /* Type selector */
+  .fw-type-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .fw-type-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .fw-type-option input[type="radio"] { display: none; }
+
+  .fw-type-option span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted-blue);
+    padding: 5px 10px;
+    border: 1px solid var(--navy-mid);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .fw-type-option input:checked + span {
+    background: rgba(248, 117, 101, 0.1);
+    border-color: var(--coral);
+    color: var(--coral);
+  }
+
+  #fw-email, #fw-message {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--navy-mid);
+    border-radius: 5px;
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 9px 12px;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  #fw-email::placeholder, #fw-message::placeholder { color: var(--navy-mid); }
+
+  #fw-email:focus, #fw-message:focus {
+    border-color: var(--coral);
+    box-shadow: 0 0 0 3px rgba(248, 117, 101, 0.1);
+  }
+
+  #fw-message { resize: vertical; min-height: 88px; }
+
+  .fw-error {
+    font-size: 12px;
+    color: var(--coral);
+    padding: 8px 12px;
+    background: rgba(248, 117, 101, 0.06);
+    border: 1px solid rgba(248, 117, 101, 0.2);
+    border-radius: 5px;
+  }
+
+  .fw-submit-btn {
+    background: var(--coral);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    align-self: stretch;
+  }
+
+  .fw-submit-btn:hover:not(:disabled) { background: #f96b57; }
+  .fw-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* ── Success ───────────────────────────────────────────── */
+  .fw-success {
+    padding: 24px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--off-white);
+  }
+
+  .fw-success-mark {
+    color: var(--coral);
+    font-size: 20px;
+    font-weight: 700;
+  }
+</style>

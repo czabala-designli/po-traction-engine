@@ -1,0 +1,81 @@
+---
+import PostHog from '../components/posthog.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'The Traction Engine — Coming Soon' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" href="/designli-logo.png" type="image/png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <PostHog />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+
+  :root {
+    --navy:       #0E1034;
+    --navy-card:  #161A4A;
+    --navy-mid:   #2A2F6A;
+    --coral:      #F87565;
+    --purple:     #58377B;
+    --off-white:  #F3EFEF;
+    --white:      #FFFFFF;
+    --muted-blue: #8B8FBF;
+    --light-card: #EAE8F4;
+    --mid-line:   #C8C2D0;
+    --bar-w:      5px;
+
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans:  'Calibri', 'Trebuchet MS', 'Lucida Sans Unicode', sans-serif;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--navy);
+    color: var(--off-white);
+    font-family: var(--sans);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Coral left accent bar — brand signature */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--bar-w);
+    height: 100vh;
+    background-color: var(--coral);
+    z-index: 100;
+    transform-origin: top;
+    animation: slideBar 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes slideBar {
+    from { transform: scaleY(0); }
+    to   { transform: scaleY(1); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
