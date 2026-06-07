@@ -226,9 +226,9 @@ If no design input is provided at the start of the session, ask for it before wr
 
 ```
 GitHub repo:        czabala-designli/po-traction-engine
-Slack channel:      [#channel-name — pending admin approval]
-Slack webhook URL:  [pending Slack admin approval — add to Vercel env vars when received]
-GitHub token:       [set in Vercel env vars]
+Slack channel:      #taskforce-traction-menu
+Slack webhook URL:  set in .env and Vercel env vars
+GitHub token:       set in Vercel env vars
 ```
 
 ---
