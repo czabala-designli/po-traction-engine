@@ -222,6 +222,34 @@ If no design input is provided at the start of the session, ask for it before wr
 
 ---
 
+## Git and deployment discipline
+
+Always keep GitHub and production in sync. Follow this sequence after every change:
+
+1. **Deploy first** — `vercel --prod` pushes the change live immediately via CLI
+2. **Commit after** — stage only the files you changed, write a clear message explaining why (not just what)
+3. **Push to GitHub** — `git push` so the repo matches what is running in production
+
+Never leave commits unpushed. If you deployed but did not commit, GitHub and production are out of sync — no rollback history, no audit trail, no way for another session to know what is actually live.
+
+### Commit message format
+
+```
+<short summary of what changed and why>
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+```
+
+### When to wait for explicit approval before deploying
+
+- Deletions or destructive changes — explain what will be removed and wait for a yes
+- Environment variable changes — confirm before touching Vercel env settings
+- Anything that touches the PostHog workflow or email config — those affect real users
+
+For all other changes (copy, styling, bug fixes, new components): deploy → commit → push without asking.
+
+---
+
 ## TBD — set per project before first session
 
 ```
