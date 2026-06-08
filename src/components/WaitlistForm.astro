@@ -13,38 +13,40 @@ const ids = {
   btn:       `wf-btn-${instanceId}`,
 };
 ---
-<form id={ids.form} novalidate>
-  <div class="field-row">
-    <div class="field">
-      <label for={ids.firstName}>First name <span class="req" aria-hidden="true">*</span></label>
-      <input type="text" id={ids.firstName} name="first_name" placeholder="Mufasa" required autocomplete="given-name" />
+<div class="form-wrapper">
+  <form id={ids.form} novalidate>
+    <div class="field-row">
+      <div class="field">
+        <label for={ids.firstName}>First name <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id={ids.firstName} name="first_name" placeholder="Mufasa" required autocomplete="given-name" />
+      </div>
+      <div class="field">
+        <label for={ids.email}>Email <span class="req" aria-hidden="true">*</span></label>
+        <input type="email" id={ids.email} name="email" placeholder="mufasa@designli.co" required autocomplete="email" />
+      </div>
     </div>
+
     <div class="field">
-      <label for={ids.email}>Email <span class="req" aria-hidden="true">*</span></label>
-      <input type="email" id={ids.email} name="email" placeholder="mufasa@designli.co" required autocomplete="email" />
+      <label for={ids.topProblem}>
+        What problem are you hoping to solve?
+        <span class="optional">optional</span>
+      </label>
+      <textarea id={ids.topProblem} name="top_problem" placeholder="Describe the problem…" rows="3"></textarea>
     </div>
-  </div>
 
-  <div class="field">
-    <label for={ids.topProblem}>
-      What problem are you hoping to solve?
-      <span class="optional">optional</span>
-    </label>
-    <textarea id={ids.topProblem} name="top_problem" placeholder="Describe the problem…" rows="3"></textarea>
-  </div>
+    <p id={ids.error} class="form-error" aria-live="polite" hidden></p>
 
-  <p id={ids.error} class="form-error" aria-live="polite" hidden></p>
-
-  <button type="submit" id={ids.btn}>
-    <span class="btn-text">Join the waitlist</span>
-    <span class="btn-arrow" aria-hidden="true">→</span>
-  </button>
+    <button type="submit" id={ids.btn}>
+      <span class="btn-text">Join the waitlist</span>
+      <span class="btn-arrow" aria-hidden="true">→</span>
+    </button>
+  </form>
 
   <div id={ids.success} class="form-success" aria-live="polite" hidden>
     <span class="success-mark">✓</span>
     <p>You're on the list. We'll be in touch.</p>
   </div>
-</form>
+</div>
 
 <script define:vars={{ ids }}>
   (function () {
@@ -58,6 +60,19 @@ const ids = {
       try { return new URLSearchParams(window.location.search).get('utm_source') || ''; }
       catch (e) { return ''; }
     }
+
+    function showSuccess() {
+      form.style.display = 'none';
+      successEl.hidden = false;
+    }
+
+    // Already signed up in a previous visit — skip the form immediately
+    if (localStorage.getItem('waitlist_signed_up')) {
+      showSuccess();
+    }
+
+    // Other form instance submitted on this same page load
+    document.addEventListener('waitlist:signed_up', showSuccess);
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -90,8 +105,9 @@ const ids = {
           top_problem: topProblem,
           source: getUTMSource()
         });
-        form.style.display = 'none';
-        successEl.hidden = false;
+        localStorage.setItem('waitlist_signed_up', '1');
+        showSuccess();
+        document.dispatchEvent(new CustomEvent('waitlist:signed_up'));
       } catch (err) {
         window.posthog?.captureException(err);
         window.posthog?.capture('waitlist_signup_failed', { reason: 'unexpected_error' });
