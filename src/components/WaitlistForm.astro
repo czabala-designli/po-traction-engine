@@ -98,7 +98,7 @@ const ids = {
       btn.querySelector('.btn-text').textContent = 'Joining…';
 
       try {
-        window.posthog?.identify(email, { first_name: firstName, email: email, waitlisted: true });
+        window.posthog?.identify(email, { first_name: firstName, email: email, waitlisted: true, top_problem: topProblem });
         window.posthog?.capture('waitlist_signup_submitted', {
           first_name: firstName,
           email: email,
