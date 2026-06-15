@@ -1,0 +1,182 @@
+---
+import Layout from '../layouts/Layout.astro';
+import FeedbackWidget from '../components/FeedbackWidget.astro';
+---
+
+<Layout
+  title="Terms & Conditions — The Traction Engine"
+  description="Terms and conditions for The Traction Engine, a product by Designli."
+>
+  <main>
+    <div class="prose">
+      <a href="/" class="back">← Back to home</a>
+
+      <h1>Terms &amp; Conditions</h1>
+
+      <p>These terms and conditions apply to the The Traction Engine app for mobile devices and web browsers, together with any related services operated by Designli (designli.co) (collectively, the "Application"). Designli is hereby referred to as the "Service Provider".</p>
+      <p>By downloading or using the Application, you agree to these Terms and Conditions. You should read them carefully before using the Application.</p>
+
+      <h2>License to use the Application</h2>
+
+      <p>Subject to your compliance with these Terms, the Service Provider grants you a limited, non-exclusive, non-transferable, revocable license to install and use the Application on a mobile device or computer for personal or internal business purposes. You may not reproduce, distribute, modify, create derivative works from, reverse engineer, decompile, or disassemble the Application, except as expressly permitted by applicable law.</p>
+
+      <h2>Intellectual Property</h2>
+
+      <p>The Service Provider retains all intellectual property rights in the Application, including its code, design, trademarks, service marks, trade names, logos, and branding. Nothing in these Terms grants you any license or right to use the Service Provider's trademarks, logos, or branding. You agree not to remove, alter, or obscure any copyright, trademark, or other proprietary notices displayed in or on the Application.</p>
+
+      <h2>Termination</h2>
+
+      <p>The Service Provider may suspend your access to the Application if you materially breach these Terms. Where the breach is capable of cure, you will have 14 days from notice to remedy the breach.</p>
+      <p>The Service Provider may suspend or terminate your access immediately without notice if you violate applicable law, infringe intellectual property rights, or engage in activity that could cause harm to other users or the Service Provider.</p>
+      <p>Upon termination, your right to use the Application will end and you must delete all copies from your devices.</p>
+      <p>By accessing and using this Application, you represent that you are legally permitted to use it in your jurisdiction. You must be at least 13 years of age to use the Application.</p>
+
+      <h2>Third-Party Services</h2>
+
+      <p>The Application utilizes third-party services that have their own Terms and Conditions. Below are the links to the Terms and Conditions of the third-party service providers used by the Application:</p>
+      <ul>
+        <li><a href="https://posthog.com/terms" target="_blank" rel="noopener">PostHog</a></li>
+        <li><a href="https://loops.so/legal/terms-of-service" target="_blank" rel="noopener">Loops.so</a></li>
+      </ul>
+
+      <p>The Service Provider does not assume responsibility if the Application does not function at full capacity due to lack of internet access. Mobile data charges from your network provider may apply when using the application outside of a Wi-Fi area.</p>
+      <p>Nothing in these Terms shall limit any rights you have under applicable consumer protection laws that cannot be lawfully excluded.</p>
+
+      <h2>Artificial Intelligence</h2>
+
+      <p>The Application incorporates Artificial Intelligence (AI) technologies to provide certain features or services. By using the Application, you acknowledge and agree that AI may be used to process data and deliver functionalities. The Service Provider ensures that all AI usage complies with applicable laws and is designed to benefit the user experience.</p>
+
+      <h2>Limitation of Liability</h2>
+
+      <p>To the fullest extent permitted by law, the Service Provider shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to lost profits, data loss, or business interruption.</p>
+      <p>However, the Service Provider retains full liability for:</p>
+      <ul>
+        <li>Death or personal injury caused by negligence</li>
+        <li>Fraud or fraudulent misrepresentation</li>
+        <li>Any other liability that cannot be excluded or limited under applicable law</li>
+      </ul>
+      <p>To the fullest extent permitted by law, total liability shall not exceed the amount paid by you to the Service Provider in the 12 months preceding the claim, or the minimum amount permitted by applicable law, whichever is greater.</p>
+
+      <h2>Indemnification</h2>
+
+      <p>To the fullest extent permitted by law, you agree to indemnify and hold harmless the Service Provider, its affiliates, officers, directors, employees and agents from any claims, liabilities, damages, losses and expenses arising out of your breach of these Terms or your intentional misuse of the Application.</p>
+      <p>This indemnification does not apply to claims arising from the Service Provider's own negligence, breach of these Terms, or violation of applicable law.</p>
+
+      <h2>Updates to the Application</h2>
+
+      <p>The Service Provider may update the application at any point. You should accept updates when offered. The Service Provider may also cease providing the application and may terminate its use at any time. Upon termination, your rights and licenses will end and you must cease using and delete the application.</p>
+
+      <h2>Governing Law and Jurisdiction</h2>
+
+      <p>These Terms and Conditions are governed by the laws of the jurisdiction in which the Service Provider is established, excluding conflict of law rules, except to the extent mandatory consumer protection laws provide otherwise.</p>
+
+      <h2>Severability</h2>
+
+      <p>If any provision of these Terms is held invalid or unenforceable, it shall be modified to the minimum extent necessary to make it valid, and the remaining provisions shall remain in full force and effect.</p>
+
+      <h2>Entire Agreement</h2>
+
+      <p>These Terms and Conditions, together with the <a href="/privacy">Privacy Policy</a>, constitute the entire agreement between you and the Service Provider concerning your use of the Application.</p>
+
+      <h2>Changes to These Terms</h2>
+
+      <p>The Service Provider may periodically update these Terms and Conditions. You are advised to review this page regularly. Previous versions are available upon request at <a href="mailto:carlos.zabala@designli.co">carlos.zabala@designli.co</a>.</p>
+
+      <p class="effective-date">These terms and conditions are effective as of 2026-06-15</p>
+
+      <h2>Contact</h2>
+
+      <p>If you have any questions or suggestions about these Terms, please contact <a href="mailto:carlos.zabala@designli.co">carlos.zabala@designli.co</a>.</p>
+
+      <div class="footer-links">
+        <a href="/privacy">Privacy Policy</a>
+        <span>·</span>
+        <a href="/">Home</a>
+      </div>
+    </div>
+  </main>
+  <FeedbackWidget />
+</Layout>
+
+<style>
+  main {
+    padding: 5rem 1.5rem 4rem;
+    padding-left: calc(1.5rem + 5px);
+  }
+
+  .prose {
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.75;
+  }
+
+  .back {
+    display: inline-block;
+    color: var(--muted-blue);
+    text-decoration: none;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+  .back:hover { color: var(--coral); }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    color: var(--off-white);
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--coral);
+    margin-top: 2.5rem;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  p {
+    color: var(--off-white);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--off-white);
+    font-size: 0.95rem;
+  }
+
+  li { margin-bottom: 0.4rem; }
+
+  a {
+    color: var(--coral);
+    text-decoration: none;
+  }
+  a:hover { text-decoration: underline; }
+
+  .effective-date {
+    color: var(--muted-blue);
+    font-size: 0.85rem;
+    margin-top: 1.5rem;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--navy-mid);
+    font-size: 0.875rem;
+    color: var(--muted-blue);
+  }
+
+  .footer-links a {
+    color: var(--muted-blue);
+  }
+  .footer-links a:hover { color: var(--coral); }
+</style>

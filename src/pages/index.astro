@@ -102,6 +102,10 @@ import VariantSwitcher from '../components/VariantSwitcher.astro';
     <span>Designli · 2026</span>
     <span class="sep">·</span>
     <span>Internal initiative</span>
+    <span class="sep">·</span>
+    <a href="/privacy">Privacy Policy</a>
+    <span class="sep">·</span>
+    <a href="/terms">Terms &amp; Conditions</a>
   </footer>
 
   <FeedbackWidget />
@@ -415,6 +419,8 @@ import VariantSwitcher from '../components/VariantSwitcher.astro';
 
   .site-footer img { opacity: 0.4; }
   .sep { opacity: 0.35; }
+  .site-footer a { color: var(--muted-blue); text-decoration: none; }
+  .site-footer a:hover { color: var(--coral); }
 
   @media (max-width: 640px) {
     .page { padding-left: calc(var(--bar-w) + 16px); padding-right: 16px; }
