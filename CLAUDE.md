@@ -222,6 +222,59 @@ If no design input is provided at the start of the session, ask for it before wr
 
 ---
 
+## Legal pages — Privacy Policy & Terms & Conditions
+
+Every project that collects user data must have both pages live before going public.
+
+**Templates (reuse these for every new project):**
+- `docs/privacy-policy-template.md` — GDPR-compliant privacy policy
+- `docs/terms-and-conditions-template.md` — Terms & Conditions
+
+Both were generated from [app-privacy-policy-generator.firebaseapp.com](https://app-privacy-policy-generator.firebaseapp.com/) (GDPR type) and adapted as reusable templates.
+
+**To use for a new project:**
+1. Replace all `{{PLACEHOLDER}}` values (see the header of each template for the full list)
+2. Include or remove conditional sections (`[AI]`, `[LOCATION]`, `[DSA]`, `[UGC]`) based on what the project does
+3. Save as `src/pages/privacy.astro` and `src/pages/terms.astro` using the site's layout
+4. Add footer links to both pages from every user-facing surface
+5. Deploy and confirm URLs are live before any app store submission
+
+**Key placeholders:**
+| Placeholder | Example |
+|---|---|
+| `{{PRODUCT_NAME}}` | The Traction Engine |
+| `{{COMPANY_NAME}}` | Designli (or client company) |
+| `{{CONTACT_EMAIL}}` | carlos.zabala@designli.co |
+| `{{BUSINESS_ADDRESS}}` | 141 Traction St, Greenville, SC 29611 |
+| `{{AGE_OF_CONSENT}}` | 13 (US) or 16 (EU) |
+| `{{THIRD_PARTY_SERVICES}}` | List only services actually in use |
+| `{{EFFECTIVE_DATE}}` | YYYY-MM-DD |
+
+**Data controller:** Designli for internal products. For client projects, confirm with the client before filling in.
+
+### When transitioning from waitlist to product / app store submission
+
+Before submitting to Apple App Store or Google Play, update both legal pages to reflect the full product:
+
+**Privacy Policy — update these sections:**
+- `{{THIRD_PARTY_SERVICES}}` — add any new services introduced (auth, payments, crash reporting, etc.)
+- Add a **Device Permissions** section listing every permission the app requests (camera, notifications, location, contacts) and why
+- If the app uses Apple's App Tracking Transparency (ATT), add an explicit tracking disclosure
+- Update `{{EFFECTIVE_DATE}}` to the date of the revision
+
+**Terms & Conditions — update these sections:**
+- Include/activate the `[UGC]` section if users can post or share content
+- Add in-app purchase and refund terms if the app has paid features
+- Update `{{EFFECTIVE_DATE}}`
+
+**App store declarations (done in the developer consoles, not in the policy text):**
+- **Apple App Store Connect** → Privacy Nutrition Labels — declare every data type collected; must match the policy
+- **Google Play Console** → Data Safety form — same requirement; must match the policy
+
+**Rule:** the policy and the store declarations must be consistent. If PostHog is listed in the policy, it must appear in the data safety form. If you add a new SDK, update both the policy and the store form before the next release.
+
+---
+
 ## Git and deployment discipline
 
 Always keep GitHub and production in sync. Follow this sequence after every change:
