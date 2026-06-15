@@ -250,13 +250,15 @@ For all other changes (copy, styling, bug fixes, new components): deploy → com
 
 ---
 
-## TBD — set per project before first session
+## Project config — confirmed set up
 
 ```
 GitHub repo:        czabala-designli/po-traction-engine
 Slack channel:      #taskforce-traction-menu
-Slack webhook URL:  set in .env and Vercel env vars
-GitHub token:       set in Vercel env vars
+Slack webhook URL:  set in .env and Vercel env vars ✓
+GitHub token:       available via gh CLI auth (repo scope confirmed); feedback widget creating issues correctly ✓
+Loops.so:           LOOPS_API_KEY set in .env — activated as email fallback (PostHog email DNS not yet verified)
+PostHog email DNS:  pending — designli.co DNS records not yet verified; 3 users need welcome email re-triggered once resolved
 ```
 
 ---
