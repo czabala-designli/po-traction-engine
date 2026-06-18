@@ -455,4 +455,20 @@ Write a short list of anything that needs improvement (e.g. community picks were
 
 ## Iteration Notes
 
-_(Fill in after Task 3 Step 5)_
+### Smoke test 1 — Blocq Sports / volleyball coaches (2026-06-18)
+
+**Finding 1 — small community auto-exclusion was too rigid**
+The hard "under 10k = exclude" rule in Step 3 dropped `r/volleyballtraining` (3k members), which was actually the most active and fastest-growing volleyball subreddit (+20%/year, dominant content type "Question" — 69 posts, hyper-relevant coaching audience). Fixed by replacing auto-exclude with a deeper activity check (posts/week, % questions, growth signal, ICP specificity) and surfacing communities that pass as a 4th "bonus option" in the confirmation gate.
+
+### Smoke test 2 — Blocq Sports / club director ICP (2026-06-18)
+
+**Finding 2 — skill has no two-sided market check**
+Running the skill on the club director ICP revealed that the product has two distinct personas: volleyball coaches (the daily user) and club directors (the buyer/approver). The skill had no mechanism to surface this split or determine which ICP to target first. The insight that emerged organically ("lead with coaches — directors buy once adoption is proven") is the kind of go-to-market sequencing a PO needs before choosing which communities to target.
+
+**Fix applied:** Added a "Two-sided market check" to Phase 1 (after question 7, before the specificity gate). If a second ICP is confirmed, an abbreviated 4-question flow runs for them plus a bridging question: "Which of these two people needs to say yes first for the product to deliver value?" The answer appears in a **Go-to-market order** paragraph in the Phase 1 output. Phase 2 runs twice (once per ICP, starting with the go-first target). Phase 3 saves two output files with slugged names.
+
+**Finding 2a — two-sided check was passive (follow-up fix)**
+The initial two-sided check asked a generic yes/no question ("is there a second person involved?"). A PO who hasn't framed their product in user/buyer terms could easily answer no and miss the split entirely. Two fixes applied: (1) check CLAUDE.md first — if a "Secondary buyer" or similar field is already there, surface it by name rather than asking; (2) replace the generic question with a journey-tracing prompt: "Is the person you described also the one who writes the check or approves the purchase?" — this forces the PO to trace the actual purchase path rather than think abstractly.
+
+**Finding 3 — Fathom transcripts are a high-quality ICP source; question 4 was framed wrong**
+Question 4 asked "Have you talked to any of them yet?" which implies formal user research. At this stage POs don't have interview notes — they have kick-off and discovery call recordings where the client is often the ICP themselves or a subject expert. The question was reframed to: "Have you had any calls or sessions with the client where this problem came up? Point me to it and I'll pull the exact language." Added a follow-up handling block: Fathom link → search + extract; Drive link → read + extract; paste → extract directly. Guardrail added: extract the subject expert or ICP speaking in first-person, not team members summarizing them. Payoff: "Their language" and "What they've tried" pre-filled from transcripts before community research starts, making complaint keywords and post drafts sharper.
