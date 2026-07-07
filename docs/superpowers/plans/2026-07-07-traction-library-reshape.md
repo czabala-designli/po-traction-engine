@@ -16,7 +16,9 @@
 - **PostHog is the only data layer.** No backend, no database, no auth.
 - Reuse brand tokens from `Layout.astro`'s global CSS: `--navy #0E1034`, `--navy-card #161A4A`, `--navy-mid #2A2F6A`, `--coral #F87565`, `--purple #58377B`, `--off-white #F3EFEF`, `--muted-blue #8B8FBF`, `--serif`, `--sans`, `--bar-w`.
 - The feedback widget ships on **every** user-facing surface (achieved via the layout in Task 1).
-- **No test framework exists.** Per-task verification = `npm run build` (runs Zod schema validation, `getCollection` typing, and `getStaticPaths`) plus a `npm run dev` visual check where noted.
+- **No test framework exists** (and none is added — a committed suite would violate the "no unnecessary dependencies" / PO-maintainability principle). Per-task verification has two layers:
+  - **Structural (automatic):** `npm run build` runs Zod schema validation, `getCollection` typing, and `getStaticPaths` — catches malformed frontmatter, broken content references, and dead imports.
+  - **Runtime/visual (agent-driven, no user effort):** every "Visual check" step below is performed **by the implementing agent using the Chrome DevTools MCP** against a running `npm run dev` server — navigate the route, read `list_console_messages` for errors, confirm rendering / iframe load / form submit via `take_snapshot` or `take_screenshot`, and report findings. The user does **not** manually test. No browser-testing dependency is added to the repo.
 - Commit message trailer (exact): `Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>`.
 - Deploy discipline: commit + push per task; a single production deploy (`vercel --prod`) happens once at the end (Task 7) after full verification. Pushing to `main` may also trigger Vercel's auto-deploy; every task leaves the site in a functional, deployable state.
 
