@@ -26,7 +26,7 @@ const phases = PHASES
   }))
   .filter((p) => p.items.length > 0);
 
-const ctaFor = (kind) =>
+const ctaFor = (kind: string) =>
   kind === 'template' ? 'View template →' : kind === 'tool' ? 'Open tool →' : 'View play →';
 ---
 <Layout
