@@ -45,7 +45,7 @@ export const POST: APIRoute = async ({ request }) => {
     body: JSON.stringify({
       title: issueTitle,
       body: issueBody,
-      labels: [type.toLowerCase()],
+      labels: [type === 'Progress update' ? 'progress' : type.toLowerCase()],
     }),
   });
 

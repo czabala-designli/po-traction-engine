@@ -32,6 +32,10 @@
             <input type="radio" name="fw_type" value="Question" />
             <span>Question</span>
           </label>
+          <label class="fw-type-option">
+            <input type="radio" name="fw_type" value="Progress update" />
+            <span>Progress</span>
+          </label>
         </div>
       </div>
 
@@ -250,6 +254,7 @@
   /* Type selector */
   .fw-type-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 6px;
   }
 
