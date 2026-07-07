@@ -1,4 +1,4 @@
-# CLAUDE.md — The Traction Engine · PO Traction Library
+# CLAUDE.md — TractionLab Landing Page
 Designli | TractionLab | PO-owned project
 
 This file gives Claude Code the context it needs to work on this project without asking unnecessary questions. Read it before doing anything else.
@@ -12,9 +12,7 @@ This file gives Claude Code the context it needs to work on this project without
 
 ## What this project is
 
-An internal, static **library and playbook for Designli Product Owners**. Its home (`/`) indexes reusable **templates** (each = a live preview + the prompt that builds it + a short playbook) and **project case studies** with living checklists. It grew out of — and still hosts — a coming-soon **waitlist landing page**, now relocated to `/waitlist`, whose job is to collect signups into PostHog. There is no backend, no database, no auth. PostHog is the source of truth for all signups.
-
-This project is self-referential: it is the first project *in* the library, dogfooding the very playbook it shares. The original "how to build a waitlist landing page" playbook this file grew from is preserved verbatim at `docs/claude-md-landing-page-template.md` — reuse that as the starting CLAUDE.md for a brand-new landing-page project.
+A coming-soon landing page for a TractionLab engagement. Its only job is to collect waitlist signups and feed them into PostHog. There is no backend, no database, no auth. PostHog is the source of truth for all signups until the full product exists.
 
 This is a PO-owned project. The tech lead is not involved here. Keep solutions simple and within the PO's ability to maintain.
 
@@ -50,7 +48,7 @@ If an account does not exist yet, pause, guide the PO to create it, and wait for
 
 ### Step 2 — Update this file
 
-Once all answers are collected, update the Project details block and the Project config section in this file with the real values. Do not leave any `[FILL IN]` or `TBD` placeholders once setup is complete.
+Once all answers are collected, update the Project details block and the TBD section in this file with the real values. Do not leave any `[FILL IN]` or `TBD` placeholders once setup is complete.
 
 Ask the PO: "I have everything I need. Should I update the CLAUDE.md file now with all the details we just went through?" If they say yes, write the values directly into this file. This keeps it accurate for every session that follows — the PO should never have to repeat setup information.
 
@@ -59,13 +57,13 @@ Ask the PO: "I have everything I need. Should I update the CLAUDE.md file now wi
 ## Project details
 
 ```
-Product name:         The Traction Engine
-Product description:  Turns Product Owners into traction engines — equipping them to drive early user acquisition using AI and their existing PM skills, without needing a dedicated growth team.
-Target user:          Product Owners working at Designli
-Value proposition:    "You already know how to form a hypothesis and measure what works. The Traction Engine applies that same skill set to getting users — so growth becomes part of your job, not someone else's problem." (draft — to be refined)
-Domain:               po-traction-engine.vercel.app
-Brand colors:         Navy #0E1034 (bg), Coral #F87565 (CTA/accent), Purple #58377B (secondary), Off-white #F3EFEF (light bg), Navy Card #161A4A, Muted Blue #8B8FBF
-Logo file:            designli-logo.png (coral icon mark, in /public)
+Product name:         [FILL IN]
+Product description:  [FILL IN — one sentence]
+Target user:          [FILL IN]
+Value proposition:    [FILL IN — headline + short description]
+Domain:               [FILL IN — even if not yet connected]
+Brand colors:         [FILL IN — hex codes or description]
+Logo file:            [FILL IN — filename in /public]
 ```
 
 ---
@@ -78,8 +76,8 @@ Logo file:            designli-logo.png (coral icon mark, in /public)
 | Hosting | Vercel | Connected to this GitHub repo; deploys on push to main |
 | Analytics + email | PostHog | Source of truth for signups, events, drip emails, and feature flags |
 | Email fallback | Loops.so or Resend | Only if PostHog Workflows cannot handle the drip sequence |
-| Feedback routing | GitHub Issues | Repo and token in env vars — see Project config section below |
-| Notifications | Slack incoming webhook | Webhook URL in env vars — see Project config section below |
+| Feedback routing | GitHub Issues | Repo and token in env vars — see TBD section below |
+| Notifications | Slack incoming webhook | Webhook URL in env vars — see TBD section below |
 | Version control | GitHub | Main branch = production |
 
 ---
@@ -111,13 +109,13 @@ Never hardcode credentials. All secrets go in `.env` locally and in Vercel's env
 
 ```
 POSTHOG_PUBLIC_API_KEY=        # PostHog project API key (public — safe to use client-side)
-GITHUB_TOKEN=                  # see Project config section below
-GITHUB_REPO=                   # see Project config section below — format: owner/repo-name
-SLACK_WEBHOOK_URL=             # see Project config section below
+GITHUB_TOKEN=                  # see TBD section below
+GITHUB_REPO=                   # see TBD section below — format: owner/repo-name
+SLACK_WEBHOOK_URL=             # see TBD section below
 ```
 
 PostHog's public API key is safe to expose in client-side code. It is not a secret.
-All other values are set in the Project config section and copied into Vercel's environment settings for production.
+All other values are set in the TBD section and copied into Vercel's environment settings for production.
 
 ---
 
@@ -221,9 +219,7 @@ Trigger: `waitlist_signup_submitted` event
 
 ---
 
-## The waitlist landing page (`/waitlist`) — what it must do
-
-> This section describes the **waitlist page**. Since the reshape it lives at `/waitlist` (not `/`) and doubles as the live-preview specimen for the *Waitlist Landing Page* template in the library. The library home (`/`) is a separate page — see File structure.
+## Landing page — what it must do
 
 **Page structure (in order):**
 1. Sticky nav — logo left, layout variant switcher center (desktop only), "Join the waitlist" anchor CTA right
@@ -326,7 +322,7 @@ Can be paused anytime: PostHog → Subscriptions → toggle enabled off.
 
 ## Landing page content — collect from PO before building
 
-Do not write any UI copy. Ask the PO for each of these before touching the waitlist page (`src/pages/waitlist.astro`). Ask one at a time. Do not skip ahead.
+Do not write any UI copy. Ask the PO for each of these before touching index.astro. Ask one at a time. Do not skip ahead.
 
 If the PO already has an existing HTML file, mockup, or draft landing page, ask them to share it — it is a valid starting point and should be treated as a design and copy reference.
 
@@ -359,7 +355,7 @@ A small button fixed to the bottom right of every page. This is not optional —
 - Sends a Slack notification to the project channel with a summary + link to the Issue
 - Shows a confirmation and closes the panel
 
-GitHub repo and Slack webhook values live in the Project config section below — set via env vars, never hardcoded.
+GitHub repo and Slack webhook values live in the TBD section below — set via env vars, never hardcoded.
 
 ---
 
@@ -408,7 +404,7 @@ gh issue close <number> --repo <GITHUB_REPO>
 **Notes:**
 - The Slack notification is posted by the webhook bot at the same moment the issue is created. It will always exist — search the channel if it is not immediately visible.
 - Always reply in the thread (`thread_ts`), never as a standalone message in the channel.
-- GitHub repo and Slack channel ID are in the Project config section of this file.
+- GitHub repo and Slack channel ID are in the TBD section of this file.
 
 ---
 
@@ -420,32 +416,16 @@ gh issue close <number> --repo <GITHUB_REPO>
 │   └── [logo file]
 ├── src/
 │   pages/
-│     └── index.astro             # library home — derives its grid from the content collections
-│     └── waitlist.astro          # the waitlist landing page (also the Waitlist template's live preview)
-│     └── templates/[slug].astro  # recipe-card page per template (preview + prompt + playbook)
-│     └── projects/[slug].astro   # case-study page per project (narrative + living checklist)
-│     └── privacy.astro / terms.astro
-│     └── api/feedback.ts         # feedback widget → GitHub Issue + Slack (the only non-static route)
-│   layouts/
-│     └── Layout.astro            # shared shell — global styles + PostHog + FeedbackWidget on every page
+│     └── index.astro          # main landing page
 │   components/
 │     └── WaitlistForm.astro      # form + PostHog event (supports multiple instances via instanceId prop)
-│     └── FeedbackWidget.astro    # feedback button + panel (Suggestion / Bug / Question / Progress)
-│     └── VariantSwitcher.astro   # desktop-only layout switcher for the waitlist page
-│     └── StatusBadge.astro       # Live / Coming Soon / Active / Complete status pill
-│     └── Checklist.astro         # project progress checklist (done/total + items)
-│     └── posthog.astro           # PostHog init (mounted in Layout <head>)
-│   content/
-│     └── templates/*.md          # one Markdown file per template (frontmatter + playbook body)
-│     └── projects/*.md           # one Markdown file per project case study (+ checklist frontmatter)
-│   content.config.ts             # Content Collections schemas (templates, projects)
-├── .env                          # local secrets — never commit
-├── .env.example                  # committed template with empty values
+│     └── FeedbackWidget.astro    # feedback button + panel
+│     └── VariantSwitcher.astro   # desktop-only layout switcher (Center Stage / Side by Side / Split)
+├── .env                       # local secrets — never commit
+├── .env.example               # committed template with empty values
 ├── astro.config.mjs
-└── CLAUDE.md                     # this file
+└── CLAUDE.md                  # this file
 ```
-
-**Adding to the library:** drop a new Markdown file into `src/content/templates/` or `src/content/projects/` — the home index and the recipe-card / case-study pages generate automatically from the collections (`src/content.config.ts` defines the frontmatter schema). No page wiring needed. To update a project's progress, edit its `checklist:` frontmatter — this is exactly what the feedback widget's **Progress update** type feeds into (see the feedback issue-response flow).
 
 ---
 
@@ -489,7 +469,7 @@ Never leave commits unpushed. If you deployed but did not commit, GitHub and pro
 ```
 <short subject line describing why the change was made>
 
-Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Co-Authored-By: Claude Sonnet 4.6 noreply@anthropic.com
 ```
 
 The subject line is required — commits with only a co-author trailer are unreadable in GitHub history. Write it as a reason, not a description (e.g. "fix form double-submit on mobile" not "updated WaitlistForm.astro").
@@ -504,29 +484,15 @@ For all other changes (copy, styling, bug fixes, new components): deploy → com
 
 ---
 
-## Project config — confirmed set up
+## TBD — set per project before first session
 
 ```
-GitHub repo:        czabala-designli/po-traction-engine
-Slack channel:      #taskforce-traction-menu
-Slack channel ID:   C0B80HAUAA2
-Slack webhook URL:  set in .env and Vercel env vars ✓
-GitHub token:       available via gh CLI auth (repo scope confirmed); feedback widget creating issues correctly ✓
-Loops.so:           LOOPS_API_KEY set in .env — activated as email fallback (PostHog email DNS not yet verified)
-PostHog email DNS:  pending — designli.co DNS records not yet verified; 3 users need welcome email re-triggered once resolved
+GitHub repo:        [owner/repo-name]
+Slack channel:      [#channel-name]
+Slack channel ID:   [e.g. C0B80HAUAA2 — used by Claude Code to find and thread Slack notifications]
+Slack webhook URL:  [set in Vercel env vars]
+GitHub token:       [set in Vercel env vars]
 ```
-
----
-
-## Reusable prompt templates
-
-`docs/prompts/` contains Claude Code session prompts that can be dropped into any new project. Add new templates here whenever a pattern is worth reusing across projects.
-
-| File | Purpose |
-|---|---|
-| `feedback_widget_prompt_web.md` | Add a feedback button + GitHub Issue + Slack notification to any web project (Astro, Next.js, etc.) |
-| `feedback_widget_prompt_mobile.md` | Add shake-to-report (screenshot + logs + breadcrumbs + backend proxy) to any React Native project |
-| `posthog_workflow_prompt.md` | Build a PostHog workflow (generic + a filled-in waitlist welcome drip with conversion exit) — draft, test, then enable with sign-off |
 
 ---
 
@@ -553,8 +519,8 @@ Both were generated from [app-privacy-policy-generator.firebaseapp.com](https://
 |---|---|
 | `{{PRODUCT_NAME}}` | The Traction Engine |
 | `{{COMPANY_NAME}}` | Designli (or client company) |
-| `{{CONTACT_EMAIL}}` | carlos.zabala@designli.co |
-| `{{BUSINESS_ADDRESS}}` | 141 Traction St, Greenville, SC 29611 |
+| `{{CONTACT_EMAIL}}` | legal contact email |
+| `{{BUSINESS_ADDRESS}}` | Registered business address |
 | `{{AGE_OF_CONSENT}}` | 13 (US) or 16 (EU) |
 | `{{THIRD_PARTY_SERVICES}}` | List only services actually in use |
 | `{{EFFECTIVE_DATE}}` | YYYY-MM-DD |
@@ -626,9 +592,9 @@ General rule: exhaust available tools and existing config before escalating to t
 - Do not create accounts on the PO's behalf — guide them to do it, then wait. Retrieving credentials that already exist (via CLI or .env) is fine — see the Before asking the PO section above.
 - Do not add a backend or database — PostHog is the data layer for this phase
 - Do not implement auth — not needed on the landing page
-- Do not add a heavyweight CMS — library content (templates, projects) lives in Astro Content Collections as Markdown in `src/content/`; other page copy stays hardcoded
+- Do not add a CMS — content is hardcoded for this phase
 - Do not activate Loops.so or Resend unless PostHog email is explicitly confirmed as unavailable
 
 ---
 
-*Designli | TractionLab | PO-owned | Library Phase*
+*Designli | TractionLab | PO-owned | Landing Page Phase*
