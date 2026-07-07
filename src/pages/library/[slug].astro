@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
+import KindBadge from '../../components/KindBadge.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('assets');
@@ -10,14 +11,14 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, status, summary, previewUrl } = entry.data;
+const { title, status, summary, previewUrl, kind } = entry.data;
 ---
 <Layout title={`${title} — PO Traction Library`} description={summary}>
   <main class="wrap">
     <a href="/" class="back">← Back to the library</a>
 
     <header class="head">
-      <StatusBadge status={status} />
+      <div class="badges"><KindBadge kind={kind} /><StatusBadge status={status} /></div>
       <h1>{title}</h1>
       <p class="summary">{summary}</p>
     </header>
@@ -52,6 +53,7 @@ const { title, status, summary, previewUrl } = entry.data;
     margin-bottom: 28px;
   }
   .back:hover { color: var(--coral); }
+  .badges { display: flex; gap: 8px; margin-bottom: 4px; }
   .head h1 {
     font-family: var(--serif);
     font-size: clamp(32px, 5vw, 52px);

@@ -1,0 +1,35 @@
+---
+interface Props {
+  kind: string;
+}
+const { kind } = Astro.props;
+
+const LABELS: Record<string, string> = {
+  template: 'Template',
+  play: 'Play',
+  tool: 'Tool',
+};
+const label = LABELS[kind] ?? kind;
+---
+<span class:list={['kind', `kind-${kind}`]}>{label}</span>
+
+<style>
+  .kind {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 3px;
+    white-space: nowrap;
+    color: var(--muted-blue);
+    background: rgba(139, 143, 191, 0.08);
+    border: 1px solid var(--navy-mid);
+  }
+  .kind-play {
+    color: color-mix(in srgb, var(--purple) 45%, white);
+    border-color: color-mix(in srgb, var(--purple) 50%, transparent);
+    background: color-mix(in srgb, var(--purple) 12%, transparent);
+  }
+</style>
