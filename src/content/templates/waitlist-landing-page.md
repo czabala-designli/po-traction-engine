@@ -17,23 +17,21 @@ Reach for this the moment you have a value proposition and want to measure
 demand before building anything. It is the fastest way to turn interest into a
 measurable signal.
 
-## The prompt
+## Set it up from scratch
 
-Paste this into your own Claude Code session inside a fresh Astro project:
+This template isn't a one-off prompt — it's a full Claude Code setup. Drop the
+CLAUDE.md starter into a fresh repo and let Claude Code drive the build:
 
-    Build a static waitlist landing page in Astro. Requirements:
-    - Hero with headline, subtitle, and a waitlist form (first name, email, optional "top problem").
-    - On submit: fire a `waitlist_signup_submitted` PostHog event with first_name,
-      email, top_problem, and source (UTM source from the URL if present), then call
-      posthog.identify(email, { first_name, email, waitlisted: true }).
-    - Hide the form and show an inline "You're on the list" confirmation — no redirect.
-    - Persist the signed-up state in localStorage so returning visitors never see the form again.
-    - No backend, no database. PostHog is the only data layer.
+1. Create a new GitHub repo and scaffold a minimal Astro project.
+2. Add the starter to the repo root as `CLAUDE.md` — **[download the CLAUDE.md starter](/starters/claude-md-landing-page.md)** (or [view it raw](/starters/claude-md-landing-page.md)).
+3. Open Claude Code and say: *"Read CLAUDE.md and let's get started."* It runs the guided onboarding — product, accounts, PostHog, brand — and builds the page with you.
+
+The starter encodes everything on this page: the PostHog `identify()` and cohort rules, the welcome-email sequence, the UTM kit, the feedback widget, and the legal pages — so you don't have to remember any of it.
 
 ## Playbook
 
 1. Confirm PostHog is installed and the public project key is in your `.env`.
-2. Generate the page with the prompt above, then wire the form to your PostHog instance.
+2. Let the CLAUDE.md setup build the page and wire the form to your PostHog instance.
 3. Verify `waitlist_signup_submitted` fires against your internal cohort before sharing.
 4. Generate one UTM-tagged URL per channel — never share the untagged base URL.
 5. Share, watch signups land in PostHog, and iterate on the copy.

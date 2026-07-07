@@ -22,17 +22,13 @@ const { title, status, summary, previewUrl } = entry.data;
       <p class="summary">{summary}</p>
     </header>
 
-    {previewUrl ? (
+    {previewUrl && (
       <section class="preview">
         <p class="section-label">Live preview</p>
         <div class="frame">
           <iframe src={previewUrl} title={`${title} live preview`} loading="lazy" sandbox="allow-same-origin"></iframe>
         </div>
         <a href={previewUrl} class="open-link" target="_blank" rel="noopener">Open the live page ↗</a>
-      </section>
-    ) : (
-      <section class="preview">
-        <div class="frame placeholder">Coming soon</div>
       </section>
     )}
 
