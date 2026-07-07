@@ -1,5 +1,6 @@
 ---
 import PostHog from '../components/posthog.astro';
+import FeedbackWidget from '../components/FeedbackWidget.astro';
 
 interface Props {
   title: string;
@@ -21,6 +22,7 @@ const { title, description = 'The Traction Engine — Coming Soon' } = Astro.pro
   </head>
   <body>
     <slot />
+    <FeedbackWidget />
   </body>
 </html>
 
