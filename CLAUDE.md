@@ -506,6 +506,7 @@ PostHog email DNS:  pending — designli.co DNS records not yet verified; 3 user
 |---|---|
 | `feedback_widget_prompt_web.md` | Add a feedback button + GitHub Issue + Slack notification to any web project (Astro, Next.js, etc.) |
 | `feedback_widget_prompt_mobile.md` | Add shake-to-report (screenshot + logs + breadcrumbs + backend proxy) to any React Native project |
+| `posthog_workflow_prompt.md` | Build a PostHog workflow (generic + a filled-in waitlist welcome drip with conversion exit) — draft, test, then enable with sign-off |
 
 ---
 
