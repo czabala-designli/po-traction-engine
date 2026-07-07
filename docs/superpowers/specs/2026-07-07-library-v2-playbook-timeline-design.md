@@ -80,11 +80,15 @@ Single detail route: **`/library/[slug]`** renders any asset by `kind`. (Replace
    - `waitlist-landing-page` → `kind: template`, `phase: foundation`, `status: live`, `previewUrl: /waitlist`, `starter: true`.
    - `signup-landing-page` → `kind: template`, `phase: conversion`, `status: coming-soon` (it's the Wk3 waitlist→signup conversion).
    - `blog-section` → `kind: template`, `phase: marketing`, `status: coming-soon`.
-3. Seed **coming-soon `play` stubs** so the timeline reads as a real roadmap (one Markdown file each, short body):
+3. Seed `play` entries so the timeline reads as a real roadmap.
+
+   **Live now** — real content pointing at existing assets (not placeholders):
+   - `icp-persona-research` — play, `activation`, **live** — the play *is* the existing `/icp-research` Claude Code skill; body explains running it in a Claude Code session and what it outputs (`docs/icp-communities-*.md`). No downloadable file (it's a skill, not a prompt file).
+   - `feedback-widget` — play, `foundation`, **live** — body describes the play and links to download/view the existing prompts `docs/prompts/feedback_widget_prompt_web.md` and `..._mobile.md`, served via `/starters/` endpoints with self-explanatory names (per the v1 download convention).
+   - `waitlist-email-sequence` — play, `foundation`, **live** — body describes the PostHog drip and links to download/view `docs/prompts/posthog_workflow_prompt.md` via a `/starters/` endpoint.
+
+   **Coming-soon stubs** — title + phase + a sentence; roadmap markers filled in as the PO does the work:
    - `value-proposition` — play, `foundation`
-   - `waitlist-email-sequence` — play, `foundation`
-   - `feedback-widget` — play, `foundation`
-   - `icp-persona-research` — play, `activation` (wraps the existing `/icp-research` skill)
    - `brand-voice` — play, `marketing`
    - `keyword-research` — play, `marketing`
    - `hdd-experiments` — play, `hdd`
@@ -114,5 +118,6 @@ The **Kickoff Task Map** (interactive React artifact) and **Traction Menu** (pla
 - The home renders phase-by-phase in playbook order; each asset shows a kind badge + status badge; Waitlist appears under Week 1 as the `starter`.
 - Adding a new play = dropping one Markdown file into `src/content/assets/` with `kind` + `phase`; it appears in the correct phase with no other edits.
 - Every existing v1 behavior still works: `/waitlist` specimen, the Waitlist detail page (preview iframe + starter download + After-it's-live + Why-it-works), the Traction Engine project case study with its checklist, the feedback widget site-wide, PostHog on every page.
-- `npm run build` passes and prerenders `/`, `/waitlist`, `/library/<each asset>`, `/projects/the-traction-engine`, `/starters/claude-md-landing-page-starter.md`, `/privacy`, `/terms`.
+- The three **live plays** render real detail pages: `icp-persona-research` explains running `/icp-research`; `feedback-widget` and `waitlist-email-sequence` link to working download/view of their existing prompt files.
+- `npm run build` passes and prerenders `/`, `/waitlist`, `/library/<each asset>`, `/projects/the-traction-engine`, `/privacy`, `/terms`, and the `/starters/` files: `claude-md-landing-page-starter.md`, `feedback-widget-web-prompt.md`, `feedback-widget-mobile-prompt.md`, `posthog-waitlist-email-workflow-prompt.md`.
 - No stale references to the old `/templates/[slug]` route or the `templates` collection.
