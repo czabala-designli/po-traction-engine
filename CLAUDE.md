@@ -14,7 +14,7 @@ This file gives Claude Code the context it needs to work on this project without
 
 An internal, static **library and playbook for Designli Product Owners**. Its home (`/`) indexes reusable **templates** (each = a live preview + the prompt that builds it + a short playbook) and **project case studies** with living checklists. It grew out of — and still hosts — a coming-soon **waitlist landing page**, now relocated to `/waitlist`, whose job is to collect signups into PostHog. There is no backend, no database, no auth. PostHog is the source of truth for all signups.
 
-This project is self-referential: it is the first project *in* the library, dogfooding the very playbook it shares. The original "how to build a waitlist landing page" playbook this file grew from is preserved verbatim at `docs/claude-md-landing-page-template.md` — reuse that as the starting CLAUDE.md for a brand-new landing-page project.
+This project is self-referential: it is the first project *in* the library, dogfooding the very playbook it shares. The original "how to build a waitlist landing page" playbook this file grew from is preserved verbatim at `docs/claude-md-landing-page-starter.md` — reuse that as the starting CLAUDE.md for a brand-new landing-page project.
 
 This is a PO-owned project. The tech lead is not involved here. Keep solutions simple and within the PO's ability to maintain.
 
@@ -471,6 +471,7 @@ Check the Project details block first — brand colors and logo may already be f
 - All secrets in env vars — `.env` is in `.gitignore`, `.env.example` is committed with empty values
 - UTM parameters must be captured on every `waitlist_signup_submitted` event — source attribution starts from day one
 - The feedback widget ships on every user-facing surface, not just this page
+- Downloadable artifacts get self-explanatory, kebab-case filenames that state what they are (e.g. `claude-md-landing-page-starter.md`) — never generic names like `CLAUDE.md` for a download. Set the `download="<self-explanatory-name>"` attribute on the link, name the served file the same, and reference that exact filename in any instructions. Serve them from `/starters/` (or `public/`).
 
 ---
 

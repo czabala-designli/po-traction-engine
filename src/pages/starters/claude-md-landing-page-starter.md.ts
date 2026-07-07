@@ -1,4 +1,4 @@
-import raw from '../../../docs/claude-md-landing-page-template.md?raw';
+import raw from '../../../docs/claude-md-landing-page-starter.md?raw';
 
 export const prerender = true;
 
