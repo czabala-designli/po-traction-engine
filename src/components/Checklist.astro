@@ -1,0 +1,46 @@
+---
+interface ChecklistItem {
+  label: string;
+  done: boolean;
+  note?: string;
+}
+interface Props {
+  items: ChecklistItem[];
+}
+const { items } = Astro.props;
+const doneCount = items.filter((i) => i.done).length;
+---
+<div class="checklist">
+  <p class="progress">{doneCount} / {items.length} complete</p>
+  <ul>
+    {items.map((item) => (
+      <li class:list={['item', { done: item.done }]}>
+        <span class="mark" aria-hidden="true">{item.done ? '✓' : '○'}</span>
+        <span class="text">
+          {item.label}
+          {item.note && <span class="note">{item.note}</span>}
+        </span>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .checklist {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-mid);
+    border-radius: 10px;
+    padding: 20px 22px;
+  }
+  .progress {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--coral); margin-bottom: 14px;
+  }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: var(--off-white); }
+  .mark { color: var(--muted-blue); font-weight: 700; line-height: 1.5; }
+  .item.done .mark { color: var(--coral); }
+  .item.done .text { color: var(--muted-blue); text-decoration: line-through; text-decoration-color: rgba(139,143,191,0.5); }
+  .text { display: flex; flex-direction: column; gap: 2px; }
+  .note { font-size: 12px; color: var(--muted-blue); font-style: italic; text-decoration: none; }
+</style>
