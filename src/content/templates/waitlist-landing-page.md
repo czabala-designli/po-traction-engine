@@ -24,7 +24,7 @@ CLAUDE.md starter into a fresh repo and let Claude Code drive the build:
 
 1. Create a new GitHub repo and scaffold a minimal Astro project.
 2. Add the starter to the repo root as `CLAUDE.md` — **[download the CLAUDE.md starter](/starters/claude-md-landing-page.md)** (or [view it raw](/starters/claude-md-landing-page.md)).
-3. Open Claude Code and say: *"Read CLAUDE.md and let's get started."* It runs the guided onboarding — product, accounts, PostHog, brand — and builds the page with you.
+3. Open Claude Code and say: *"Read the CLAUDE.md in my download folder and let's get started."* It runs the guided onboarding — product, accounts, PostHog, brand — and builds the page with you.
 
 The starter encodes everything on this page: the PostHog `identify()` and cohort rules, the welcome-email sequence, the UTM kit, the feedback widget, and the legal pages — so you don't have to remember any of it.
 
