@@ -17,4 +17,6 @@ The three-email waitlist drip that runs on autopilot from the first signup — c
 
 ## The prompt
 
-<a href="/starters/posthog-waitlist-email-workflow-prompt.md" download="posthog-waitlist-email-workflow-prompt.md"><strong>Download the workflow prompt</strong></a> (or <a href="/starters/posthog-waitlist-email-workflow-prompt.md" target="_blank" rel="noopener">view it raw</a> in a new tab), then run it in your Claude Code session.
+<a href="/starters/posthog-waitlist-email-workflow-prompt.md" download="posthog-waitlist-email-workflow-prompt.md"><strong>Download the workflow prompt</strong></a> (or <a href="/starters/posthog-waitlist-email-workflow-prompt.md" target="_blank" rel="noopener">view it raw</a> in a new tab).
+
+Then open Claude Code and say: *"Read the posthog-waitlist-email-workflow-prompt.md in my download folder and let's get started."* It drafts the three emails and sets up the PostHog drip that fires them on autopilot.

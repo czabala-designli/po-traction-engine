@@ -472,6 +472,7 @@ Check the Project details block first — brand colors and logo may already be f
 - UTM parameters must be captured on every `waitlist_signup_submitted` event — source attribution starts from day one
 - The feedback widget ships on every user-facing surface, not just this page
 - Downloadable artifacts get self-explanatory, kebab-case filenames that state what they are (e.g. `claude-md-landing-page-starter.md`) — never generic names like `CLAUDE.md` for a download. Set the `download="<self-explanatory-name>"` attribute on the link, name the served file the same, and reference that exact filename in any instructions. Serve them from `/starters/` (or `public/`).
+- Every download option is paired with its actionable next step — *"Open Claude Code and say: 'Read the `<exact-filename>` in my download folder and let's get started.'"* followed by one line on what running it produces. A download without that instruction is incomplete.
 
 ---
 

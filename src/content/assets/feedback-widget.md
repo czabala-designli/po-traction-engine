@@ -17,7 +17,9 @@ The feedback widget turns visitor and user input into GitHub Issues plus Slack n
 
 ## The prompts
 
-Run the one that matches your surface in a Claude Code session:
+Download the one that matches your surface:
 
 - **Web** (Astro, Next, etc.) — <a href="/starters/feedback-widget-web-prompt.md" download="feedback-widget-web-prompt.md"><strong>download</strong></a> (or <a href="/starters/feedback-widget-web-prompt.md" target="_blank" rel="noopener">view raw</a>).
 - **Mobile** (React Native, shake-to-report) — <a href="/starters/feedback-widget-mobile-prompt.md" download="feedback-widget-mobile-prompt.md"><strong>download</strong></a> (or <a href="/starters/feedback-widget-mobile-prompt.md" target="_blank" rel="noopener">view raw</a>).
+
+Then open Claude Code and say: *"Read the feedback-widget-web-prompt.md (or feedback-widget-mobile-prompt.md) in my download folder and let's get started."* It builds the widget and wires every submission to a GitHub Issue plus a Slack notification.
