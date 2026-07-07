@@ -1,0 +1,515 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WaitlistForm from '../components/WaitlistForm.astro';
+import VariantSwitcher from '../components/VariantSwitcher.astro';
+---
+
+<Layout
+  title="The Traction Engine — Coming Soon"
+  description="You already know how to form a hypothesis and measure what works. The Traction Engine applies that same skill set to getting users."
+>
+
+  <!-- ─── Sticky nav ─── -->
+  <nav class="sticky-nav">
+    <div class="nav-logo">
+      <img src="/designli-logo.png" alt="Designli" width="20" height="20" />
+      <span class="nav-logo-label">Designli</span>
+    </div>
+    <div class="nav-switcher">
+      <VariantSwitcher />
+    </div>
+    <a href="#waitlist" class="nav-cta">Join the waitlist <span aria-hidden="true">→</span></a>
+  </nav>
+
+  <!-- ─── Hero (variant-controlled) ─── -->
+  <div class="page">
+    <main class="hero">
+      <div class="hero-inner">
+
+        <div class="hero-copy">
+          <p class="eyebrow">Coming Soon</p>
+
+          <h1 class="headline">
+            Product Owners as<br/>Traction Engines.
+          </h1>
+
+          <p class="subtitle">
+            You already know how to form a hypothesis
+            and measure what works.<br />
+            <em>Now apply that same skill set to getting users.</em>
+          </p>
+
+          <p class="body-text">
+            You have the deepest product knowledge on the pod. Now you have the tools
+            to turn that into traction.
+          </p>
+        </div>
+
+        <div class="hero-form">
+          <p class="form-eyebrow">Join the waitlist</p>
+          <p class="urgency-signal">First cohort · Designli POs only</p>
+          <WaitlistForm />
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ─── What you'll get ─── -->
+  <section class="features">
+    <p class="section-eyebrow">What you'll get</p>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <span class="feat-num">01</span>
+        <h3 class="feat-title">Your traction playbook</h3>
+        <p class="feat-body">Core activities every project needs — plus a full menu of optional tactics from community outreach to paid testing. Every step written for POs who have never done growth before.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feat-num">02</span>
+        <h3 class="feat-title">Execute without a sprint</h3>
+        <p class="feat-body">Claude Code as your co-pilot. Landing pages, prospect lists, email sequences, social posts — executed in hours. None of it touches the dev backlog.</p>
+      </div>
+
+      <div class="feature-card">
+        <span class="feat-num">03</span>
+        <h3 class="feat-title">Measure from day one</h3>
+        <p class="feat-body">PostHog installed from the first deploy. Funnels, session replay, cohort surveys. Know which channels work before you scale any of them.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── Bottom CTA with repeat form ─── -->
+  <section class="bottom-cta" id="waitlist">
+    <div class="bottom-cta-inner">
+      <div class="bottom-cta-copy">
+        <p class="bottom-eyebrow">Secure your spot</p>
+        <h2 class="bottom-headline">Ready to own traction?</h2>
+        <p class="bottom-sub">The POs who join first won't need a growth team. They'll already be one.</p>
+      </div>
+      <div class="bottom-form">
+        <WaitlistForm instanceId="bottom" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer class="site-footer">
+    <img src="/designli-logo.png" alt="" width="14" height="14" aria-hidden="true" />
+    <span>Designli · 2026</span>
+    <span class="sep">·</span>
+    <span>Internal initiative</span>
+    <span class="sep">·</span>
+    <a href="/privacy">Privacy Policy</a>
+    <span class="sep">·</span>
+    <a href="/terms">Terms &amp; Conditions</a>
+  </footer>
+</Layout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.posthog?.capture('page_viewed', { page: 'waitlist' });
+  });
+</script>
+
+<style>
+  /* ═══════════════════════════════════════════════════════════
+     STICKY NAV
+  ═══════════════════════════════════════════════════════════ */
+  .sticky-nav {
+    position: fixed;
+    top: 0;
+    left: var(--bar-w);
+    right: 0;
+    height: 52px;
+    z-index: 200;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+    background: rgba(14, 16, 52, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-logo img { opacity: 0.9; object-fit: contain; }
+
+  .nav-logo-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted-blue);
+  }
+
+  .nav-switcher {
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--coral);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 5px;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .nav-cta:hover { background: #f96b57; transform: translateY(-1px); }
+
+  @media (max-width: 600px) {
+    .nav-switcher { display: none; }
+    .sticky-nav { grid-template-columns: auto 1fr; }
+    .nav-cta { padding: 7px 11px; }
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     BASE HERO (Side by Side — default)
+  ═══════════════════════════════════════════════════════════ */
+  .page {
+    padding-top: 52px; /* clear sticky nav */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: calc(var(--bar-w) + 24px);
+    padding-right: 24px;
+  }
+
+  .hero {
+    flex: 1;
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    align-items: center;
+    padding: 72px 0 60px;
+  }
+
+  .hero-inner {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  @media (min-width: 768px) {
+    .hero-inner {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 64px;
+    }
+    .hero-copy { flex: 1; min-width: 0; }
+    .hero-form { flex: 0 0 340px; padding-top: 8px; }
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.25s both;
+  }
+
+  .headline {
+    font-family: var(--serif);
+    font-size: clamp(52px, 7.5vw, 88px);
+    font-weight: 400;
+    line-height: 1.0;
+    color: var(--white);
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: fadeUp 0.65s ease 0.4s both;
+  }
+
+  .subtitle {
+    font-family: var(--serif);
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.65;
+    color: var(--muted-blue);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.65s ease 0.55s both;
+  }
+
+  .subtitle em { font-style: italic; color: var(--coral); }
+
+  .body-text {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--muted-blue);
+    opacity: 0;
+    animation: fadeUp 0.65s ease 0.7s both;
+  }
+
+  .hero-form {
+    opacity: 0;
+    animation: fadeUp 0.65s ease 0.85s both;
+  }
+
+  .form-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 8px;
+  }
+
+  .urgency-signal {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--coral);
+    background: rgba(248, 117, 101, 0.1);
+    border: 1px solid rgba(248, 117, 101, 0.35);
+    border-radius: 3px;
+    padding: 4px 10px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     FEATURES SECTION
+  ═══════════════════════════════════════════════════════════ */
+  .features {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 72px calc(var(--bar-w) + 24px) 72px 24px;
+    border-top: 1px solid var(--navy-mid);
+  }
+
+  .section-eyebrow {
+    font-family: var(--serif);
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 40px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+  }
+
+  @media (max-width: 767px) {
+    .features-grid { grid-template-columns: 1fr; gap: 36px; }
+  }
+
+  .feature-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .feat-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--coral);
+    font-family: var(--sans);
+  }
+
+  .feat-title {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.25;
+  }
+
+  .feat-body {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--muted-blue);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     BOTTOM CTA
+  ═══════════════════════════════════════════════════════════ */
+  .bottom-cta {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 72px calc(var(--bar-w) + 24px) 100px 24px;
+    border-top: 1px solid var(--navy-mid);
+  }
+
+  .bottom-cta-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  @media (min-width: 768px) {
+    .bottom-cta-inner {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 64px;
+    }
+    .bottom-cta-copy { flex: 1; }
+    .bottom-form { flex: 0 0 360px; }
+  }
+
+  .bottom-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 16px;
+  }
+
+  .bottom-headline {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .bottom-sub {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--muted-blue);
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     SITE FOOTER
+  ═══════════════════════════════════════════════════════════ */
+  .site-footer {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px calc(var(--bar-w) + 24px) 36px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--muted-blue);
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .site-footer img { opacity: 0.4; }
+  .sep { opacity: 0.35; }
+  .site-footer a { color: var(--muted-blue); text-decoration: none; }
+  .site-footer a:hover { color: var(--coral); }
+
+  @media (max-width: 640px) {
+    .page { padding-left: calc(var(--bar-w) + 16px); padding-right: 16px; }
+    .hero { padding: 48px 0 40px; }
+    .features, .bottom-cta, .site-footer {
+      padding-left: calc(var(--bar-w) + 16px);
+      padding-right: 16px;
+    }
+  }
+</style>
+
+<style is:global>
+  /* ═══════════════════════════════════════════════════════════
+     CENTER STAGE
+  ═══════════════════════════════════════════════════════════ */
+  [data-variant="center-stage"] .page {
+    align-items: center;
+  }
+  [data-variant="center-stage"] .hero {
+    max-width: 640px;
+    text-align: center;
+  }
+  [data-variant="center-stage"] .hero-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+  [data-variant="center-stage"] .headline {
+    position: relative;
+    display: inline-block;
+    font-size: clamp(36px, 5vw, 64px);
+  }
+  [data-variant="center-stage"] .headline::before {
+    content: '';
+    position: absolute;
+    inset: -40px -80px;
+    background: radial-gradient(ellipse at center, rgba(248,117,101,0.13) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  [data-variant="center-stage"] .hero-form {
+    width: 100%;
+    max-width: 480px;
+    flex: none;
+    padding-top: 0;
+    text-align: left;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     SPLIT
+  ═══════════════════════════════════════════════════════════ */
+  [data-variant="split"] .page {
+    flex-direction: row;
+    align-items: stretch;
+    max-width: none;
+    padding: 0;
+    min-height: 100vh;
+  }
+  [data-variant="split"] .hero {
+    max-width: none;
+    width: 100%;
+    padding: 0;
+    display: flex;
+    align-items: stretch;
+  }
+  [data-variant="split"] .hero-inner {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+    min-height: calc(100vh - 52px);
+  }
+  [data-variant="split"] .hero-copy {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px 80px calc(var(--bar-w) + 60px);
+    background: var(--navy);
+  }
+  [data-variant="split"] .hero-form {
+    flex: 0 0 42%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 52px;
+    background: var(--navy-card);
+    border-left: var(--bar-w) solid var(--coral);
+  }
+  @media (max-width: 767px) {
+    [data-variant="split"] .hero-inner { flex-direction: column; min-height: auto; }
+    [data-variant="split"] .hero-copy { padding: 52px 24px 40px calc(var(--bar-w) + 24px); }
+    [data-variant="split"] .hero-form { flex: none; padding: 40px 24px 52px; }
+  }
+</style>
