@@ -498,6 +498,17 @@ PostHog email DNS:  pending — designli.co DNS records not yet verified; 3 user
 
 ---
 
+## Reusable prompt templates
+
+`docs/prompts/` contains Claude Code session prompts that can be dropped into any new project. Add new templates here whenever a pattern is worth reusing across projects.
+
+| File | Purpose |
+|---|---|
+| `feedback_widget_prompt_web.md` | Add a feedback button + GitHub Issue + Slack notification to any web project (Astro, Next.js, etc.) |
+| `feedback_widget_prompt_mobile.md` | Add shake-to-report (screenshot + logs + breadcrumbs + backend proxy) to any React Native project |
+
+---
+
 ## Legal pages — Privacy Policy & Terms & Conditions
 
 Every project that collects user data must have both pages live before going public.
