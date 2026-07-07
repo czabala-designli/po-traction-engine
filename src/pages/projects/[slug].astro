@@ -6,20 +6,20 @@ import Checklist from '../../components/Checklist.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
-  const templates = await getCollection('templates');
+  const assets = await getCollection('assets');
   return projects.map((entry) => ({
     params: { slug: entry.id },
-    props: { entry, templates },
+    props: { entry, assets },
   }));
 }
 
-const { entry, templates } = Astro.props;
+const { entry, assets } = Astro.props;
 const { Content } = await render(entry);
-const { title, status, summary, templatesUsed, checklist } = entry.data;
+const { title, status, summary, assetsUsed, checklist } = entry.data;
 
-const usedTemplates = templatesUsed
-  .map((slug) => templates.find((t) => t.id === slug))
-  .filter((t): t is NonNullable<typeof t> => Boolean(t));
+const usedAssets = assetsUsed
+  .map((slug) => assets.find((a) => a.id === slug))
+  .filter((a): a is NonNullable<typeof a> => Boolean(a));
 ---
 <Layout title={`${title} — PO Traction Library`} description={summary}>
   <main class="wrap">
@@ -31,12 +31,12 @@ const usedTemplates = templatesUsed
       <p class="summary">{summary}</p>
     </header>
 
-    {usedTemplates.length > 0 && (
+    {usedAssets.length > 0 && (
       <section class="used">
-        <p class="section-label">Templates used</p>
+        <p class="section-label">Assets used</p>
         <div class="chips">
-          {usedTemplates.map((t) => (
-            <a class="chip" href={`/templates/${t.id}`}>{t.data.title}</a>
+          {usedAssets.map((a) => (
+            <a class="chip" href={`/library/${a.id}`}>{a.data.title}</a>
           ))}
         </div>
       </section>

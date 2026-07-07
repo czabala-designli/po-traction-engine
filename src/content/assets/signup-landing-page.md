@@ -1,8 +1,10 @@
 ---
 title: "Signup Landing Page"
+kind: "template"
+phase: "conversion"
 status: "coming-soon"
 summary: "A conversion-focused page for a product that already exists — drive account signups, not waitlist joins."
-order: 2
+order: 1
 ---
 
 The next template in the library. It will cover the pattern for a landing page

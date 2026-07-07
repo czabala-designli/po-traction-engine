@@ -2,7 +2,7 @@
 title: "The Traction Engine"
 status: "active"
 summary: "The origin project — dogfooding the entire PO traction playbook, in public, for other POs to learn from."
-templatesUsed: ["waitlist-landing-page"]
+assetsUsed: ["waitlist-landing-page"]
 checklist:
   - { label: "Waitlist landing page live and collecting signups", done: true }
   - { label: "PostHog installed and capturing pageviews site-wide", done: true }
