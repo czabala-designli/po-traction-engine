@@ -28,10 +28,17 @@ CLAUDE.md starter into a fresh repo and let Claude Code drive the build:
 
 The starter encodes everything on this page: the PostHog `identify()` and cohort rules, the welcome-email sequence, the UTM kit, the feedback widget, and the legal pages — so you don't have to remember any of it.
 
-## Playbook
+## After it's live
 
-1. Confirm PostHog is installed and the public project key is in your `.env`.
-2. Let the CLAUDE.md setup build the page and wire the form to your PostHog instance.
-3. Verify `waitlist_signup_submitted` fires against your internal cohort before sharing.
-4. Generate one UTM-tagged URL per channel — never share the untagged base URL.
-5. Share, watch signups land in PostHog, and iterate on the copy.
+The starter builds and wires everything — these are the moves that are yours to make once it's up:
+
+- Share one **UTM-tagged URL per channel** — never the bare URL, so you can see what each channel drives.
+- Watch signups land in PostHog; the weekly Slack digest summarizes them for you.
+- Reply to the day-1 welcome email question — that's your first real user learning.
+- Iterate on the headline and CTA based on what actually converts.
+
+## Why it works
+
+- **PostHog is the only data layer** — no backend or database to build or maintain.
+- **Nothing touches the dev backlog** — you ship it yourself, in hours.
+- **Measurable from the first deploy** — you know which channels work before you scale any of them.
