@@ -1,0 +1,44 @@
+---
+interface Props {
+  status: string;
+}
+const { status } = Astro.props;
+
+const LABELS: Record<string, string> = {
+  'live': 'Live',
+  'coming-soon': 'Coming Soon',
+  'active': 'Active',
+  'complete': 'Complete',
+};
+const label = LABELS[status] ?? status;
+---
+<span class:list={['badge', `badge-${status}`]}>{label}</span>
+
+<style>
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .badge-live, .badge-active {
+    color: var(--coral);
+    background: rgba(248, 117, 101, 0.1);
+    border-color: rgba(248, 117, 101, 0.35);
+  }
+  .badge-coming-soon {
+    color: var(--muted-blue);
+    background: rgba(139, 143, 191, 0.08);
+    border-color: rgba(139, 143, 191, 0.3);
+  }
+  .badge-complete {
+    color: #C9B8E0;
+    background: rgba(88, 55, 123, 0.18);
+    border-color: rgba(88, 55, 123, 0.5);
+  }
+</style>
