@@ -28,6 +28,7 @@ const projects = defineCollection({
           label: z.string(),
           done: z.boolean(),
           note: z.string().optional(),
+          milestone: z.string().optional(),
         }),
       )
       .default([]),

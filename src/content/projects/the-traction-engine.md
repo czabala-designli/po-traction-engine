@@ -4,12 +4,17 @@ status: "active"
 summary: "The origin project — dogfooding the entire PO traction playbook, in public, for other POs to learn from."
 assetsUsed: ["waitlist-landing-page"]
 checklist:
-  - { label: "Waitlist landing page live and collecting signups", done: true }
-  - { label: "PostHog installed and capturing pageviews site-wide", done: true }
-  - { label: "Feedback widget → GitHub Issue → Slack flow working", done: true }
-  - { label: "Privacy Policy and Terms pages live", done: true }
-  - { label: "PostHog email DNS verified on designli.co", done: true, note: "Verified 2026-07-01" }
-  - { label: "Re-trigger welcome emails for 3 backfilled early signups", done: false, note: "Pending since DNS verification" }
+  - { milestone: "Day 30 · First user", label: "Waitlist landing page live and collecting signups", done: true }
+  - { milestone: "Day 30 · First user", label: "PostHog installed and capturing pageviews site-wide", done: true }
+  - { milestone: "Day 30 · First user", label: "Feedback widget → GitHub Issue → Slack flow working", done: true }
+  - { milestone: "Day 30 · First user", label: "Privacy Policy and Terms pages live", done: true }
+  - { milestone: "Day 30 · First user", label: "PostHog email DNS verified on designli.co", done: true, note: "Verified 2026-07-01" }
+  - { milestone: "Day 60 · Activation & growth", label: "Library reshaped into the 30/90-day playbook timeline", done: true }
+  - { milestone: "Day 60 · Activation & growth", label: "ICP research shipped as an installable play", done: true }
+  - { milestone: "Day 60 · Activation & growth", label: "Re-trigger welcome emails for 3 backfilled early signups", done: false, note: "Pending since DNS verification" }
+  - { milestone: "Day 60 · Activation & growth", label: "Brand voice + keyword research plays", done: false, note: "In progress on Blocq" }
+  - { milestone: "Day 90 · HDD & first dollar", label: "HDD experiment loop running", done: false }
+  - { milestone: "Day 90 · HDD & first dollar", label: "Monetization model documented", done: false }
 ---
 
 The Traction Engine is the project this whole library grows out of. Rather than
