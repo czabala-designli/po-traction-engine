@@ -73,16 +73,10 @@ const ctaFor = (kind: string) =>
         The TractionLab playbook — the templates, plays, and tools a Product Owner
         runs across the 30/90-day engagement, in the order you run them.
       </p>
-      {starter && (
-        <a class="start-here" href={`/library/${starter.id}`}>
-          <span class="start-here-arrow" aria-hidden="true">▸</span>
-          <span><strong>New here?</strong> Start with the {starter.data.title} — your first traction experiment.</span>
-        </a>
-      )}
     </header>
 
     <a class="manifesto" href="https://hdd.designli.co/po-traction" target="_blank" rel="noopener">
-      <p class="manifesto-eyebrow">Start here · The why</p>
+      <p class="manifesto-eyebrow">1 · Start with the why</p>
       <h2 class="manifesto-title">PO as Traction Engine <span class="manifesto-ext" aria-hidden="true">↗</span></h2>
       <p class="manifesto-body">
         The manifesto behind this playbook — why getting a product's first users is now the PO's job,
@@ -90,6 +84,13 @@ const ctaFor = (kind: string) =>
       </p>
       <span class="manifesto-cta">Read the manifesto ↗</span>
     </a>
+
+    {starter && (
+      <a class="start-here" href={`/library/${starter.id}`}>
+        <span class="start-here-arrow" aria-hidden="true">▸</span>
+        <span><strong>2 · Run your first play</strong> — the {starter.data.title}, your first traction experiment.</span>
+      </a>
+    )}
 
     <section class="day0">
       <p class="day0-eyebrow">Day 0 · Before you start</p>
@@ -190,7 +191,7 @@ const ctaFor = (kind: string) =>
 
   .start-here {
     display: inline-flex; align-items: baseline; gap: 10px;
-    margin-top: 28px; max-width: 640px; padding: 12px 16px;
+    margin-bottom: 48px; max-width: 640px; padding: 12px 16px;
     border: 1px solid rgba(248, 117, 101, 0.35); border-left: 3px solid var(--coral);
     border-radius: 6px; background: rgba(248, 117, 101, 0.06);
     color: var(--off-white); font-size: 14px; line-height: 1.6;
@@ -202,7 +203,7 @@ const ctaFor = (kind: string) =>
 
   /* Manifesto — the "why" (external HDD companion) */
   .manifesto {
-    display: block; margin-bottom: 48px; padding: 26px 28px;
+    display: block; margin-bottom: 16px; padding: 26px 28px;
     background: var(--navy-card);
     border: 1px solid rgba(88, 55, 123, 0.55); border-left: 4px solid var(--purple);
     border-radius: 12px; text-decoration: none;
