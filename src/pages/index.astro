@@ -126,7 +126,7 @@ const ctaFor = (kind: string) =>
                     <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
                     <h4 class="card-title">{a.data.title}</h4>
                     <p class="card-summary">{a.data.summary}</p>
-                    <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} />
+                    <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} linked={false} />
                     <span class="card-cta">{ctaFor(a.data.kind)}</span>
                   </a>
                 ) : (
@@ -134,7 +134,7 @@ const ctaFor = (kind: string) =>
                     <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
                     <h4 class="card-title">{a.data.title}</h4>
                     <p class="card-summary">{a.data.summary}</p>
-                    <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} />
+                    <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} linked={false} />
                   </div>
                 )
               ))}

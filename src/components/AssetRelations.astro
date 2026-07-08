@@ -11,8 +11,11 @@ interface RelItem {
 interface Props {
   needs?: RelItem[];
   feeds?: RelItem[];
+  // When false, titles render as plain text instead of links. Use inside a
+  // card that is itself an <a>, since nested anchors are invalid HTML.
+  linked?: boolean;
 }
-const { needs = [], feeds = [] } = Astro.props;
+const { needs = [], feeds = [], linked = true } = Astro.props;
 ---
 {needs.length > 0 && (
   <p class="rel">
@@ -20,7 +23,11 @@ const { needs = [], feeds = [] } = Astro.props;
     {needs.map((n, i) => (
       <>
         {i > 0 && ', '}
-        {n.id && n.title ? <a href={`/library/${n.id}`}>{n.title}</a> : <span>{n.note ?? n.title}</span>}
+        {n.id && n.title && linked ? (
+          <a href={`/library/${n.id}`}>{n.title}</a>
+        ) : (
+          <span>{n.title ?? n.note}</span>
+        )}
       </>
     ))}
   </p>
@@ -31,7 +38,7 @@ const { needs = [], feeds = [] } = Astro.props;
     {feeds.map((n, i) => (
       <>
         {i > 0 && ', '}
-        <a href={`/library/${n.id}`}>{n.title}</a>
+        {linked ? <a href={`/library/${n.id}`}>{n.title}</a> : <span>{n.title}</span>}
       </>
     ))}
   </p>
@@ -48,4 +55,5 @@ const { needs = [], feeds = [] } = Astro.props;
   .rel-feeds { color: var(--purple-light, #A78BC4); background: rgba(88, 55, 123, 0.22); }
   .rel a { color: var(--off-white); text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.18); }
   .rel a:hover { color: var(--coral); border-bottom-color: var(--coral); }
+  .rel span:not(.rel-label) { color: var(--off-white); }
 </style>
