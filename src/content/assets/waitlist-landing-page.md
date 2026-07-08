@@ -1,12 +1,14 @@
 ---
 title: "Waitlist Landing Page"
 kind: "template"
-phase: "foundation"
+phase: "activation"
 status: "live"
 summary: "A static landing page that collects waitlist signups straight into PostHog — no backend."
 previewUrl: "/waitlist"
 starter: true
-order: 2
+order: 1
+needs: ["value-proposition", "icp-persona-research"]
+feeds: ["waitlist-email-sequence"]
 ---
 
 A single-page, static waitlist landing page. It collects signups directly into

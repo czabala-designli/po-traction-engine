@@ -3,21 +3,21 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 import KindBadge from '../components/KindBadge.astro';
+import AssetRelations from '../components/AssetRelations.astro';
 
 const PHASES = [
-  { slug: 'foundation', label: 'Week 1 · Foundation' },
-  { slug: 'activation', label: 'Week 2 · Activation' },
-  { slug: 'conversion', label: 'Week 3 · Conversion' },
-  { slug: 'learning', label: 'Week 4 · Learning' },
-  { slug: 'hdd', label: 'HDD Mode' },
-  { slug: 'marketing', label: 'Marketing (Traction Menu)' },
+  { slug: 'foundation', label: 'Foundation' },
+  { slug: 'activation', label: 'Activation' },
+  { slug: 'conversion', label: 'Conversion' },
+  { slug: 'hdd', label: 'HDD Experiments' },
+  { slug: 'marketing', label: 'Content & Growth' },
 ];
 
 const BANDS = [
   {
     days: 'Days 1–30',
     title: 'The 30-day sprint',
-    phases: ['foundation', 'activation', 'conversion', 'learning'],
+    phases: ['foundation', 'activation', 'conversion'],
     milestone: 'Day 30 — First user (the 30-day guarantee)',
   },
   {
@@ -39,6 +39,15 @@ const assets = await getCollection('assets');
 const projects = await getCollection('projects');
 const starter = assets.find((a) => a.data.starter);
 const labelOf = Object.fromEntries(PHASES.map((p) => [p.slug, p.label]));
+const titleOf = Object.fromEntries(assets.map((a) => [a.id, a.data.title]));
+
+const relOf = (a: (typeof assets)[number]) => ({
+  needs: [
+    ...a.data.needs.map((id) => ({ id, title: titleOf[id] })).filter((n) => n.title),
+    ...(a.data.needsNote ? [{ note: a.data.needsNote }] : []),
+  ],
+  feeds: a.data.feeds.map((id) => ({ id, title: titleOf[id] })).filter((n) => n.title),
+});
 
 const itemsIn = (slug: string) =>
   assets.filter((a) => a.data.phase === slug).sort((a, b) => a.data.order - b.data.order);
@@ -117,6 +126,7 @@ const ctaFor = (kind: string) =>
                     <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
                     <h4 class="card-title">{a.data.title}</h4>
                     <p class="card-summary">{a.data.summary}</p>
+                    <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} />
                     <span class="card-cta">{ctaFor(a.data.kind)}</span>
                   </a>
                 ) : (
@@ -124,6 +134,7 @@ const ctaFor = (kind: string) =>
                     <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
                     <h4 class="card-title">{a.data.title}</h4>
                     <p class="card-summary">{a.data.summary}</p>
+                    <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} />
                   </div>
                 )
               ))}
@@ -259,8 +270,8 @@ const ctaFor = (kind: string) =>
   .card-disabled { opacity: 0.55; }
   .badges { display: flex; gap: 8px; flex-wrap: wrap; }
   .card-title { font-family: var(--serif); font-size: 19px; font-weight: 400; color: var(--white); line-height: 1.25; margin-top: 4px; }
-  .card-summary { font-size: 13px; line-height: 1.7; color: var(--muted-blue); flex: 1; }
-  .card-cta { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--coral); margin-top: 6px; }
+  .card-summary { font-size: 13px; line-height: 1.7; color: var(--muted-blue); }
+  .card-cta { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--coral); margin-top: auto; padding-top: 10px; }
 
   .site-footer {
     max-width: 960px; margin: 0 auto;

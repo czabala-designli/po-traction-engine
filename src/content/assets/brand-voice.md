@@ -4,7 +4,8 @@ kind: "play"
 phase: "marketing"
 status: "coming-soon"
 summary: "A consistent brand voice / writing style for blog posts and community outreach."
-order: 2
+order: 3
+feeds: ["blog-section"]
 ---
 
 Define a brand voice / writing style to apply consistently across blog posts and community outreach.

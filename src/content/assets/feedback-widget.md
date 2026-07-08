@@ -1,10 +1,11 @@
 ---
 title: "Feedback Widget"
 kind: "play"
-phase: "foundation"
+phase: "activation"
 status: "live"
 summary: "Turn visitor and user feedback into GitHub Issues + Slack notifications, on every surface."
-order: 4
+order: 3
+needsNote: "any live surface — a landing page or product"
 ---
 
 The feedback widget turns visitor and user input into GitHub Issues plus Slack notifications. It ships on the landing page and on every user-facing surface after it — it's the standard signal-capture mechanism across the whole engagement.

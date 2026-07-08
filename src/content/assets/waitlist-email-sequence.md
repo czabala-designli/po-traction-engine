@@ -1,10 +1,11 @@
 ---
 title: "Waitlist Email Sequence"
 kind: "play"
-phase: "foundation"
+phase: "activation"
 status: "live"
 summary: "The 3-email waitlist drip (confirm → progress → launch) that runs on autopilot from the first signup."
-order: 3
+order: 2
+needs: ["waitlist-landing-page"]
 ---
 
 The three-email waitlist drip that runs on autopilot from the first signup — confirmation, a day-5 progress note, and a launch invite. Built on PostHog Workflows (Loops.so is the fallback if Workflows aren't on your plan).

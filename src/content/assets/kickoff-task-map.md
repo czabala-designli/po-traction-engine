@@ -4,7 +4,7 @@ kind: "tool"
 phase: "foundation"
 status: "live"
 summary: "The full 30/60/90 kickoff checklist — every dated task and blocker, ready to paste into Basecamp."
-order: 5
+order: 3
 ---
 
 The complete TractionLab kickoff checklist: every task and blocker across the 30-day sprint (Weeks 1–4) through the Day-30 (first user) and Day-90 (first dollar) milestones, with the critical Day-0 blockers called out. Use it as your daily reference — and paste it straight into Basecamp.

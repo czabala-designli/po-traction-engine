@@ -1,10 +1,11 @@
 ---
 title: "ICP / Persona Research"
 kind: "play"
-phase: "activation"
+phase: "foundation"
 status: "live"
 summary: "Define your ICP and where they gather — a researched community list with post drafts and UTM links."
-order: 1
+order: 2
+feeds: ["waitlist-landing-page"]
 ---
 
 Define who you're targeting and — critically — *where they gather*, so your Week-2 distribution has somewhere to aim. It produces a researched community list with post drafts and UTM links — the fuel for the community posts, blog, and outreach in the Traction Menu.

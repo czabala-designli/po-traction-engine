@@ -5,6 +5,7 @@ phase: "conversion"
 status: "coming-soon"
 summary: "A conversion-focused page for a product that already exists — drive account signups, not waitlist joins."
 order: 1
+needsNote: "a product to sign into"
 ---
 
 The next template in the library. It will cover the pattern for a landing page

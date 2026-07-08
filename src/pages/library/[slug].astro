@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import KindBadge from '../../components/KindBadge.astro';
+import AssetRelations from '../../components/AssetRelations.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('assets');
@@ -12,6 +13,14 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const { title, status, summary, previewUrl, kind } = entry.data;
+
+const all = await getCollection('assets');
+const titleOf = Object.fromEntries(all.map((a) => [a.id, a.data.title]));
+const needs = [
+  ...entry.data.needs.map((id) => ({ id, title: titleOf[id] })).filter((n) => n.title),
+  ...(entry.data.needsNote ? [{ note: entry.data.needsNote }] : []),
+];
+const feeds = entry.data.feeds.map((id) => ({ id, title: titleOf[id] })).filter((n) => n.title);
 ---
 <Layout title={`${title} — PO Traction Library`} description={summary}>
   <main class="wrap">
@@ -21,6 +30,7 @@ const { title, status, summary, previewUrl, kind } = entry.data;
       <div class="badges"><KindBadge kind={kind} /><StatusBadge status={status} /></div>
       <h1>{title}</h1>
       <p class="summary">{summary}</p>
+      <AssetRelations needs={needs} feeds={feeds} />
     </header>
 
     {previewUrl && (

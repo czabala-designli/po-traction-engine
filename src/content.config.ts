@@ -6,12 +6,15 @@ const assets = defineCollection({
   schema: z.object({
     title: z.string(),
     kind: z.enum(['template', 'play', 'tool']),
-    phase: z.enum(['foundation', 'activation', 'conversion', 'learning', 'hdd', 'marketing']),
+    phase: z.enum(['foundation', 'activation', 'conversion', 'hdd', 'marketing']),
     status: z.enum(['live', 'coming-soon']),
     summary: z.string(),
     previewUrl: z.string().optional(),
     starter: z.boolean().default(false),
     order: z.number().default(99),
+    needs: z.array(z.string()).default([]),
+    needsNote: z.string().optional(),
+    feeds: z.array(z.string()).default([]),
   }),
 });
 

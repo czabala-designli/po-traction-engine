@@ -5,6 +5,7 @@ phase: "foundation"
 status: "live"
 summary: "Draft a value proposition that leads with the outcome — the core message for the page and first email."
 order: 1
+feeds: ["waitlist-landing-page"]
 ---
 
 A clear value proposition answers three questions: who it's for, what problem it solves, and the specific outcome the user gets. It's the core message of your waitlist page and your first email — write it *before* you build the page.

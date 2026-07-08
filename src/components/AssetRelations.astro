@@ -1,0 +1,51 @@
+---
+// Renders the dependency-chain lines for an asset:
+//   Needs — prerequisites that must exist first (linked assets + a free-text note)
+//   Feeds — the assets this one enables
+// Each item is { id, title } (renders as a link to /library/{id}) or { note } (plain text).
+interface RelItem {
+  id?: string;
+  title?: string;
+  note?: string;
+}
+interface Props {
+  needs?: RelItem[];
+  feeds?: RelItem[];
+}
+const { needs = [], feeds = [] } = Astro.props;
+---
+{needs.length > 0 && (
+  <p class="rel">
+    <span class="rel-label rel-needs">Needs</span>
+    {needs.map((n, i) => (
+      <>
+        {i > 0 && ', '}
+        {n.id && n.title ? <a href={`/library/${n.id}`}>{n.title}</a> : <span>{n.note ?? n.title}</span>}
+      </>
+    ))}
+  </p>
+)}
+{feeds.length > 0 && (
+  <p class="rel">
+    <span class="rel-label rel-feeds">Feeds</span>
+    {feeds.map((n, i) => (
+      <>
+        {i > 0 && ', '}
+        <a href={`/library/${n.id}`}>{n.title}</a>
+      </>
+    ))}
+  </p>
+)}
+
+<style>
+  .rel { font-size: 12px; line-height: 1.75; color: var(--muted-blue); margin-top: 2px; }
+  .rel-label {
+    display: inline-block; margin-right: 7px; vertical-align: middle;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 6px; border-radius: 4px;
+  }
+  .rel-needs { color: var(--coral); background: rgba(248, 117, 101, 0.12); }
+  .rel-feeds { color: var(--purple-light, #A78BC4); background: rgba(88, 55, 123, 0.22); }
+  .rel a { color: var(--off-white); text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, 0.18); }
+  .rel a:hover { color: var(--coral); border-bottom-color: var(--coral); }
+</style>

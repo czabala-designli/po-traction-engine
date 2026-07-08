@@ -1,10 +1,10 @@
 ---
 title: "Monetization Strategy"
 kind: "play"
-phase: "hdd"
+phase: "foundation"
 status: "coming-soon"
-summary: "Document the pricing model early; activate it once the 30-day first-user mission is done."
-order: 2
+summary: "Open the pricing conversation with the client from day one — you don't need the full answer yet, just keep it warm and refine it as you learn."
+order: 4
 ---
 
 Document the pricing model, who pays for what outcome, an initial price hypothesis, and the trigger to activate — early, so no features get built that contradict the eventual model. Activate only after the Day-30 first-user milestone.

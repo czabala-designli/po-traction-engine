@@ -4,6 +4,17 @@
 **Owner:** Carlos Zabala (PO)
 **Status:** Approved for planning
 
+> **Amendment (2026-07-08, during execution):** The voice station changed from
+> Apple **Personal Voice** to a macOS **system voice** (`say`, default `Samantha`).
+> Reason: macOS blocks rendering a Personal Voice to a file
+> (`AVSpeechSynthesizer` buffer capture is disallowed for Personal Voices; they
+> may only play out loud). Decision: ship with a high-quality system voice now,
+> keep the voice as a swappable seam, and add a **local, MIT-licensed voice clone**
+> (e.g. OpenVoice v2 / F5-TTS, trained on the PO's exportable Personal Voice
+> recordings) as a future upgrade. All "Personal Voice" mentions below are
+> superseded by this note; the pipeline is otherwise unchanged (voice was always
+> designed as a swappable station).
+
 ---
 
 ## One-line summary
