@@ -9,22 +9,46 @@ const PHASES = [
   { slug: 'activation', label: 'Week 2 · Activation' },
   { slug: 'conversion', label: 'Week 3 · Conversion' },
   { slug: 'learning', label: 'Week 4 · Learning' },
-  { slug: 'hdd', label: 'Week 5+ · HDD Mode' },
-  { slug: 'marketing', label: 'Ongoing · Marketing (Traction Menu)' },
+  { slug: 'hdd', label: 'HDD Mode' },
+  { slug: 'marketing', label: 'Marketing (Traction Menu)' },
+];
+
+const BANDS = [
+  {
+    days: 'Days 1–30',
+    title: 'The 30-day sprint',
+    phases: ['foundation', 'activation', 'conversion', 'learning'],
+    milestone: 'Day 30 — First user (the 30-day guarantee)',
+  },
+  {
+    days: 'Days 31–90',
+    title: 'HDD + Growth',
+    phases: ['hdd', 'marketing'],
+    milestone: 'Day 90 — First dollar',
+  },
+];
+
+const DAY0 = [
+  'Founder-orbit users identified & personally committed — your guaranteed first users',
+  'Founder domain confirmed — unblocks PostHog email (needed day 1)',
+  'Apple Developer account / DUNS started, if mobile — takes days; start now',
+  'Dev & staging environments confirmed with the tech lead',
 ];
 
 const assets = await getCollection('assets');
 const projects = await getCollection('projects');
 const starter = assets.find((a) => a.data.starter);
+const labelOf = Object.fromEntries(PHASES.map((p) => [p.slug, p.label]));
 
-const phases = PHASES
-  .map((p) => ({
-    ...p,
-    items: assets
-      .filter((a) => a.data.phase === p.slug)
-      .sort((a, b) => a.data.order - b.data.order),
-  }))
-  .filter((p) => p.items.length > 0);
+const itemsIn = (slug: string) =>
+  assets.filter((a) => a.data.phase === slug).sort((a, b) => a.data.order - b.data.order);
+
+const bands = BANDS.map((b) => ({
+  ...b,
+  groups: b.phases
+    .map((slug) => ({ slug, label: labelOf[slug], items: itemsIn(slug) }))
+    .filter((g) => g.items.length > 0),
+})).filter((b) => b.groups.length > 0);
 
 const ctaFor = (kind: string) =>
   kind === 'template' ? 'View template →' : kind === 'tool' ? 'Open tool →' : 'View play →';
@@ -57,37 +81,58 @@ const ctaFor = (kind: string) =>
       )}
     </header>
 
-    {phases.map((p) => (
-      <section class="phase">
-        <h2 class="phase-title">{p.label}</h2>
-        <div class="grid">
-          {p.items.map((a) => (
-            a.data.status === 'live' ? (
-              <a class="card" href={`/library/${a.id}`}>
-                <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
-                <h3 class="card-title">{a.data.title}</h3>
-                <p class="card-summary">{a.data.summary}</p>
-                <span class="card-cta">{ctaFor(a.data.kind)}</span>
-              </a>
-            ) : (
-              <div class="card card-disabled">
-                <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
-                <h3 class="card-title">{a.data.title}</h3>
-                <p class="card-summary">{a.data.summary}</p>
-              </div>
-            )
-          ))}
+    <section class="day0">
+      <p class="day0-eyebrow">Day 0 · Before you start</p>
+      <p class="day0-lead">Lock these down from day zero — a slip on any of them blocks everything downstream.</p>
+      <ul class="day0-list">
+        {DAY0.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    {bands.map((band) => (
+      <section class="band">
+        <div class="band-head">
+          <span class="band-days">{band.days}</span>
+          <h2 class="band-title">{band.title}</h2>
         </div>
+
+        {band.groups.map((g) => (
+          <div class="subphase">
+            <h3 class="subphase-title">{g.label}</h3>
+            <div class="grid">
+              {g.items.map((a) => (
+                a.data.status === 'live' ? (
+                  <a class="card" href={`/library/${a.id}`}>
+                    <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
+                    <h4 class="card-title">{a.data.title}</h4>
+                    <p class="card-summary">{a.data.summary}</p>
+                    <span class="card-cta">{ctaFor(a.data.kind)}</span>
+                  </a>
+                ) : (
+                  <div class="card card-disabled">
+                    <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
+                    <h4 class="card-title">{a.data.title}</h4>
+                    <p class="card-summary">{a.data.summary}</p>
+                  </div>
+                )
+              ))}
+            </div>
+          </div>
+        ))}
+
+        {band.milestone && (
+          <p class="milestone"><span class="milestone-flag" aria-hidden="true">◆</span> {band.milestone}</p>
+        )}
       </section>
     ))}
 
-    <section class="phase">
-      <h2 class="phase-title">Projects</h2>
+    <section class="band">
+      <div class="band-head"><h2 class="band-title">Projects</h2></div>
       <div class="grid">
         {projects.map((p) => (
           <a class="card" href={`/projects/${p.id}`}>
             <StatusBadge status={p.data.status} />
-            <h3 class="card-title">{p.data.title}</h3>
+            <h4 class="card-title">{p.data.title}</h4>
             <p class="card-summary">{p.data.summary}</p>
             <span class="card-cta">View case study →</span>
           </a>
@@ -128,7 +173,7 @@ const ctaFor = (kind: string) =>
   .nav-title { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--off-white); }
 
   .page { max-width: 960px; margin: 0 auto; padding: 96px calc(var(--bar-w) + 24px) 40px 24px; }
-  .intro { margin-bottom: 56px; }
+  .intro { margin-bottom: 44px; }
   .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--coral); margin-bottom: 20px; }
   .headline { font-family: var(--serif); font-size: clamp(38px, 6vw, 68px); font-weight: 400; color: var(--white); line-height: 1.0; margin-bottom: 24px; }
   .subtitle { font-family: var(--serif); font-size: clamp(16px, 2vw, 20px); line-height: 1.65; color: var(--muted-blue); max-width: 640px; }
@@ -145,8 +190,35 @@ const ctaFor = (kind: string) =>
   .start-here strong { color: var(--coral); font-weight: 700; }
   .start-here-arrow { color: var(--coral); font-weight: 700; }
 
-  .phase { margin-bottom: 48px; }
-  .phase-title { font-family: var(--serif); font-size: clamp(20px, 2.6vw, 26px); font-weight: 400; color: var(--white); margin-bottom: 22px; border-top: 1px solid var(--navy-mid); padding-top: 24px; }
+  /* Day 0 — critical blockers */
+  .day0 {
+    margin-bottom: 48px; padding: 22px 24px;
+    border: 1px solid rgba(248, 117, 101, 0.35); border-left: 4px solid var(--coral);
+    border-radius: 10px; background: rgba(248, 117, 101, 0.06);
+  }
+  .day0-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); margin-bottom: 10px; }
+  .day0-lead { font-size: 14px; line-height: 1.6; color: var(--off-white); margin-bottom: 14px; }
+  .day0-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .day0-list li { position: relative; padding-left: 20px; font-size: 13.5px; line-height: 1.55; color: var(--off-white); }
+  .day0-list li::before { content: '▸'; position: absolute; left: 0; color: var(--coral); font-weight: 700; }
+
+  /* Milestone bands */
+  .band { margin-bottom: 40px; }
+  .band-head { border-top: 2px solid var(--coral); padding-top: 18px; margin-bottom: 28px; }
+  .band-days { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); }
+  .band-title { font-family: var(--serif); font-size: clamp(24px, 3.4vw, 34px); font-weight: 400; color: var(--white); line-height: 1.1; margin-top: 4px; }
+
+  .subphase { margin-bottom: 32px; }
+  .subphase-title { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted-blue); margin-bottom: 16px; }
+
+  .milestone {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 700; color: var(--coral);
+    background: rgba(248, 117, 101, 0.08);
+    border: 1px dashed rgba(248, 117, 101, 0.4);
+    border-radius: 8px; padding: 12px 16px; margin-top: 8px;
+  }
+  .milestone-flag { font-size: 11px; }
 
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   @media (max-width: 767px) { .grid { grid-template-columns: 1fr; } }
