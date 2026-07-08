@@ -30,26 +30,64 @@ if (hasMilestones) {
 }
 ---
 <div class="checklist">
-  <p class="progress">{doneCount} / {items.length} complete</p>
+  <div class="toolbar">
+    <p class="progress">{doneCount} / {items.length} complete</p>
+    {hasMilestones && (
+      <div class="toggles">
+        <button type="button" data-expand-all>Expand all</button>
+        <span class="tsep" aria-hidden="true">·</span>
+        <button type="button" data-collapse-all>Collapse all</button>
+      </div>
+    )}
+  </div>
   {groups.map((g) => (
-    <div class="mgroup">
-      {g.milestone && (
-        <p class="mlabel">{g.milestone} · {g.items.filter((i) => i.done).length}/{g.items.length}</p>
-      )}
-      <ul>
-        {g.items.map((item) => (
-          <li class:list={['item', { done: item.done }]}>
-            <span class="mark" aria-hidden="true">{item.done ? '✓' : '○'}</span>
-            <span class="text">
-              {item.label}
-              {item.note && <span class="note">{item.note}</span>}
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    g.milestone ? (
+      <details class="mgroup">
+        <summary class="mlabel">
+          <span class="caret" aria-hidden="true">▸</span>
+          <span>{g.milestone} · {g.items.filter((i) => i.done).length}/{g.items.length}</span>
+        </summary>
+        <ul>
+          {g.items.map((item) => (
+            <li class:list={['item', { done: item.done }]}>
+              <span class="mark" aria-hidden="true">{item.done ? '✓' : '○'}</span>
+              <span class="text">
+                {item.label}
+                {item.note && <span class="note">{item.note}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </details>
+    ) : (
+      <div class="mgroup">
+        <ul>
+          {g.items.map((item) => (
+            <li class:list={['item', { done: item.done }]}>
+              <span class="mark" aria-hidden="true">{item.done ? '✓' : '○'}</span>
+              <span class="text">
+                {item.label}
+                {item.note && <span class="note">{item.note}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
   ))}
 </div>
+
+<script>
+  document.querySelectorAll('.checklist').forEach((cl) => {
+    const groups = cl.querySelectorAll('details.mgroup');
+    cl.querySelector('[data-expand-all]')?.addEventListener('click', () =>
+      groups.forEach((d) => ((d as HTMLDetailsElement).open = true)),
+    );
+    cl.querySelector('[data-collapse-all]')?.addEventListener('click', () =>
+      groups.forEach((d) => ((d as HTMLDetailsElement).open = false)),
+    );
+  });
+</script>
 
 <style>
   .checklist {
@@ -58,17 +96,36 @@ if (hasMilestones) {
     border-radius: 10px;
     padding: 20px 22px;
   }
+  .toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+  }
   .progress {
     font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
-    text-transform: uppercase; color: var(--coral); margin-bottom: 14px;
+    text-transform: uppercase; color: var(--coral); margin: 0;
   }
+  .toggles { display: flex; align-items: center; gap: 8px; }
+  .toggles button {
+    background: none; border: none; padding: 0; cursor: pointer;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted-blue); transition: color 0.15s;
+  }
+  .toggles button:hover { color: var(--coral); }
+  .tsep { color: var(--navy-mid); font-size: 10px; }
+
   .mgroup + .mgroup { margin-top: 18px; }
   .mlabel {
+    display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;
     font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--off-white); margin: 0 0 12px; padding-top: 14px;
-    border-top: 1px solid var(--navy-mid);
+    color: var(--off-white); margin: 0; padding-top: 14px;
+    border-top: 1px solid var(--navy-mid); list-style: none;
   }
-  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .mlabel::-webkit-details-marker { display: none; }
+  .caret { display: inline-block; color: var(--muted-blue); font-size: 10px; transition: transform 0.15s; }
+  details[open] > .mlabel .caret { transform: rotate(90deg); }
+  details[open] > .mlabel { color: var(--coral); }
+
+  ul { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
   .item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: var(--off-white); }
   .mark { color: var(--muted-blue); font-weight: 700; line-height: 1.5; }
   .item.done .mark { color: var(--coral); }
