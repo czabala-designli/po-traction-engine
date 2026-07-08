@@ -81,6 +81,16 @@ const ctaFor = (kind: string) =>
       )}
     </header>
 
+    <a class="manifesto" href="https://hdd.designli.co/po-traction" target="_blank" rel="noopener">
+      <p class="manifesto-eyebrow">Start here · The why</p>
+      <h2 class="manifesto-title">PO as Traction Engine <span class="manifesto-ext" aria-hidden="true">↗</span></h2>
+      <p class="manifesto-body">
+        The manifesto behind this playbook — why getting a product's first users is now the PO's job,
+        the two tracks you'll run, and how HDD applies to distribution. Read this before you run a single play.
+      </p>
+      <span class="manifesto-cta">Read the manifesto ↗</span>
+    </a>
+
     <section class="day0">
       <p class="day0-eyebrow">Day 0 · Before you start</p>
       <p class="day0-lead">Lock these down from day zero — a slip on any of them blocks everything downstream.</p>
@@ -189,6 +199,21 @@ const ctaFor = (kind: string) =>
   .start-here:hover { background: rgba(248, 117, 101, 0.12); border-color: var(--coral); }
   .start-here strong { color: var(--coral); font-weight: 700; }
   .start-here-arrow { color: var(--coral); font-weight: 700; }
+
+  /* Manifesto — the "why" (external HDD companion) */
+  .manifesto {
+    display: block; margin-bottom: 48px; padding: 26px 28px;
+    background: var(--navy-card);
+    border: 1px solid rgba(88, 55, 123, 0.55); border-left: 4px solid var(--purple);
+    border-radius: 12px; text-decoration: none;
+    transition: border-color 0.18s, transform 0.18s, background 0.18s;
+  }
+  .manifesto:hover { border-color: var(--purple); background: rgba(88, 55, 123, 0.14); transform: translateY(-3px); }
+  .manifesto-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--purple-light, #A78BC4); margin-bottom: 10px; }
+  .manifesto-title { font-family: var(--serif); font-size: clamp(22px, 3vw, 30px); font-weight: 400; color: var(--white); line-height: 1.15; margin-bottom: 12px; }
+  .manifesto-ext { font-size: 0.6em; color: var(--purple-light, #A78BC4); vertical-align: super; }
+  .manifesto-body { font-size: 14px; line-height: 1.7; color: var(--muted-blue); max-width: 680px; margin-bottom: 16px; }
+  .manifesto-cta { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--purple-light, #A78BC4); }
 
   /* Day 0 — critical blockers */
   .day0 {
