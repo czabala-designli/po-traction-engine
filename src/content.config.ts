@@ -22,7 +22,7 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
-    status: z.enum(['active', 'complete']),
+    status: z.enum(['active', 'complete', 'template']),
     summary: z.string(),
     assetsUsed: z.array(z.string()).default([]),
     checklist: z

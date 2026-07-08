@@ -151,14 +151,23 @@ const ctaFor = (kind: string) =>
     <section class="band">
       <div class="band-head"><h2 class="band-title">Projects</h2></div>
       <div class="grid">
-        {projects.map((p) => (
-          <a class="card" href={`/projects/${p.id}`}>
-            <StatusBadge status={p.data.status} />
-            <h4 class="card-title">{p.data.title}</h4>
-            <p class="card-summary">{p.data.summary}</p>
-            <span class="card-cta">View case study →</span>
-          </a>
-        ))}
+        {projects
+          .slice()
+          .sort((a, b) => Number(a.data.status === 'template') - Number(b.data.status === 'template'))
+          .map((p) => {
+            const done = p.data.checklist.filter((i) => i.done).length;
+            const total = p.data.checklist.length;
+            const isTemplate = p.data.status === 'template';
+            return (
+              <a class:list={['card', { 'card-template': isTemplate }]} href={`/projects/${p.id}`}>
+                <StatusBadge status={p.data.status} />
+                <h4 class="card-title">{p.data.title}</h4>
+                <p class="card-summary">{p.data.summary}</p>
+                {total > 0 && <p class="proj-progress">{done} / {total} complete</p>}
+                <span class="card-cta">{isTemplate ? 'See the starting checklist →' : 'View case study →'}</span>
+              </a>
+            );
+          })}
       </div>
     </section>
   </main>
@@ -272,6 +281,9 @@ const ctaFor = (kind: string) =>
   .card-title { font-family: var(--serif); font-size: 19px; font-weight: 400; color: var(--white); line-height: 1.25; margin-top: 4px; }
   .card-summary { font-size: 13px; line-height: 1.7; color: var(--muted-blue); }
   .card-cta { font-size: 12px; font-weight: 700; letter-spacing: 0.05em; color: var(--coral); margin-top: auto; padding-top: 10px; }
+  .proj-progress { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); margin-top: 4px; }
+  .card-template { border-style: dashed; border-color: rgba(139, 143, 191, 0.4); }
+  a.card-template:hover { border-color: var(--muted-blue); }
 
   .site-footer {
     max-width: 960px; margin: 0 auto;
