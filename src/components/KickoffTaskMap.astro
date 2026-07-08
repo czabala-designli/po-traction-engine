@@ -1,0 +1,359 @@
+---
+// Interactive Kickoff Task Map — ported from the React JSX to static Astro + vanilla JS.
+// Enter a kickoff date; every task auto-dates (skipping Sat/Sun), with check-off,
+// a timeline, and copy-to-Basecamp. Progress persists in localStorage per project.
+const WEEKS = [
+  {
+    id: 'w1', title: 'Week 1 — Foundation', priority: 'Priority 1', range: [1, 7],
+    groups: [
+      { name: 'Day 1 blockers', tasks: [
+        { id: 'w1-1', label: 'Founder orbit users identified & commitment obtained', day: 1, critical: true },
+        { id: 'w1-2', label: 'Founder domain name confirmed', day: 1, critical: true },
+        { id: 'w1-3', label: 'Apple Developer account process started', day: 1, critical: true, mobileOnly: true },
+        { id: 'w1-3a', label: 'DUNS number requested (required for Apple Developer account)', day: 1, critical: true, mobileOnly: true },
+        { id: 'w1-3b', label: 'Google Play Console account process started', day: 1, critical: true, mobileOnly: true },
+        { id: 'w1-4', label: 'Dev & staging environments confirmed with tech lead', day: 1 },
+        { id: 'w1-4a', label: "Repo created under client's own GitHub org (enables code transfer anytime)", day: 1 },
+      ] },
+      { name: 'PostHog', tasks: [
+        { id: 'w1-5', label: 'PostHog account created & project configured', day: 1 },
+        { id: 'w1-6', label: 'Internal cohort created (PO, Dev, TL)', day: 1 },
+        { id: 'w1-7', label: 'Customer cohort created (founder & stakeholders)', day: 1 },
+        { id: 'w1-8', label: 'Dynamic cohort configured for all other signups', day: 2 },
+        { id: 'w1-9', label: 'PostHog email channels configured', day: 2 },
+      ] },
+      { name: 'Landing page & emails', tasks: [
+        { id: 'w1-10', label: 'Value proposition written & approved', day: 2 },
+        { id: 'w1-11', label: 'Waitlist landing page live', day: 4 },
+        { id: 'w1-12', label: 'PostHog tracking connected to landing page', day: 4 },
+        { id: 'w1-13', label: 'Feedback widget integrated, routing to GitHub Issues', day: 4 },
+        { id: 'w1-14', label: 'Slack notification for new feedback configured', day: 4 },
+        { id: 'w1-15', label: '3 waitlist emails drafted & configured in PostHog', day: 5 },
+      ] },
+      { name: 'Strategy', tasks: [{ id: 'w1-16', label: 'Monetization strategy documented', day: 7 }] },
+    ],
+  },
+  {
+    id: 'w2', title: 'Week 2 — Activation', priority: 'Priority 2', range: [8, 14],
+    groups: [
+      { name: 'Users', tasks: [
+        { id: 'w2-7', label: 'Personal outreach completed for founder orbit users', day: 8 },
+        { id: 'w2-8', label: 'Drip campaign running for all waitlist signups', day: 8 },
+      ] },
+      { name: 'Launch', tasks: [{ id: 'w2-9', label: 'Product live or webapp safety net deployed', day: 9, critical: true }] },
+      { name: 'Brand', tasks: [
+        { id: 'w2-1', label: 'Primary social channel claimed with brand handle', day: 8 },
+        { id: 'w2-2', label: 'Profile complete: logo, banner, bio, waitlist link', day: 9 },
+        { id: 'w2-3', label: 'First post published', day: 9 },
+      ] },
+      { name: 'PostHog', tasks: [
+        { id: 'w2-4', label: 'All PostHog events verified against internal cohort', day: 10 },
+        { id: 'w2-5', label: 'PostHog funnel configured with minimum event set', day: 11 },
+      ] },
+      { name: 'Marketing', tasks: [{ id: 'w2-6', label: 'Target persona one-pager complete', day: 12 }] },
+    ],
+  },
+  {
+    id: 'w3', title: 'Week 3 — Conversion', priority: 'Priority 3', range: [15, 21],
+    groups: [
+      { name: 'Launch', tasks: [
+        { id: 'w3-4', label: 'Landing page converted from waitlist to signup', day: 18 },
+        { id: 'w3-5', label: 'Onboarding drip sequence active', day: 19 },
+      ] },
+    ],
+  },
+  {
+    id: 'w4', title: 'Week 4 — Learning', priority: 'Priority 4', range: [22, 28],
+    groups: [
+      { name: 'Users', tasks: [
+        { id: 'w4-1', label: 'First user interviews completed', day: 24 },
+        { id: 'w4-2', label: 'Interview findings documented & summarized', day: 25 },
+      ] },
+      { name: 'PostHog', tasks: [{ id: 'w4-3', label: 'PostHog funnel reviewed, drop-offs identified', day: 25 }] },
+      { name: 'HDD', tasks: [
+        { id: 'w4-4', label: 'First HDD experiment proposed & configured in PostHog', day: 27 },
+        { id: 'w4-5', label: 'Week 5 client meeting agenda built around results', day: 28 },
+      ] },
+      { name: 'Monetization', tasks: [{ id: 'w4-6', label: 'Monetization features scoped & prioritized', day: 28 }] },
+    ],
+  },
+];
+
+const MILESTONES = [
+  { day: 30, label: 'First user — 30-day guarantee met' },
+  { day: 90, label: 'First dollar of revenue' },
+];
+---
+
+<div class="ktm" data-ktm>
+  <p class="ktm-instruction">
+    Enter a kickoff date and this generates the full dated task map — every task auto-dated
+    (skipping weekends), through the Day 30 and Day 90 milestones, ready to paste into Basecamp.
+    Progress saves per project on this device.
+  </p>
+
+  <div class="ktm-input">
+    <div class="ktm-fields">
+      <div class="ktm-field">
+        <label for="ktm-date">Kickoff date</label>
+        <input type="date" id="ktm-date" data-ktm-date />
+      </div>
+      <div class="ktm-field">
+        <label for="ktm-name">Project name</label>
+        <input type="text" id="ktm-name" placeholder="e.g. Volleyball / Blocq" data-ktm-name />
+      </div>
+      <button type="button" class="ktm-generate" data-ktm-generate>Generate map</button>
+    </div>
+    <label class="ktm-mobile">
+      <input type="checkbox" data-ktm-mobile />
+      This project includes a mobile app (adds Apple & Google Developer account tasks)
+    </label>
+  </div>
+
+  <p class="ktm-empty" data-ktm-empty>Enter a kickoff date above to generate the map.</p>
+  <div class="ktm-output" data-ktm-output hidden></div>
+</div>
+
+<script define:vars={{ WEEKS, MILESTONES }}>
+  const wrap = document.querySelector('[data-ktm]');
+  const dateInput = wrap.querySelector('[data-ktm-date]');
+  const nameInput = wrap.querySelector('[data-ktm-name]');
+  const mobileToggle = wrap.querySelector('[data-ktm-mobile]');
+  const genBtn = wrap.querySelector('[data-ktm-generate]');
+  const output = wrap.querySelector('[data-ktm-output]');
+  const empty = wrap.querySelector('[data-ktm-empty]');
+
+  const TOTAL_DAYS = 96;
+  let checked = {};
+
+  function addBiz(baseISO, dayNum) {
+    const d = new Date(baseISO + 'T00:00:00');
+    let count = 1;
+    while (count < dayNum) {
+      d.setDate(d.getDate() + 1);
+      const w = d.getDay();
+      if (w !== 0 && w !== 6) count++;
+    }
+    return d;
+  }
+  function fmt(d) {
+    return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  }
+  function storageKey() {
+    const n = nameInput.value.trim().toLowerCase();
+    return n ? `tractionlab-map:${n}` : null;
+  }
+  function visibleTasks() {
+    const isMobile = mobileToggle.checked;
+    const list = [];
+    WEEKS.forEach((w) => w.groups.forEach((g) => g.tasks.forEach((t) => {
+      if (t.mobileOnly && !isMobile) return;
+      list.push(t);
+    })));
+    return list;
+  }
+  function persist() {
+    const k = storageKey();
+    if (!k) return;
+    try {
+      localStorage.setItem(k, JSON.stringify({ kickoff: dateInput.value, isMobile: mobileToggle.checked, checked }));
+    } catch (e) {}
+  }
+  function loadSaved() {
+    const k = storageKey();
+    if (!k) return false;
+    try {
+      const raw = localStorage.getItem(k);
+      if (!raw) return false;
+      const data = JSON.parse(raw);
+      if (data.kickoff) dateInput.value = data.kickoff;
+      if (typeof data.isMobile === 'boolean') mobileToggle.checked = data.isMobile;
+      checked = data.checked || {};
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  function updateProgress() {
+    const tasks = visibleTasks();
+    const done = tasks.filter((t) => checked[t.id]).length;
+    const pct = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
+    const el = output.querySelector('[data-ktm-progress]');
+    if (el) el.textContent = `${done} of ${tasks.length} tasks checked (${pct}%)`;
+  }
+  function copyBasecamp() {
+    const kickoff = dateInput.value;
+    const isMobile = mobileToggle.checked;
+    const lines = [`${nameInput.value || 'TractionLab'} — Kickoff Task Map`, `Kickoff: ${kickoff}`, ''];
+    WEEKS.forEach((w) => {
+      lines.push(`${w.title.toUpperCase()} (${w.priority})`);
+      w.groups.forEach((g) => g.tasks.forEach((t) => {
+        if (t.mobileOnly && !isMobile) return;
+        lines.push(`[ ] ${fmt(addBiz(kickoff, t.day))} — ${t.label}${t.critical ? '  (CRITICAL)' : ''}`);
+      }));
+      lines.push('');
+    });
+    lines.push('MILESTONES');
+    MILESTONES.forEach((m) => lines.push(`* ${fmt(addBiz(kickoff, m.day))} — ${m.label}`));
+    const btn = output.querySelector('[data-ktm-copy]');
+    navigator.clipboard.writeText(lines.join('\n')).then(() => {
+      if (btn) { btn.textContent = 'Copied!'; setTimeout(() => (btn.textContent = 'Copy as Basecamp list'), 2000); }
+    }).catch(() => {});
+  }
+  function render() {
+    const kickoff = dateInput.value;
+    if (!kickoff) return;
+    const isMobile = mobileToggle.checked;
+    const milestones = MILESTONES.map((m) => ({ ...m, date: addBiz(kickoff, m.day) }));
+    let h = '';
+
+    h += '<div class="ktm-miles">';
+    milestones.forEach((m) => {
+      h += `<div class="ktm-mile"><p class="ktm-mile-day">Day ${m.day}</p><p class="ktm-mile-date">${fmt(m.date)}</p><p class="ktm-mile-label">${esc(m.label)}</p></div>`;
+    });
+    h += '</div>';
+
+    h += '<div class="ktm-timeline"><p class="ktm-eyebrow">Engagement timeline</p><div class="ktm-track">';
+    WEEKS.forEach((w, i) => {
+      const left = ((w.range[0] - 1) / (TOTAL_DAYS - 1)) * 100;
+      const width = ((w.range[1] - w.range[0] + 1) / (TOTAL_DAYS - 1)) * 100;
+      h += `<span class="ktm-seg${i % 2 ? ' ktm-seg-alt' : ''}" style="left:${left}%;width:${width}%" title="${esc(w.title)}"></span>`;
+    });
+    const hddLeft = ((29 - 1) / (TOTAL_DAYS - 1)) * 100;
+    const hddW = ((TOTAL_DAYS - 29) / (TOTAL_DAYS - 1)) * 100;
+    h += `<span class="ktm-seg-hdd" style="left:${hddLeft}%;width:${hddW}%" title="Week 5 onward — HDD Mode"></span>`;
+    milestones.forEach((m) => {
+      const l = ((m.day - 1) / (TOTAL_DAYS - 1)) * 100;
+      h += `<span class="ktm-flag" style="left:${l}%" title="Day ${m.day}">◆</span>`;
+    });
+    h += `</div><div class="ktm-track-labels"><span>${fmt(addBiz(kickoff, 1))}</span><span>${fmt(addBiz(kickoff, TOTAL_DAYS))}</span></div></div>`;
+
+    const tasks = visibleTasks();
+    const done = tasks.filter((t) => checked[t.id]).length;
+    const pct = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
+    h += `<div class="ktm-progressbar"><p class="ktm-progress" data-ktm-progress>${done} of ${tasks.length} tasks checked (${pct}%)</p><button type="button" class="ktm-copy" data-ktm-copy>Copy as Basecamp list</button></div>`;
+
+    WEEKS.forEach((w, wi) => {
+      h += `<details class="ktm-week"${wi === 0 ? ' open' : ''}>`;
+      h += `<summary class="ktm-week-head"><span class="ktm-caret" aria-hidden="true">▸</span><span class="ktm-week-title">${esc(w.title)}</span><span class="ktm-week-meta">${esc(w.priority)} · ${fmt(addBiz(kickoff, w.range[0]))} – ${fmt(addBiz(kickoff, w.range[1]))}</span></summary>`;
+      h += '<div class="ktm-week-body">';
+      w.groups.forEach((g) => {
+        const gtasks = g.tasks.filter((t) => !(t.mobileOnly && !isMobile));
+        if (!gtasks.length) return;
+        h += `<p class="ktm-group">${esc(g.name)}</p>`;
+        gtasks.forEach((t) => {
+          const on = !!checked[t.id];
+          h += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}">`;
+          h += `<span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span>`;
+          h += `<span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-date">${fmt(addBiz(kickoff, t.day))}</span></span>`;
+          if (t.critical) h += '<span class="ktm-critical">Critical</span>';
+          h += '</div>';
+        });
+      });
+      h += '</div></details>';
+    });
+
+    h += '<div class="ktm-hdd"><strong>Week 5 onward — HDD Mode:</strong> every change becomes a hypothesis with a PostHog experiment set up before it ships. Weekly client meetings report hypothesis → metric before → metric after → conclusion → next experiment, through Day 90.</div>';
+
+    output.innerHTML = h;
+    output.hidden = false;
+    empty.hidden = true;
+
+    output.querySelectorAll('[data-ktm-task]').forEach((el) => {
+      const id = el.getAttribute('data-ktm-task');
+      const toggle = () => {
+        checked[id] = !checked[id];
+        el.classList.toggle('on', checked[id]);
+        el.setAttribute('aria-pressed', String(!!checked[id]));
+        el.querySelector('.ktm-box').textContent = checked[id] ? '✓' : '';
+        updateProgress();
+        persist();
+      };
+      el.addEventListener('click', toggle);
+      el.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); }
+      });
+    });
+    output.querySelector('[data-ktm-copy]').addEventListener('click', copyBasecamp);
+  }
+
+  genBtn.addEventListener('click', () => { if (dateInput.value) { render(); persist(); } });
+  dateInput.addEventListener('input', () => { genBtn.disabled = !dateInput.value; if (!output.hidden) render(); });
+  nameInput.addEventListener('change', () => {
+    if (loadSaved()) { genBtn.disabled = !dateInput.value; if (dateInput.value) render(); }
+  });
+  mobileToggle.addEventListener('change', () => { if (!output.hidden) render(); persist(); });
+
+  genBtn.disabled = !dateInput.value;
+</script>
+
+<style is:global>
+  .ktm { margin: 8px 0 8px; }
+  .ktm-instruction { font-size: 14.5px; line-height: 1.7; color: var(--muted-blue); max-width: 620px; margin: 0 0 22px; }
+
+  .ktm-input { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 20px 22px; margin-bottom: 28px; }
+  .ktm-fields { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end; }
+  .ktm-field { flex: 1 1 180px; }
+  .ktm-field label { display: block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); margin-bottom: 6px; }
+  .ktm-field input { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--navy-mid); background: var(--navy); color: var(--off-white); font-size: 14px; font-family: inherit; color-scheme: dark; }
+  .ktm-field input:focus { outline: none; border-color: var(--coral); }
+  .ktm-generate { padding: 11px 20px; border-radius: 8px; border: none; background: var(--coral); color: var(--white); font-weight: 700; font-size: 13px; cursor: pointer; font-family: inherit; }
+  .ktm-generate:disabled { background: var(--navy-mid); color: var(--muted-blue); cursor: not-allowed; }
+  .ktm-mobile { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 13px; color: var(--muted-blue); cursor: pointer; }
+  .ktm-mobile input { accent-color: var(--coral); }
+
+  .ktm-empty { font-size: 13px; color: var(--muted-blue); text-align: center; padding: 24px 0; }
+
+  .ktm-miles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .ktm-mile { position: relative; background: var(--navy-card); border: 1px solid var(--navy-mid); border-left: 3px solid var(--coral); border-radius: 12px; padding: 16px 18px; }
+  .ktm-mile-day { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); margin: 0 0 6px; }
+  .ktm-mile-date { font-family: var(--serif); font-size: 22px; color: var(--coral); margin: 0 0 4px; }
+  .ktm-mile-label { font-size: 12.5px; color: var(--off-white); margin: 0; }
+
+  .ktm-timeline { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 20px 22px 24px; margin-bottom: 24px; }
+  .ktm-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); margin: 0 0 20px; }
+  .ktm-track { position: relative; height: 22px; }
+  .ktm-track::before { content: ''; position: absolute; top: 6px; left: 0; right: 0; height: 10px; background: rgba(255,255,255,0.06); border-radius: 6px; }
+  .ktm-seg { position: absolute; top: 6px; height: 10px; background: var(--coral); border-radius: 6px; }
+  .ktm-seg-alt { background: #9B72CC; }
+  .ktm-seg-hdd { position: absolute; top: 6px; height: 10px; border-radius: 6px; border: 1.5px dashed rgba(255,255,255,0.35); box-sizing: border-box; }
+  .ktm-flag { position: absolute; top: -8px; transform: translateX(-50%); color: var(--coral); font-size: 12px; }
+  .ktm-track-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 10.5px; color: var(--muted-blue); }
+
+  .ktm-progressbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .ktm-progress { font-size: 13px; color: var(--muted-blue); margin: 0; }
+  .ktm-copy { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--navy-mid); background: transparent; color: var(--off-white); font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+  .ktm-copy:hover { border-color: var(--coral); color: var(--coral); }
+
+  .ktm-week { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .ktm-week-head { display: flex; align-items: center; gap: 10px; padding: 14px 18px; cursor: pointer; list-style: none; user-select: none; flex-wrap: wrap; }
+  .ktm-week-head::-webkit-details-marker { display: none; }
+  .ktm-caret { display: inline-block; color: var(--muted-blue); font-size: 11px; transition: transform 0.15s; }
+  .ktm-week[open] .ktm-caret { transform: rotate(90deg); }
+  .ktm-week-title { font-family: var(--serif); font-size: 17px; color: var(--white); }
+  .ktm-week-meta { margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--purple-light, #A78BC4); background: rgba(88,55,123,0.25); padding: 3px 10px; border-radius: 6px; }
+  .ktm-week-body { padding: 0 18px 16px; }
+  .ktm-group { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-blue); margin: 14px 0 8px; }
+
+  .ktm-task { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); cursor: pointer; }
+  .ktm-task:last-child { border-bottom: none; }
+  .ktm-task:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; border-radius: 4px; }
+  .ktm-box { margin-top: 1px; width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--navy-mid); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; font-weight: 700; color: var(--white); line-height: 1; }
+  .ktm-task.on .ktm-box { background: var(--coral); border-color: var(--coral); }
+  .ktm-task-text { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .ktm-task-label { font-size: 13.5px; line-height: 1.45; color: var(--off-white); }
+  .ktm-task.on .ktm-task-label { color: var(--muted-blue); text-decoration: line-through; }
+  .ktm-task-date { font-size: 11.5px; color: var(--muted-blue); }
+  .ktm-critical { display: inline-flex; align-items: center; height: fit-content; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--coral); border: 1px solid var(--coral); border-radius: 6px; padding: 2px 6px; white-space: nowrap; }
+
+  .ktm-hdd { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 16px 18px; margin-top: 8px; font-size: 13px; line-height: 1.6; color: var(--off-white); }
+  .ktm-hdd strong { color: var(--coral); }
+
+  @media (max-width: 560px) {
+    .ktm-miles { grid-template-columns: 1fr; }
+    .ktm-week-meta { margin-left: 0; }
+  }
+</style>
