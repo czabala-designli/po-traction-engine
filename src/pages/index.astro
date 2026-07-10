@@ -18,14 +18,23 @@ const BANDS = [
     days: 'Days 1–30',
     title: 'The 30-day sprint',
     phases: ['foundation', 'activation', 'conversion'],
-    milestone: 'Day 30 — First user (the 30-day guarantee)',
+    dayRange: [1, 30],
   },
   {
     days: 'Days 31–90',
     title: 'HDD + Growth',
     phases: ['hdd', 'marketing'],
-    milestone: 'Day 90 — First dollar',
+    dayRange: [31, 90],
   },
+];
+
+// The four commitment dates that anchor the 90-day engagement. Coral = hard guarantee,
+// purple = promise / finish line. Shared by the overview section and the band milestones.
+const COMMITMENTS = [
+  { day: 14, label: 'Refund window closes', hint: 'Full refund, no questions. We show real progress on Basecamp first.', tag: 'guarantee', critical: true },
+  { day: 30, label: 'First user', hint: 'A real human using the product (inner-circle counts).', tag: 'guarantee', critical: true },
+  { day: 60, label: 'App ready for store submission', hint: 'Also the last day to give 30-day notice and still wind down by Day 90.', tag: 'last day to give notice', critical: false },
+  { day: 90, label: 'First dollar of revenue', hint: 'End of the 90-day engagement. Renewals carry the next mission.', tag: 'engagement ends', critical: false },
 ];
 
 const DAY0 = [
@@ -54,6 +63,7 @@ const itemsIn = (slug: string) =>
 
 const bands = BANDS.map((b) => ({
   ...b,
+  milestones: COMMITMENTS.filter((c) => c.day >= b.dayRange[0] && c.day <= b.dayRange[1]),
   groups: b.phases
     .map((slug) => ({ slug, label: labelOf[slug], items: itemsIn(slug) }))
     .filter((g) => g.items.length > 0),
@@ -109,6 +119,24 @@ const ctaFor = (kind: string) =>
       </ul>
     </section>
 
+    <section class="commitments">
+      <p class="commitments-eyebrow">What you're driving toward</p>
+      <p class="commitments-lead">
+        Four dates anchor the 90-day engagement. Two are hard guarantees (coral); the other
+        two are the standing promise and the finish line.
+      </p>
+      <div class="commitments-grid">
+        {COMMITMENTS.map((c) => (
+          <div class:list={['commit-card', { 'commit-note': !c.critical }]}>
+            <p class="commit-day">Day {c.day}</p>
+            <p class="commit-label">{c.label}</p>
+            <p class="commit-hint">{c.hint}</p>
+            <span class:list={['commit-tag', c.critical ? 'is-guarantee' : 'is-note']}>{c.tag}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
     {bands.map((band) => (
       <section class="band">
         <div class="band-head">
@@ -142,8 +170,15 @@ const ctaFor = (kind: string) =>
           </div>
         ))}
 
-        {band.milestone && (
-          <p class="milestone"><span class="milestone-flag" aria-hidden="true">◆</span> {band.milestone}</p>
+        {band.milestones.length > 0 && (
+          <div class="milestones">
+            {band.milestones.map((m) => (
+              <p class:list={['milestone', { 'milestone-note': !m.critical }]}>
+                <span class="milestone-flag" aria-hidden="true">◆</span>
+                <span><strong>Day {m.day} — {m.label}</strong> · {m.hint}</span>
+              </p>
+            ))}
+          </div>
         )}
       </section>
     ))}
@@ -257,14 +292,42 @@ const ctaFor = (kind: string) =>
   .subphase { margin-bottom: 32px; }
   .subphase-title { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted-blue); margin-bottom: 16px; }
 
+  .milestones { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
   .milestone {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 13px; font-weight: 700; color: var(--coral);
+    display: flex; align-items: baseline; gap: 10px;
+    font-size: 13px; font-weight: 400; color: var(--coral);
     background: rgba(248, 117, 101, 0.08);
     border: 1px dashed rgba(248, 117, 101, 0.4);
-    border-radius: 8px; padding: 12px 16px; margin-top: 8px;
+    border-radius: 8px; padding: 12px 16px;
   }
+  .milestone strong { font-weight: 700; }
   .milestone-flag { font-size: 11px; }
+  /* Day 60 / 90 markers — promise & finish line, purple to sit below the coral guarantees. */
+  .milestone-note {
+    color: var(--purple-light, #A78BC4);
+    background: rgba(88, 55, 123, 0.12);
+    border-color: rgba(88, 55, 123, 0.45);
+  }
+
+  /* Commitment-dates overview — mirrors the Task Map Generator's guarantee cards. */
+  .commitments { margin-bottom: 48px; }
+  .commitments-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); margin-bottom: 10px; }
+  .commitments-lead { font-size: 14px; line-height: 1.6; color: var(--muted-blue); margin-bottom: 18px; max-width: 640px; }
+  .commitments-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .commit-card {
+    display: flex; flex-direction: column; gap: 6px;
+    background: var(--navy-card); border: 1px solid var(--navy-mid);
+    border-left: 3px solid var(--coral); border-radius: 10px; padding: 16px 16px 18px;
+  }
+  .commit-card.commit-note { border-left-color: var(--purple); }
+  .commit-day { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); }
+  .commit-label { font-family: var(--serif); font-size: 16px; color: var(--white); line-height: 1.2; }
+  .commit-hint { font-size: 12px; line-height: 1.55; color: var(--muted-blue); }
+  .commit-tag { display: inline-block; align-self: flex-start; margin-top: 4px; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 6px; padding: 2px 7px; border: 1px solid transparent; }
+  .commit-tag.is-guarantee { color: var(--white); background: var(--coral); border-color: var(--coral); }
+  .commit-tag.is-note { color: var(--purple-light, #A78BC4); background: rgba(88, 55, 123, 0.25); border-color: rgba(88, 55, 123, 0.6); }
+  @media (max-width: 900px) { .commitments-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .commitments-grid { grid-template-columns: 1fr; } }
 
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   @media (max-width: 767px) { .grid { grid-template-columns: 1fr; } }
