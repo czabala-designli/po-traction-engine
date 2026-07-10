@@ -4,7 +4,7 @@ kind: "tool"
 phase: "foundation"
 status: "live"
 summary: "The full 90-day task map — every dated task, blocker, and guarantee, ready to paste into Slack or Basecamp."
-order: 3
+order: 1
 ---
 
 The interactive generator above builds the complete TractionLab task map for your project: enter a kickoff date and every task and blocker across the 30-day sprint (Weeks 1–4) auto-dates through the Day-30 (first user) and Day-90 (first dollar) guarantees, with the critical blockers flagged. Check tasks off as you go — progress saves per project on this device — and copy the whole thing into a Slack Canvas or Basecamp.

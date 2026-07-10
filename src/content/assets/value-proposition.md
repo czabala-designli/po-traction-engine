@@ -4,7 +4,7 @@ kind: "play"
 phase: "foundation"
 status: "live"
 summary: "Draft a value proposition that leads with the outcome — the core message for the page and first email."
-order: 1
+order: 2
 feeds: ["waitlist-landing-page"]
 ---
 

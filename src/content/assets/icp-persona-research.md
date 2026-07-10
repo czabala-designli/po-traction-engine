@@ -4,7 +4,7 @@ kind: "play"
 phase: "foundation"
 status: "live"
 summary: "Define your ICP and where they gather — a researched community list with post drafts and UTM links."
-order: 2
+order: 3
 feeds: ["waitlist-landing-page"]
 ---
 
