@@ -11,4 +11,4 @@ The interactive map above generates the complete TractionLab kickoff checklist f
 
 ## Prefer it offline?
 
-<a href="/starters/tractionlab-kickoff-checklist.md" download="tractionlab-kickoff-checklist.md"><strong>Download the 30/60/90 checklist</strong></a> (or <a href="/starters/tractionlab-kickoff-checklist.md" target="_blank" rel="noopener">view it raw</a> in a new tab). It's the same tasks as a plain Markdown file — dated by business-day offset from kickoff, with `[CRITICAL]` and `[MOBILE ONLY]` markers — for pasting straight into Basecamp without opening the tool.
+<a href="/starters/tractionlab-kickoff-checklist.md" download="tractionlab-kickoff-checklist.md"><strong>Download the 30/60/90 checklist</strong></a> (or <a href="/starters/tractionlab-kickoff-checklist.md" target="_blank" rel="noopener">view it raw</a> in a new tab). It's the same tasks as a plain Markdown file — dated by calendar-day offset from kickoff, with `[CRITICAL]` and `[MOBILE ONLY]` markers — for pasting straight into Basecamp without opening the tool.

@@ -1,7 +1,8 @@
 ---
 // Interactive Kickoff Task Map — ported from the React JSX to static Astro + vanilla JS.
-// Enter a kickoff date; every task auto-dates (skipping Sat/Sun), with check-off,
-// a timeline, and copy-to-Basecamp. Progress persists in localStorage per project.
+// Enter a kickoff date; every task auto-dates on calendar days (Day 1 = kickoff), with
+// check-off, a timeline, and copy-to-Basecamp. Progress persists in localStorage per project.
+// Guarantees are calendar days: Day 30 = kickoff + 30 calendar days, Day 90 = kickoff + 90.
 const WEEKS = [
   {
     id: 'w1', title: 'Week 1 — Foundation', priority: 'Priority 1', range: [1, 7],
@@ -88,8 +89,8 @@ const MILESTONES = [
 <div class="ktm" data-ktm>
   <p class="ktm-instruction">
     Enter a kickoff date and this generates the full dated task map — every task auto-dated
-    (skipping weekends), through the Day 30 and Day 90 milestones, ready to paste into Basecamp.
-    Progress saves per project on this device.
+    on calendar days (Day 1 = kickoff), through the Day 30 and Day 90 guarantee milestones,
+    ready to paste into Basecamp. Progress saves per project on this device.
   </p>
 
   <div class="ktm-input">
@@ -126,15 +127,18 @@ const MILESTONES = [
   const TOTAL_DAYS = 96;
   let checked = {};
 
-  function addBiz(baseISO, dayNum) {
+  // Calendar-day offset from kickoff. Guarantees are calendar days, so no weekend skipping.
+  // Tasks use taskDate() (Day 1 = kickoff); guarantee milestones use mileDate() (kickoff + N).
+  function addDays(baseISO, n) {
     const d = new Date(baseISO + 'T00:00:00');
-    let count = 1;
-    while (count < dayNum) {
-      d.setDate(d.getDate() + 1);
-      const w = d.getDay();
-      if (w !== 0 && w !== 6) count++;
-    }
+    d.setDate(d.getDate() + n);
     return d;
+  }
+  function taskDate(baseISO, dayNum) {
+    return addDays(baseISO, dayNum - 1);
+  }
+  function mileDate(baseISO, dayNum) {
+    return addDays(baseISO, dayNum);
   }
   function fmt(d) {
     return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
@@ -192,12 +196,12 @@ const MILESTONES = [
       lines.push(`${w.title.toUpperCase()} (${w.priority})`);
       w.groups.forEach((g) => g.tasks.forEach((t) => {
         if (t.mobileOnly && !isMobile) return;
-        lines.push(`[ ] ${fmt(addBiz(kickoff, t.day))} — ${t.label}${t.critical ? '  (CRITICAL)' : ''}`);
+        lines.push(`[ ] ${fmt(taskDate(kickoff, t.day))} — ${t.label}${t.critical ? '  (CRITICAL)' : ''}`);
       }));
       lines.push('');
     });
     lines.push('MILESTONES');
-    MILESTONES.forEach((m) => lines.push(`* ${fmt(addBiz(kickoff, m.day))} — ${m.label}`));
+    MILESTONES.forEach((m) => lines.push(`* ${fmt(mileDate(kickoff, m.day))} — ${m.label}`));
     const btn = output.querySelector('[data-ktm-copy]');
     navigator.clipboard.writeText(lines.join('\n')).then(() => {
       if (btn) { btn.textContent = 'Copied!'; setTimeout(() => (btn.textContent = 'Copy as Basecamp list'), 2000); }
@@ -207,7 +211,7 @@ const MILESTONES = [
     const kickoff = dateInput.value;
     if (!kickoff) return;
     const isMobile = mobileToggle.checked;
-    const milestones = MILESTONES.map((m) => ({ ...m, date: addBiz(kickoff, m.day) }));
+    const milestones = MILESTONES.map((m) => ({ ...m, date: mileDate(kickoff, m.day) }));
     let h = '';
 
     h += '<div class="ktm-miles">';
@@ -229,7 +233,7 @@ const MILESTONES = [
       const l = ((m.day - 1) / (TOTAL_DAYS - 1)) * 100;
       h += `<span class="ktm-flag" style="left:${l}%" title="Day ${m.day}">◆</span>`;
     });
-    h += `</div><div class="ktm-track-labels"><span>${fmt(addBiz(kickoff, 1))}</span><span>${fmt(addBiz(kickoff, TOTAL_DAYS))}</span></div></div>`;
+    h += `</div><div class="ktm-track-labels"><span>${fmt(taskDate(kickoff, 1))}</span><span>${fmt(taskDate(kickoff, TOTAL_DAYS))}</span></div></div>`;
 
     const tasks = visibleTasks();
     const done = tasks.filter((t) => checked[t.id]).length;
@@ -238,7 +242,7 @@ const MILESTONES = [
 
     WEEKS.forEach((w, wi) => {
       h += `<details class="ktm-week"${wi === 0 ? ' open' : ''}>`;
-      h += `<summary class="ktm-week-head"><span class="ktm-caret" aria-hidden="true">▸</span><span class="ktm-week-title">${esc(w.title)}</span><span class="ktm-week-meta">${esc(w.priority)} · ${fmt(addBiz(kickoff, w.range[0]))} – ${fmt(addBiz(kickoff, w.range[1]))}</span></summary>`;
+      h += `<summary class="ktm-week-head"><span class="ktm-caret" aria-hidden="true">▸</span><span class="ktm-week-title">${esc(w.title)}</span><span class="ktm-week-meta">${esc(w.priority)} · ${fmt(taskDate(kickoff, w.range[0]))} – ${fmt(taskDate(kickoff, w.range[1]))}</span></summary>`;
       h += '<div class="ktm-week-body">';
       w.groups.forEach((g) => {
         const gtasks = g.tasks.filter((t) => !(t.mobileOnly && !isMobile));
@@ -248,7 +252,7 @@ const MILESTONES = [
           const on = !!checked[t.id];
           h += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}">`;
           h += `<span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span>`;
-          h += `<span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-date">${fmt(addBiz(kickoff, t.day))}</span></span>`;
+          h += `<span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-date">${fmt(taskDate(kickoff, t.day))}</span></span>`;
           if (t.critical) h += '<span class="ktm-critical">Critical</span>';
           h += '</div>';
         });
