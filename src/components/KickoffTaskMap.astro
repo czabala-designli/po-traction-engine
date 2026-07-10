@@ -193,7 +193,8 @@ const MILESTONES = [
       lines.push(`${w.title.toUpperCase()} (${w.priority})`);
       w.groups.forEach((g) => g.tasks.forEach((t) => {
         if (t.mobileOnly && !isMobile) return;
-        lines.push(`[ ] ${fmt(dayDate(kickoff, t.day))} — ${t.label}${t.critical ? '  (CRITICAL)' : ''}`);
+        const box = checked[t.id] ? '[x]' : '[ ]';
+        lines.push(`${box} ${fmt(dayDate(kickoff, t.day))} — ${t.label}${t.critical ? '  (CRITICAL)' : ''}`);
       }));
       lines.push('');
     });
