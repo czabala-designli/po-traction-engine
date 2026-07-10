@@ -226,7 +226,8 @@ const GUARANTEES = [
 
     h += '<div class="ktm-miles">';
     guarantees.forEach((g) => {
-      h += `<div class="ktm-mile"><p class="ktm-mile-day">Day ${g.day}</p><p class="ktm-mile-date">${fmt(g.date)}</p><p class="ktm-mile-label">${esc(g.text)}</p><p class="ktm-mile-tag">${esc(g.tag)}</p></div>`;
+      const tagCls = g.tag === 'guarantee' ? ' is-guarantee' : ' is-note';
+      h += `<div class="ktm-mile"><p class="ktm-mile-day">Day ${g.day}</p><p class="ktm-mile-date">${fmt(g.date)}</p><p class="ktm-mile-label">${esc(g.text)}</p><p class="ktm-mile-tag${tagCls}">${esc(g.tag)}</p></div>`;
     });
     h += '</div>';
 
@@ -326,7 +327,11 @@ const GUARANTEES = [
   .ktm-mile-day { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); margin: 0 0 6px; }
   .ktm-mile-date { font-family: var(--serif); font-size: 22px; color: var(--coral); margin: 0 0 4px; }
   .ktm-mile-label { font-size: 12.5px; color: var(--off-white); margin: 0; }
-  .ktm-mile-tag { display: inline-block; margin: 8px 0 0; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-blue); border: 1px solid var(--navy-mid); border-radius: 6px; padding: 2px 7px; }
+  .ktm-mile-tag { display: inline-block; margin: 8px 0 0; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 6px; padding: 2px 7px; border: 1px solid transparent; }
+  /* Hard guarantees (Day 14, 30) read like the CRITICAL task badges — coral. */
+  .ktm-mile-tag.is-guarantee { color: var(--white); background: var(--coral); border-color: var(--coral); }
+  /* Promise / mission markers (Day 60, 90) — purple, prominent but a step below the guarantees. */
+  .ktm-mile-tag.is-note { color: var(--purple-light, #A78BC4); background: rgba(88,55,123,0.25); border-color: rgba(88,55,123,0.6); }
 
   .ktm-timeline { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 20px 22px 24px; margin-bottom: 24px; }
   .ktm-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); margin: 0 0 20px; }
