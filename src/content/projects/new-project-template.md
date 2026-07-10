@@ -49,7 +49,7 @@ looks like the moment you start: every kickoff task laid out, nothing done yet.
 
 ## How to use it
 
-The checklist above mirrors the [Kickoff Task Map](/library/kickoff-task-map)
+The checklist above mirrors the [Task Map Generator](/library/task-map-generator)
 checklist — the granular, day-by-day list of everything a PO runs from kickoff
 through the Day-30 (first user) and Day-90 (first dollar) milestones. Copy it into
 your own project case study and check items off as you go.

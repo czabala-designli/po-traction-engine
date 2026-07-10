@@ -4,7 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import StatusBadge from '../../components/StatusBadge.astro';
 import KindBadge from '../../components/KindBadge.astro';
 import AssetRelations from '../../components/AssetRelations.astro';
-import KickoffTaskMap from '../../components/KickoffTaskMap.astro';
+import TaskMapGenerator from '../../components/TaskMapGenerator.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('assets');
@@ -34,9 +34,9 @@ const feeds = entry.data.feeds.map((id) => ({ id, title: titleOf[id] })).filter(
       <AssetRelations needs={needs} feeds={feeds} />
     </header>
 
-    {entry.id === 'kickoff-task-map' && (
+    {entry.id === 'task-map-generator' && (
       <section class="interactive">
-        <KickoffTaskMap />
+        <TaskMapGenerator />
       </section>
     )}
 

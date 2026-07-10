@@ -1,5 +1,5 @@
 # TractionLab Kickoff Checklist
-Designli | TractionLab | derived from the Kickoff Task Map artifact
+Designli | TractionLab | derived from the Task Map Generator
 
 Day numbers below are **calendar days from kickoff** (Day 1 = the kickoff date; weekends are counted, not skipped). The guarantee window is tied to kickoff, so Day 30 and Day 90 are the 30th and 90th days of the engagement, counting kickoff as Day 1. Items marked **[CRITICAL]** block downstream work if missed. Items marked **[MOBILE ONLY]** only apply to projects that include a mobile app.
 
@@ -98,4 +98,4 @@ Every change becomes a hypothesis with a PostHog experiment set up before it shi
 
 ---
 
-*Designli | Internal | TractionLab | Generated from the Kickoff Task Map artifact*
+*Designli | Internal | TractionLab | Generated from the Task Map Generator*
