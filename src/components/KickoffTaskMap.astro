@@ -204,7 +204,7 @@ const MILESTONES = [
     MILESTONES.forEach((m) => lines.push(`- [ ] ${fmt(dayDate(kickoff, m.day))} — ${m.label}`));
     const btn = output.querySelector('[data-ktm-copy]');
     navigator.clipboard.writeText(lines.join('\n')).then(() => {
-      if (btn) { btn.textContent = 'Copied!'; setTimeout(() => (btn.textContent = 'Copy for Slack Canvas'), 2000); }
+      if (btn) { btn.textContent = 'Copied!'; setTimeout(() => (btn.textContent = 'Copy checklist'), 2000); }
     }).catch(() => {});
   }
   function render() {
@@ -238,7 +238,7 @@ const MILESTONES = [
     const tasks = visibleTasks();
     const done = tasks.filter((t) => checked[t.id]).length;
     const pct = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
-    h += `<div class="ktm-progressbar"><p class="ktm-progress" data-ktm-progress>${done} of ${tasks.length} tasks checked (${pct}%)</p><button type="button" class="ktm-copy" data-ktm-copy>Copy for Slack Canvas</button></div>`;
+    h += `<div class="ktm-progressbar"><p class="ktm-progress" data-ktm-progress>${done} of ${tasks.length} tasks checked (${pct}%)</p><button type="button" class="ktm-copy" data-ktm-copy>Copy checklist</button></div>`;
 
     WEEKS.forEach((w, wi) => {
       h += `<details class="ktm-week"${wi === 0 ? ' open' : ''}>`;
