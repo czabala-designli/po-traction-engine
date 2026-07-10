@@ -1,8 +1,8 @@
 ---
 // Interactive Task Map Generator — ported from the React JSX to static Astro + vanilla JS.
 // Enter a kickoff date; every task auto-dates on calendar days (Day 1 = kickoff), with
-// check-off, a timeline, and copy-to-Basecamp. Progress persists in localStorage per project.
-// The Day 30 / Day 90 guarantee milestones use the same count: the window is tied to kickoff
+// check-off, a timeline, and copy-to-clipboard. Progress persists in localStorage per project.
+// The Day 14/30/60/90 commitment dates use the same count: the window is tied to kickoff
 // (Day 1), counted inclusively, so Day 30 is the 30th day of the engagement.
 const WEEKS = [
   {
@@ -81,21 +81,22 @@ const WEEKS = [
   },
 ];
 
-const MILESTONES = [
-  { day: 30, label: 'First user — 30-day guarantee met' },
-  { day: 90, label: 'First dollar of revenue' },
+// The four commitment dates (calendar days from kickoff). One source of truth for the
+// on-page cards, the timeline flags, and the summary at the top of the copied checklist.
+// Day 60's label depends on whether the project ships a mobile app (labelWeb is the fallback).
+const GUARANTEES = [
+  { day: 14, label: 'Refund window closes', tag: 'guarantee' },
+  { day: 30, label: 'First user', tag: 'guarantee' },
+  { day: 60, label: 'App ready for store submission', labelWeb: 'Product ready to scale', tag: 'last day to give notice' },
+  { day: 90, label: 'First dollar of revenue', tag: 'engagement ends' },
 ];
-
-// Contractual guarantee checkpoints (calendar days from kickoff), summarised at the top of
-// the copied checklist. Kept separate from MILESTONES, which drives the on-page cards.
-const GUARANTEES = [14, 30, 60, 90];
 ---
 
 <div class="ktm" data-ktm>
   <p class="ktm-instruction">
     Enter a kickoff date and this generates the full dated task map — every task auto-dated
-    on calendar days (Day 1 = kickoff), through the Day 30 and Day 90 guarantee milestones,
-    ready to paste into Basecamp. Progress saves per project on this device.
+    on calendar days (Day 1 = kickoff), through the Day 14 / 30 / 60 / 90 commitment dates,
+    ready to paste into a Slack Canvas or Basecamp. Progress saves per project on this device.
   </p>
 
   <div class="ktm-input">
@@ -120,7 +121,7 @@ const GUARANTEES = [14, 30, 60, 90];
   <div class="ktm-output" data-ktm-output hidden></div>
 </div>
 
-<script define:vars={{ WEEKS, MILESTONES, GUARANTEES }}>
+<script define:vars={{ WEEKS, GUARANTEES }}>
   const wrap = document.querySelector('[data-ktm]');
   const dateInput = wrap.querySelector('[data-ktm-date]');
   const nameInput = wrap.querySelector('[data-ktm-name]');
@@ -144,6 +145,10 @@ const GUARANTEES = [14, 30, 60, 90];
   // Always English, regardless of the viewer's system locale.
   function fmt(d) {
     return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+  // Day 60 reads "App ready for store submission" for mobile projects, its web fallback otherwise.
+  function gLabel(g, isMobile) {
+    return g.labelWeb && !isMobile ? g.labelWeb : g.label;
   }
   function esc(s) {
     return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -196,7 +201,7 @@ const GUARANTEES = [14, 30, 60, 90];
     const kickoff = dateInput.value;
     const isMobile = mobileToggle.checked;
     const lines = [`# ${nameInput.value || 'TractionLab'} — Task Map`, `Kickoff: ${fmt(dayDate(kickoff, 1))}`];
-    GUARANTEES.forEach((g) => lines.push(`${g}-day guarantee: ${fmt(dayDate(kickoff, g))}`));
+    GUARANTEES.forEach((g) => lines.push(`Day ${g.day} · ${fmt(dayDate(kickoff, g.day))} — ${gLabel(g, isMobile)} (${g.tag})`));
     lines.push('');
     WEEKS.forEach((w) => {
       lines.push(`## ${w.title} (${w.priority})`);
@@ -216,12 +221,12 @@ const GUARANTEES = [14, 30, 60, 90];
     const kickoff = dateInput.value;
     if (!kickoff) return;
     const isMobile = mobileToggle.checked;
-    const milestones = MILESTONES.map((m) => ({ ...m, date: dayDate(kickoff, m.day) }));
+    const guarantees = GUARANTEES.map((g) => ({ ...g, date: dayDate(kickoff, g.day), text: gLabel(g, isMobile) }));
     let h = '';
 
     h += '<div class="ktm-miles">';
-    milestones.forEach((m) => {
-      h += `<div class="ktm-mile"><p class="ktm-mile-day">Day ${m.day}</p><p class="ktm-mile-date">${fmt(m.date)}</p><p class="ktm-mile-label">${esc(m.label)}</p></div>`;
+    guarantees.forEach((g) => {
+      h += `<div class="ktm-mile"><p class="ktm-mile-day">Day ${g.day}</p><p class="ktm-mile-date">${fmt(g.date)}</p><p class="ktm-mile-label">${esc(g.text)}</p><p class="ktm-mile-tag">${esc(g.tag)}</p></div>`;
     });
     h += '</div>';
 
@@ -234,9 +239,9 @@ const GUARANTEES = [14, 30, 60, 90];
     const hddLeft = ((29 - 1) / (TOTAL_DAYS - 1)) * 100;
     const hddW = ((TOTAL_DAYS - 29) / (TOTAL_DAYS - 1)) * 100;
     h += `<span class="ktm-seg-hdd" style="left:${hddLeft}%;width:${hddW}%" title="Week 5 onward — HDD Mode"></span>`;
-    milestones.forEach((m) => {
-      const l = ((m.day - 1) / (TOTAL_DAYS - 1)) * 100;
-      h += `<span class="ktm-flag" style="left:${l}%" title="Day ${m.day}">◆</span>`;
+    guarantees.forEach((g) => {
+      const l = ((g.day - 1) / (TOTAL_DAYS - 1)) * 100;
+      h += `<span class="ktm-flag" style="left:${l}%" title="Day ${g.day} — ${esc(g.text)}">◆</span>`;
     });
     h += `</div><div class="ktm-track-labels"><span>${fmt(dayDate(kickoff, 1))}</span><span>${fmt(dayDate(kickoff, TOTAL_DAYS))}</span></div></div>`;
 
@@ -321,6 +326,7 @@ const GUARANTEES = [14, 30, 60, 90];
   .ktm-mile-day { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); margin: 0 0 6px; }
   .ktm-mile-date { font-family: var(--serif); font-size: 22px; color: var(--coral); margin: 0 0 4px; }
   .ktm-mile-label { font-size: 12.5px; color: var(--off-white); margin: 0; }
+  .ktm-mile-tag { display: inline-block; margin: 8px 0 0; font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-blue); border: 1px solid var(--navy-mid); border-radius: 6px; padding: 2px 7px; }
 
   .ktm-timeline { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 20px 22px 24px; margin-bottom: 24px; }
   .ktm-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); margin: 0 0 20px; }
