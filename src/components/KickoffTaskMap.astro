@@ -85,6 +85,10 @@ const MILESTONES = [
   { day: 30, label: 'First user — 30-day guarantee met' },
   { day: 90, label: 'First dollar of revenue' },
 ];
+
+// Contractual guarantee checkpoints (calendar days from kickoff), summarised at the top of
+// the copied checklist. Kept separate from MILESTONES, which drives the on-page cards.
+const GUARANTEES = [14, 30, 60, 90];
 ---
 
 <div class="ktm" data-ktm>
@@ -116,7 +120,7 @@ const MILESTONES = [
   <div class="ktm-output" data-ktm-output hidden></div>
 </div>
 
-<script define:vars={{ WEEKS, MILESTONES }}>
+<script define:vars={{ WEEKS, MILESTONES, GUARANTEES }}>
   const wrap = document.querySelector('[data-ktm]');
   const dateInput = wrap.querySelector('[data-ktm-date]');
   const nameInput = wrap.querySelector('[data-ktm-name]');
@@ -137,8 +141,9 @@ const MILESTONES = [
     d.setDate(d.getDate() + (dayNum - 1));
     return d;
   }
+  // Always English, regardless of the viewer's system locale.
   function fmt(d) {
-    return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
   }
   function esc(s) {
     return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -190,7 +195,9 @@ const MILESTONES = [
   function copyChecklist() {
     const kickoff = dateInput.value;
     const isMobile = mobileToggle.checked;
-    const lines = [`# ${nameInput.value || 'TractionLab'} — Kickoff Task Map`, `Kickoff: ${fmt(dayDate(kickoff, 1))}`, ''];
+    const lines = [`# ${nameInput.value || 'TractionLab'} — Task Map`, `Kickoff: ${fmt(dayDate(kickoff, 1))}`];
+    GUARANTEES.forEach((g) => lines.push(`${g}-day guarantee: ${fmt(dayDate(kickoff, g))}`));
+    lines.push('');
     WEEKS.forEach((w) => {
       lines.push(`## ${w.title} (${w.priority})`);
       w.groups.forEach((g) => g.tasks.forEach((t) => {
@@ -200,8 +207,6 @@ const MILESTONES = [
       }));
       lines.push('');
     });
-    lines.push('## Milestones');
-    MILESTONES.forEach((m) => lines.push(`- [ ] ${fmt(dayDate(kickoff, m.day))} — ${m.label}`));
     const btn = output.querySelector('[data-ktm-copy]');
     navigator.clipboard.writeText(lines.join('\n')).then(() => {
       if (btn) { btn.textContent = 'Copied!'; setTimeout(() => (btn.textContent = 'Copy checklist'), 2000); }
