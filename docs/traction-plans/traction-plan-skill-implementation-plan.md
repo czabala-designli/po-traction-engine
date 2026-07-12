@@ -184,9 +184,9 @@ git commit -m "Backfill Blocq traction plan as the worked example (PROJ-161)"
 
 > This task is input-dependent and interactive: each project needs real inputs the PO or the data sources supply. Run it once per project, in order: Entrepreneur Circle, DriveNow, BuckHub, DIY. Repeat Steps 1-6 for each.
 
-**Files (per project):**
-- Create: `docs/traction-plans/<project>.md`
-- May create: `docs/icp-communities-<slug>.md` (if `icp-research` must run first)
+**Files (per project, in the lab's own repo):**
+- Create: `docs/traction-plans/<project-slug>.md`
+- May create: `docs/icp-communities-<archetype-slug>.md` per ICP (if `icp-research` must run first; a B2B2C lab has more than one)
 
 **Interfaces:**
 - Consumes: the Task 1 skill, each project's ICP doc, readiness answers, and facts.

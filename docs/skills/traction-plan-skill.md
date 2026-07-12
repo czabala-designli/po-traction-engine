@@ -10,7 +10,7 @@ This skill is **re-runnable**. A PO runs it at the start, then again every few w
 
 Before starting, read the project's CLAUDE.md if it exists (product name, description, domain). Then run the three Step 0 gates in order, one question at a time. Never ask more than one question per message unless a gate explicitly says a compact checklist is fine.
 
-Full rationale lives in `docs/traction-plans/traction-plan-skill-design.md`. The activity library lives in `docs/traction-plans/reference/` (`PO-Traction-Engine-Reference.md` for the menu, core activities, and B2B/B2C cheat sheet; `PO-Traction-Engine-COMPLETE.md` for deep per-activity playbooks).
+**Where this runs and where things live.** Run this skill from the lab's own repo (where that lab's CLAUDE.md and ICP docs are). The plan is written into that lab's repo at `docs/traction-plans/[project-slug].md`. The skill itself, the Blocq worked example, the design rationale, and the Traction Menu reference all live in the `po-traction-engine` repo (kept cloned alongside the labs under `~/projects/`). Read the reference from there: `po-traction-engine/docs/traction-plans/reference/` (`PO-Traction-Engine-Reference.md` for the menu, core activities, and B2B/B2C cheat sheet; `PO-Traction-Engine-COMPLETE.md` for deep per-activity playbooks). Full rationale: `po-traction-engine/docs/traction-plans/traction-plan-skill-design.md`.
 
 ---
 
@@ -26,11 +26,14 @@ Full rationale lives in `docs/traction-plans/traction-plan-skill-design.md`. The
 
 ## Step 0: Gates (run in order)
 
-### Gate A: ICP research doc (required input)
+### Gate A: ICP research doc(s) (required input)
 
-1. Look for the project's ICP doc at `docs/icp-communities-[project-slug].md` (the `icp-research` skill's output convention).
-2. If you do not find one, ask the PO: "Do you already have an ICP research doc for this project? If yes, paste the link, path, or the Markdown." Use whatever they provide (a Google Doc link is fine).
-3. If there is still no ICP doc, **stop** and tell the PO: "Run the `icp-research` skill first, then re-run me." Do not fabricate an ICP.
+A project can have more than one ICP. A B2B2C product like Blocq has two (the economic buyer and the daily user). The `icp-research` skill writes one file per ICP at `docs/icp-communities-[archetype-slug].md`.
+
+1. Look for one or more ICP docs matching `docs/icp-communities-*.md` in the lab's repo. Use all of them.
+2. If any doc has a "Go-to-Market Sequencing" section (icp-research adds one when a project has multiple ICPs), follow that order for which ICP to win first. Blocq's example: prove coach adoption first, then sell directors.
+3. If you find none, ask the PO: "Do you already have ICP research for this project? If yes, paste the link(s), path(s), or Markdown." There may be several; use whatever they provide (a Google Doc link is fine).
+4. If there is still nothing, **stop** and tell the PO: "Run the `icp-research` skill first (once per ICP), then re-run me." Do not fabricate an ICP.
 
 Do not auto-run ICP research. It is gated by client approval before it is trusted.
 
@@ -93,7 +96,7 @@ These are the same four commitment dates the project surfaces elsewhere. Put all
 
 ## Step 4: Write the plan file
 
-Write `docs/traction-plans/[project-slug].md` in exactly this template:
+Write the plan into the lab's own repo at `docs/traction-plans/[project-slug].md` (co-located with that lab's CLAUDE.md and ICP docs). Do not write real plans into `po-traction-engine`; that repo holds only the skill, the Blocq worked example, and the reference. Use exactly this template:
 
 ```markdown
 # [Project] Traction Plan

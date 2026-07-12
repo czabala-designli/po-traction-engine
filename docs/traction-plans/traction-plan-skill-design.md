@@ -30,7 +30,7 @@ These are requirements, not decoration. The skill must encode them.
 
 ## 4. What a traction plan is (the deliverable)
 
-One artifact per project, source of truth in Markdown at `docs/traction-plans/<project>.md`, exported to a client-facing form at share time.
+One artifact per project, source of truth in Markdown at `docs/traction-plans/<project-slug>.md` in the lab's own repo (this `po-traction-engine` repo holds the skill, the Blocq worked example, and the reference; see section 12). Exported to a client-facing form at share time.
 
 Structure:
 
@@ -75,11 +75,11 @@ Already covered elsewhere: value proposition (`docs/prompts/value-proposition-pr
 
 Before any planning, the skill runs three gates.
 
-- **6a. ICP research doc (3-step gate).**
-  1. Auto-detect by the `icp-research` filename convention (`docs/icp-communities-<archetype-slug>.md`).
-  2. If not found, ask the PO whether one exists and, if so, take the link, path, or MD (it may live as a Google Doc).
-  3. If still nothing, stop and instruct the PO to run the `icp-research` skill first.
-  The generator consumes the ICP doc; it does not auto-re-run ICP research. ICP research is gated by client approval before it is trusted.
+- **6a. ICP research doc(s) (gate).** A project can have more than one ICP; a B2B2C lab like Blocq has two (buyer and daily user), and `icp-research` writes one file per ICP at `docs/icp-communities-<archetype-slug>.md`.
+  1. Auto-detect one or more docs matching `docs/icp-communities-*.md` in the lab repo; use all of them, and follow any "Go-to-Market Sequencing" section for which ICP to win first.
+  2. If none are found, ask the PO whether they exist and, if so, take the link(s), path(s), or MD (they may be Google Docs).
+  3. If still nothing, stop and instruct the PO to run `icp-research` first (once per ICP).
+  The generator consumes the ICP doc(s); it does not auto-re-run ICP research. ICP research is gated by client approval before it is trusted.
 - **6b. Readiness check.** The PO answers Done / Not done / N-A (plus a link when done) against the canonical foundation list, which reuses the 7 Core Activities from the reference plus the launch essentials in `tractionlab-kickoff-checklist.md`: value proposition, landing page, PostHog full stack, waitlist drip sequence, ICP approved, first cohort documented, primary social channel, brand voice / writing style, blog scaffolding (if SEO applies), and product-live status. All items are PO-ownable.
 - **6c. Project facts.** Kickoff date (required), product one-liner, business type (B2B / B2C / B2B2C), stage (pre-launch / first users / scaling), primary channel(s), first-cohort target, primary success metric.
 
@@ -131,14 +131,14 @@ docs/
   traction-plans/
     traction-plan-skill-design.md      <- this document
     reference/                          <- Traction Menu source MDs (COMPLETE, Reference, Template)
-    <project>.md                        <- generated per-project plans (source of truth)
+    <project>.md                        <- Blocq worked example only (real per-lab plans live in each lab's own repo)
   skills/
     icp-research-skill.md               <- existing upstream skill
     traction-plan-skill.md              <- the new skill (to be written)
   tractionlab-kickoff-checklist.md      <- existing Day 1 to Day 30 launch checklist
 ```
 
-The skill's runnable form (registered skill vs. skill doc) is an implementation detail to be settled in the plan, modeled on however `icp-research` is packaged.
+Real per-lab plans live in each lab's own repo at `docs/traction-plans/<project-slug>.md`; `po-traction-engine` holds the skill, the Blocq worked example, and the reference. Skills register from `docs/skills/<name>-skill.md` (this project's discovery convention, confirmed against `icp-research`), so authoring the skill file is the registration; it goes live on the next session start.
 
 ## 13. Success criteria
 
