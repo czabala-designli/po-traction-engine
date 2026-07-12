@@ -7,7 +7,7 @@ Business type: B2B2C (club directors buy, coaches and players use) · Stage: fir
 Primary channel(s): Facebook Coaching Volleyball group (100k+, serves both ICPs); director communities (Volleyball Club Director & Administrators, VolleyTalk); Reddit (r/volleyball, r/volleyballtraining)
 First-cohort target: 5-10 volleyball coaches from Carl's own club (Revolution Volleyball Academy), then club directors
 Success metric: coach adoption first (5-10 coaches actively using), then first director subscription (first dollar by Day 90)
-PO: Andrea · Client: Carl De Vries (Revolution Volleyball Academy)
+PO: Andrea · Client: Carl DeFriez (Revolution Volleyball Academy)
 ICPs (two, per research): [volleyball-coach](../../../blocq-sports-smoke/docs/icp-communities-volleyball-coach.md) the daily user, and [club-director](../../../blocq-sports-smoke/docs/icp-communities-club-director.md) the economic buyer. GTM sequence from the research: prove coach adoption (Day 0-30), then sell directors with an adoption story (Day 30-60).
 
 ## Foundation readiness
@@ -21,14 +21,14 @@ ICPs (two, per research): [volleyball-coach](../../../blocq-sports-smoke/docs/ic
 | First cohort documented | Done | ICP docs name 5-10 coaches from Carl's club |
 | Primary social channel | N-A | community engagement in existing groups, not a brand channel |
 | Brand voice / style | Not done | Eng. Week 5 task |
-| Blog scaffolding (SEO) | Not done | Eng. Week 5 task |
+| Blog scaffolding (SEO) | Done | blog live at https://blocqsports.com/blog; verify sitemap / robots / JSON schema / Search Console are in place |
 | Product live | No | waitlist only; app in testing, not yet released |
 
 ## Detailed plan (Eng. Week 5-8 · the marketing ramp after the Day 30 guarantee)
 | Date | Eng. Week / Day | Theme | Action (client-proofed) | Owner | Status | Notes |
 |---|---|---|---|---|---|---|
 | 06 Jul 2026 | Week 5 / Day 33 | Waitlist email sequence | Create a welcome/drip sequence for waitlist signups; send to client for approval, then implement in PostHog. Cadence 10-14 days pre-launch. | PO | In Progress | Andrea + Carlos (PostHog); draft via `email-sequence` |
-| 06 Jul 2026 | Week 5 / Day 33 | Landing page → blog for SEO | Expand the landing page to host blog articles: blog nav item, sitemap.xml, submit to Google Search Console, robots.txt for search + AI crawlers, JSON schema (Organization, Services, Locations, Blog author). | PO | In Progress | Andrea vibe-codes (placeholder blog to start) |
+| 06 Jul 2026 | Week 5 / Day 33 | Landing page → blog for SEO | Expand the landing page to host blog articles: blog nav item, sitemap.xml, submit to Google Search Console, robots.txt for search + AI crawlers, JSON schema (Organization, Services, Locations, Blog author). | PO | Done | blog live at https://blocqsports.com/blog; verify sitemap / robots / schema / Search Console |
 | 06 Jul 2026 | Week 5 / Day 33 | Define brand voice / style | Prepare a brand voice and writing-style guide for all blog posts and community/outreach copy. | PO | In Progress | Mara/Carlos + Andrea; via `brand-voice` |
 | 06 Jul 2026 | Week 5 / Day 33 | Keyword research | Research volleyball-coaching keywords (SEMrush trial / Google Keyword Planner via Designli's SEMrush) into a repository for future blog posts. | PO | In Progress | Mara/Carlos + Andrea; via `keyword-research` |
 | 13 Jul 2026 | Week 6 / Day 40 | First blog post | Publish a founder-story post ("why the product exists"), targeting a keyword from the repository. | PO | Not Started | via `blog-post` |
