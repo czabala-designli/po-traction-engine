@@ -1,14 +1,14 @@
-# Blocq Sports — Traction Plan
+# Blocq Sports Traction Plan
 
 > Worked example / backfill from the original 60-Day Traction Menu Planner sheet, re-expressed in the `traction-plan` skill format. Snapshot reflects the plan as authored in early July 2026. This is the reference the other labs are patterned on.
 
 Kickoff: Thu 04 Jun 2026 · Day 14 (refund window closes, guarantee): Wed 17 Jun 2026 · Day 30 (first user, guarantee): Fri 03 Jul 2026 · Day 60: Sun 02 Aug 2026 · Day 90 (first $ goal): Tue 01 Sep 2026
 Business type: B2B2C (club directors buy, coaches and players use) · Stage: first users (product built, 30-day goal delivered, waitlist live, converting to signup + blog)
-Primary channel(s): Facebook — Coaching Volleyball (100k+, serves both ICPs); director communities (Volleyball Club Director & Administrators, VolleyTalk); Reddit (r/volleyball, r/volleyballtraining)
+Primary channel(s): Facebook Coaching Volleyball group (100k+, serves both ICPs); director communities (Volleyball Club Director & Administrators, VolleyTalk); Reddit (r/volleyball, r/volleyballtraining)
 First-cohort target: 5-10 volleyball coaches from Carl's own club (Revolution Volleyball Academy), then club directors
 Success metric: coach adoption first (5-10 coaches actively using), then first director subscription (first dollar by Day 90)
 PO: Andrea · Client: Carl De Vries (Revolution Volleyball Academy)
-ICPs: two, per research — [volleyball-coach](../../../blocq-sports-smoke/docs/icp-communities-volleyball-coach.md) (daily user) and [club-director](../../../blocq-sports-smoke/docs/icp-communities-club-director.md) (economic buyer). GTM sequence from the research: prove coach adoption (Day 0-30), then sell directors with an adoption story (Day 30-60).
+ICPs (two, per research): [volleyball-coach](../../../blocq-sports-smoke/docs/icp-communities-volleyball-coach.md) the daily user, and [club-director](../../../blocq-sports-smoke/docs/icp-communities-club-director.md) the economic buyer. GTM sequence from the research: prove coach adoption (Day 0-30), then sell directors with an adoption story (Day 30-60).
 
 ## Foundation readiness
 | Item | Status | Link / note |

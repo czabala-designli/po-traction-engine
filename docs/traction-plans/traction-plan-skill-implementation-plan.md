@@ -47,7 +47,7 @@ Match the `icp-research` format. Content to write at the top of the file:
 
 ```markdown
 ---
-description: Generate a per-project Traction Menu plan for a traction lab — a rolling-wave, client-proofed, week-by-week marketing plan toward the Day 90 first-dollar-of-revenue goal. Detailed next 4 weeks plus a horizon to Day 90. Writes docs/traction-plans/<project>.md.
+description: Generate a per-project Traction Menu plan for a traction lab: a rolling-wave, client-proofed, week-by-week marketing plan toward the Day 90 first-dollar-of-revenue goal. Detailed next 4 weeks plus a horizon to Day 90. Writes docs/traction-plans/<project>.md.
 ---
 
 # Traction Plan
@@ -71,7 +71,7 @@ Instruct the skill to compute from the kickoff date: Day 14, 30, 60, 90 (calenda
 Include this exact template in the skill so every generated plan is consistent:
 
 ```markdown
-# <Project> — Traction Plan
+# <Project> Traction Plan
 Kickoff: <date> · Day 14 (guarantee): <date> · Day 30 (guarantee): <date> · Day 60: <date> · Day 90 (first $ goal): <date>
 Business type: <B2B/B2C/B2B2C> · Stage: <stage> · Primary channel(s): <...>
 First-cohort target: <...> · Success metric: <...>
@@ -96,7 +96,7 @@ First-cohort target: <...> · Success metric: <...>
 | | | | | | Not Started | |
 
 ## Horizon (to Day 90)
-- **Eng. Week N–M:** <theme> — candidate activities: <...>
+- **Eng. Week N–M:** <theme>. Candidate activities: <...>
 
 ## Weekly learning log
 | Week | What we tried | What we learned (3 bullets max) | Next move |

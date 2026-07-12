@@ -1,5 +1,5 @@
 ---
-description: Generate or roll forward a per-project Traction Menu plan for a traction lab — a client-proofed, week-by-week marketing plan toward the Day 90 first-dollar-of-revenue goal, with the next 4 weeks detailed and a horizon to Day 90. Writes docs/traction-plans/[project-slug].md. Re-runnable (rolling wave). Loosely chained off icp-research.
+description: Generate or roll forward a per-project Traction Menu plan for a traction lab: a client-proofed, week-by-week marketing plan toward the Day 90 first-dollar-of-revenue goal, with the next 4 weeks detailed and a horizon to Day 90. Writes docs/traction-plans/[project-slug].md. Re-runnable (rolling wave). Loosely chained off icp-research.
 ---
 
 # Traction Plan
@@ -24,9 +24,9 @@ Full rationale lives in `docs/traction-plans/traction-plan-skill-design.md`. The
 
 ---
 
-## Step 0 — Gates (run in order)
+## Step 0: Gates (run in order)
 
-### Gate A — ICP research doc (required input)
+### Gate A: ICP research doc (required input)
 
 1. Look for the project's ICP doc at `docs/icp-communities-[project-slug].md` (the `icp-research` skill's output convention).
 2. If you do not find one, ask the PO: "Do you already have an ICP research doc for this project? If yes, paste the link, path, or the Markdown." Use whatever they provide (a Google Doc link is fine).
@@ -34,7 +34,7 @@ Full rationale lives in `docs/traction-plans/traction-plan-skill-design.md`. The
 
 Do not auto-run ICP research. It is gated by client approval before it is trusted.
 
-### Gate B — Foundation readiness
+### Gate B: Foundation readiness
 
 Tell the PO you need a quick readiness check, then present this as a single compact checklist and ask them to mark each `Done` / `Not done` / `N-A` (and paste a link where it exists). This reuses the 7 Core Activities plus the launch essentials from `docs/tractionlab-kickoff-checklist.md`:
 
@@ -51,7 +51,7 @@ Tell the PO you need a quick readiness check, then present this as a single comp
 
 Anything marked `Not done` becomes a front-loaded task later. `Done` items are recorded in the plan header so the client sees the base is covered.
 
-### Gate C — Project facts
+### Gate C: Project facts
 
 Collect these (kickoff date first, it is required; the rest may be a compact batch):
 
@@ -65,7 +65,7 @@ Collect these (kickoff date first, it is required; the rest may be a compact bat
 
 ---
 
-## Step 1 — Compute the commitment dates
+## Step 1: Compute the commitment dates
 
 From the kickoff date, compute four dates as **calendar days, weekends counted**:
 
@@ -74,14 +74,14 @@ From the kickoff date, compute four dates as **calendar days, weekends counted**
 
 These are the same four commitment dates the project surfaces elsewhere. Put all four in the plan header. They are the fixed backbone and are tracked correctly no matter how execution actually paces.
 
-## Step 2 — Locate the project and set the window
+## Step 2: Locate the project and set the window
 
 - Work out where the project is today (from the readiness gate and the current date relative to kickoff).
 - If `docs/traction-plans/[project-slug].md` already exists, this is a **re-run**: read it, keep completed rows and their statuses, and roll the detailed window forward to the next ~4 weeks. Otherwise it is a fresh first run.
 - **Detailed window** = the next ~4 engagement weeks from where the project is now. **Horizon** = everything after that, out to Day 90.
 - Lay activities on an engagement-week grid (kickoff + 7n). Each row shows a real calendar date and an engagement marker ("Eng. Week N / Day D"). Week placement is **recommended timing, not a gate**: if the PO runs ahead, that is a win, and the next re-run pulls more of the horizon into detail.
 
-## Step 3 — Build the plan
+## Step 3: Build the plan
 
 **3a. Front-load foundation gaps.** Every `Not done` item from Gate B becomes a PO-owned task at the front of the detailed window, before any growth play, so the plan is a complete path and never assumes the base exists.
 
@@ -91,12 +91,12 @@ These are the same four commitment dates the project surfaces elsewhere. Put all
 
 **3d. Phrase and tag.** Client-proof every row (PO action). Set Owner to PO by default, `⚙️ pod` only for an in-product mechanic. For any row whose action is an asset, name the companion skill to run in Notes (see the table below).
 
-## Step 4 — Write the plan file
+## Step 4: Write the plan file
 
 Write `docs/traction-plans/[project-slug].md` in exactly this template:
 
 ```markdown
-# [Project] — Traction Plan
+# [Project] Traction Plan
 Kickoff: [date] · Day 14 (guarantee): [date] · Day 30 (guarantee): [date] · Day 60: [date] · Day 90 (first $ goal): [date]
 Business type: [B2B/B2C/B2B2C] · Stage: [stage] · Primary channel(s): [...]
 First-cohort target: [...] · Success metric: [...]
@@ -121,7 +121,7 @@ First-cohort target: [...] · Success metric: [...]
 | [date] | Eng. Week N / Day D | [theme] | [PO action] | PO | Not Started | [e.g. draft via blog-post skill] |
 
 ## Horizon (to Day 90)
-- **Eng. Week N-M:** [theme] — candidate activities: [...]
+- **Eng. Week N-M:** [theme]. Candidate activities: [...]
 
 ## Weekly learning log
 | Week | What we tried | What we learned (3 bullets max) | Next move |
@@ -131,7 +131,7 @@ First-cohort target: [...] · Success metric: [...]
 
 Status values: `Not Started`, `In Progress`, `Pending Client Approval`, `Done`.
 
-## Step 5 — Review and export
+## Step 5: Review and export
 
 1. **Mara review:** route the draft to Mara (marketing) for sign-off. Incorporate edits.
 2. **PO review:** the PO confirms (for Blocq that is Andrea).
