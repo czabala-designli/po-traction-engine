@@ -131,33 +131,17 @@ git commit -m "Add the traction-plan skill (PROJ-161)"
 
 ### Task 2: Register the skill so it is invocable
 
-**Files:**
-- Create: `.claude/skills/traction-plan/SKILL.md` (or the mechanism `icp-research` uses)
+**Finding (resolved during implementation):** `icp-research` is invocable but exists only at `docs/skills/icp-research-skill.md`. It is not in `~/.claude/skills`, `.claude/skills`, or the DesignliOS plugin. This project therefore discovers skills from `docs/skills/<name>-skill.md` (a `description:` frontmatter, with `-skill` stripped to form the invocable name). No separate `.claude/skills/` entry is needed, and adding one would diverge from the proven convention.
 
-**Interfaces:**
-- Produces: an invocable `traction-plan` skill.
+**Conclusion:** authoring `docs/skills/traction-plan-skill.md` (Task 1) IS the registration. It becomes invocable as `traction-plan` on the next session start, exactly like `icp-research`. There is no extra file to create.
 
-- [ ] **Step 1: Determine how `icp-research` is registered**
+- [ ] **Step 1: Confirm the file matches the working sibling**
 
-Run: `find . ~/.claude -maxdepth 5 -ipath '*skills*icp*' -o -iname 'SKILL.md' | grep -i icp`
-Also inspect `.claude/settings*.json` for any skill path config.
-Expected: identify whether `icp-research` is invocable via a `.claude/skills/<name>/SKILL.md`, a `~/.claude/skills/` copy, or by pointing at `docs/skills/`.
+Confirm `docs/skills/traction-plan-skill.md` uses the same frontmatter shape as `docs/skills/icp-research-skill.md` (a `description:` key, no `name:` key) and is named `<skill>-skill.md`.
 
-- [ ] **Step 2: Mirror that mechanism for `traction-plan`**
+- [ ] **Step 2: Verify on next session start**
 
-Create the registration the same way (most likely `.claude/skills/traction-plan/SKILL.md` whose body is the Task 1 skill, or a pointer to `docs/skills/traction-plan-skill.md`). Keep `docs/skills/traction-plan-skill.md` as the source of truth.
-
-- [ ] **Step 3: Verify invocability**
-
-Confirm `/traction-plan` (or `traction-plan` via the Skill tool) appears in the available skills list.
-Expected: the skill resolves and its description matches the frontmatter.
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add .claude/skills/traction-plan/
-git commit -m "Register the traction-plan skill so POs can invoke it (PROJ-161)"
-```
+Because skill discovery happens at session start, `traction-plan` (and the seven companion stubs created this session) will not appear until Claude Code is restarted. After a restart, confirm `traction-plan` is listed in available skills with the description from its frontmatter.
 
 ---
 
