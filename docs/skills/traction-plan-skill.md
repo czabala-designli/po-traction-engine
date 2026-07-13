@@ -19,6 +19,8 @@ Before starting, read the project's CLAUDE.md if it exists (product name, descri
 - **No spaced em dashes** in anything you draft (the plan, notes, the client post). Rewrite with a period, comma, colon, or parentheses.
 - **Client-proof every plan row.** Phrase each action as a PO action ("PO prompts client via Basecamp to join the group"), never as a client action. Progress must never sit blocked on the client.
 - **Default ownership is the PO.** Landing pages, blogs, emails, PostHog, SEO, ASO are PO-executable with Claude Code. Tag a row `⚙️ pod` only when it is an in-product growth mechanic that touches the client's app codebase (referral unlock, invite-a-teammate, onboarding changes).
+- **Some channels are inherently the client's** (their personal LinkedIn, their own network, native-language community posting). For these, the client action is NOT the deliverable. The PO deliverable is a ready-to-use kit; the client posts or sends it when willing. Tag the row `👤 client-post`, phrase the PO action as "PO drafts + delivers the [X] kit", and measure progress by "kit delivered", never by "client posted". Nothing is blocked on the client, so the assets sit ready and every ask stays optional. This is the model for delicate clients.
+- **Always draft in English; the client owns any second language.** Produce every client-facing asset in English. If the ICP's market is not English-speaking, the client (a native speaker) owns translation into their language. Never plan for the PO or pod to produce, translate, or post foreign-language copy. Pair this with the `👤 client-post` pattern above: PO delivers the ready English kit, the client translates and posts.
 - **Client-facing framing defaults to yes:** "here is what we will execute unless you say otherwise."
 - **Nothing here touches the live site.** You only write under `docs/`.
 
@@ -39,7 +41,7 @@ Do not auto-run ICP research. It is gated by client approval before it is truste
 
 ### Gate B: Foundation readiness
 
-Tell the PO you need a quick readiness check, then present this as a single compact checklist and ask them to mark each `Done` / `Not done` / `N-A` (and paste a link where it exists). This reuses the 7 Core Activities plus the launch essentials from `docs/tractionlab-kickoff-checklist.md`:
+Tell the PO you need a quick readiness check, then present this as a single compact checklist and ask them to mark each `Done` / `Live, not activated` / `Not done` / `N-A` (and paste a link where it exists). This reuses the 7 Core Activities plus the launch essentials from `docs/tractionlab-kickoff-checklist.md`:
 
 - Value proposition written and approved
 - Landing page live (waitlist or signup)
@@ -52,7 +54,9 @@ Tell the PO you need a quick readiness check, then present this as a single comp
 - Blog scaffolding for SEO (mark N-A if SEO does not fit this ICP)
 - Product live? (yes / no + date)
 
-Anything marked `Not done` becomes a front-loaded task later. `Done` items are recorded in the plan header so the client sees the base is covered.
+**Existence is not activation.** For every item the PO wants to mark `Done`, confirm it is actually being used or driving results, not merely built. A landing page that has never been promoted (no traffic), a PostHog install with no funnel defined, a social channel that has never been posted to, or a waitlist with zero signups is `Live, not activated`, not `Done`. This distinction is where plans most often go wrong: teams assume the base is covered when it exists but is dormant.
+
+Anything marked `Not done` OR `Live, not activated` becomes a front-loaded task at the front of the detailed window (for `Live, not activated`, the task is activation, not building). `Done` items are recorded in the plan header so the client sees the base is covered.
 
 ### Gate C: Project facts
 
@@ -81,18 +85,19 @@ These are the same four commitment dates the project surfaces elsewhere. Put all
 
 - Work out where the project is today (from the readiness gate and the current date relative to kickoff).
 - If `docs/traction-plans/[project-slug].md` already exists, this is a **re-run**: read it, keep completed rows and their statuses, and roll the detailed window forward to the next ~4 weeks. Otherwise it is a fresh first run.
+- **On a re-run, reconcile the prior plan against source of truth before trusting it.** Prior plans drift and inferred facts go stale. Verify the foundation claims and the product/app scope against reality: repo state and recent commits, live URLs (open the actual landing page/app), and analytics (PostHog) signal. Correct anything that has changed (a "view-only app" that is now two-sided, a landing page marked `Done` that has never been promoted), downgrade over-optimistic statuses per Gate B's existence-is-not-activation rule, and log the corrections in the weekly learning log. Do not roll a plan forward on top of stale assumptions.
 - **Detailed window** = the next ~4 engagement weeks from where the project is now. **Horizon** = everything after that, out to Day 90.
 - Lay activities on an engagement-week grid (kickoff + 7n). Each row shows a real calendar date and an engagement marker ("Eng. Week N / Day D"). Week placement is **recommended timing, not a gate**: if the PO runs ahead, that is a win, and the next re-run pulls more of the horizon into detail.
 
 ## Step 3: Build the plan
 
-**3a. Front-load foundation gaps.** Every `Not done` item from Gate B becomes a PO-owned task at the front of the detailed window, before any growth play, so the plan is a complete path and never assumes the base exists.
+**3a. Front-load foundation gaps.** Every `Not done` and `Live, not activated` item from Gate B becomes a PO-owned task at the front of the detailed window, before any growth play, so the plan is a complete path and never assumes the base exists or is working. For `Live, not activated` items, the task is activation (drive traffic, define the funnel, make the first post), not rebuilding.
 
 **3b. Select growth activities.** From `docs/traction-plans/reference/PO-Traction-Engine-Reference.md`, pick activities that fit this project's ICP and stage (use the "recommended starting picks" and the B2B vs B2C cheat sheet). Do not over-commit: a few plays that can show results beats ten at once.
 
 **3c. Sequence by dependency and launch status.** Typical order: ICP, then brand voice and landing/signup, then blog and SEO, then community, then ASO once the product is live. Do not schedule a post-launch play (for example ASO) before the product-live date from Gate B.
 
-**3d. Phrase and tag.** Client-proof every row (PO action). Set Owner to PO by default, `⚙️ pod` only for an in-product mechanic. For any row whose action is an asset, name the companion skill to run in Notes (see the table below).
+**3d. Phrase and tag.** Client-proof every row (PO action), drafted in English. Set Owner to PO by default, `⚙️ pod` only for an in-product mechanic, and `👤 client-post` for a channel that is inherently the client's (their LinkedIn, their network, or native-language posting). For a `👤 client-post` row, the PO action is delivering the ready English kit, not the client's post. For any row whose action is an asset, name the companion skill to run in Notes (see the table below).
 
 ## Step 4: Write the plan file
 
@@ -107,7 +112,7 @@ First-cohort target: [...] · Success metric: [...]
 ## Foundation readiness
 | Item | Status | Link |
 |---|---|---|
-| Value proposition | [Done/Not/N-A] | |
+| Value proposition | [Done / Live-not-activated / Not / N-A] | |
 | Landing page | | |
 | PostHog full stack | | |
 | Waitlist drip sequence | | |
@@ -132,7 +137,7 @@ First-cohort target: [...] · Success metric: [...]
 | | | | |
 ```
 
-Status values: `Not Started`, `In Progress`, `Pending Client Approval`, `Done`.
+Status values: `Not Started`, `In Progress`, `Pending Client Approval`, `Done`. Foundation-readiness rows may also use `Live, not activated`. Owner values: `PO` (default), `⚙️ pod` (in-product mechanic), `PO → 👤 client` (PO drafts the ready English kit, client translates and posts).
 
 ## Step 5: Review and export
 
@@ -144,11 +149,11 @@ Status values: `Not Started`, `In Progress`, `Pending Client Approval`, `Done`.
 
 ## Re-run behavior (rolling wave)
 
-On every run: preserve completed rows and statuses, roll the detailed window to the next ~4 weeks, refresh the horizon, and fold in the weekly learning log and any PostHog signal. Apply keep-or-swap: continue plays that worked, swap out plays that did not before they are detailed. Reflect input changes (ICP refined, stage advanced, a channel proven or killed).
+On every run: first reconcile the prior plan against source of truth (see Step 2), then preserve completed rows and statuses, roll the detailed window to the next ~4 weeks, refresh the horizon, and fold in the weekly learning log and any PostHog signal. Apply keep-or-swap: continue plays that worked, swap out plays that did not before they are detailed. Reflect input changes (ICP refined, stage advanced, a channel proven or killed, a foundation item that turned out dormant).
 
 ## Companion asset skills
 
-The planner points at these; it does not draft assets itself. Each reads the ICP doc plus the brand-voice guide and returns a client-ready draft that then goes through Mara review and client approval.
+The planner points at these; it does not draft assets itself. Each reads the ICP doc plus the brand-voice guide and returns a client-ready draft in English (the client owns any translation into their native language) that then goes through Mara review and client approval.
 
 | When a row's action is... | Point Notes at skill |
 |---|---|
