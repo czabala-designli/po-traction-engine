@@ -249,7 +249,7 @@ const GUARANTEES = [
     const tasks = visibleTasks();
     const done = tasks.filter((t) => checked[t.id]).length;
     const pct = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
-    h += `<div class="ktm-progressbar"><p class="ktm-progress" data-ktm-progress>${done} of ${tasks.length} tasks checked (${pct}%)</p><button type="button" class="ktm-copy" data-ktm-copy>Copy checklist</button></div>`;
+    h += `<div class="ktm-progressbar"><div class="ktm-progress-group"><p class="ktm-progress" data-ktm-progress>${done} of ${tasks.length} tasks checked (${pct}%)</p><span class="ktm-saved">Saved on this device only. Use Copy checklist to keep a copy elsewhere.</span></div><button type="button" class="ktm-copy" data-ktm-copy>Copy checklist</button></div>`;
 
     WEEKS.forEach((w, wi) => {
       h += `<details class="ktm-week"${wi === 0 ? ' open' : ''}>`;
@@ -344,7 +344,9 @@ const GUARANTEES = [
   .ktm-track-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 10.5px; color: var(--muted-blue); }
 
   .ktm-progressbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .ktm-progress-group { display: flex; flex-direction: column; gap: 3px; }
   .ktm-progress { font-size: 13px; color: var(--muted-blue); margin: 0; }
+  .ktm-saved { font-size: 11px; color: var(--muted-blue); opacity: 0.85; }
   .ktm-copy { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--navy-mid); background: transparent; color: var(--off-white); font-family: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; }
   .ktm-copy:hover { border-color: var(--coral); color: var(--coral); }
 

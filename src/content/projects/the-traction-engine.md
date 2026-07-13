@@ -2,6 +2,7 @@
 title: "The Traction Engine"
 status: "active"
 summary: "The origin project — dogfooding the entire PO traction playbook, in public, for other POs to learn from."
+checklistNote: "A curated set of milestone-level markers for this project, not the full day-by-day task map. For the complete kickoff list, see the Task Map Generator (33 or 36 tasks) or the new-project template."
 assetsUsed: ["waitlist-landing-page"]
 checklist:
   - { milestone: "Day 30 · First user", label: "Waitlist landing page live and collecting signups", done: true }

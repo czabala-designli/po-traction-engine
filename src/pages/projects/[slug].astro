@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 
 const { entry, assets } = Astro.props;
 const { Content } = await render(entry);
-const { title, status, summary, assetsUsed, checklist } = entry.data;
+const { title, status, summary, assetsUsed, checklist, checklistNote } = entry.data;
 
 const usedAssets = assetsUsed
   .map((slug) => assets.find((a) => a.id === slug))
@@ -44,7 +44,7 @@ const usedAssets = assetsUsed
 
     <section class="checklist-section">
       <p class="section-label">Progress checklist</p>
-      <Checklist items={checklist} />
+      <Checklist items={checklist} note={checklistNote} />
     </section>
 
     <article class="body">

@@ -7,8 +7,9 @@ interface ChecklistItem {
 }
 interface Props {
   items: ChecklistItem[];
+  note?: string;
 }
-const { items } = Astro.props;
+const { items, note } = Astro.props;
 const doneCount = items.filter((i) => i.done).length;
 
 const hasMilestones = items.some((i) => i.milestone);
@@ -40,6 +41,7 @@ if (hasMilestones) {
       </div>
     )}
   </div>
+  {note && <p class="count-note">{note}</p>}
   {groups.map((g) => (
     g.milestone ? (
       <details class="mgroup">
@@ -112,6 +114,8 @@ if (hasMilestones) {
   }
   .toggles button:hover { color: var(--coral); }
   .tsep { color: var(--navy-mid); font-size: 10px; }
+
+  .count-note { font-size: 12px; line-height: 1.55; color: var(--muted-blue); font-style: italic; margin: -4px 0 14px; }
 
   .mgroup + .mgroup { margin-top: 18px; }
   .mlabel {

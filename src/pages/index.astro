@@ -33,7 +33,7 @@ const BANDS = [
 const COMMITMENTS = [
   { day: 14, label: 'Refund window closes', hint: 'Full refund, no questions. We show real progress on Basecamp first.', tag: 'guarantee', critical: true },
   { day: 30, label: 'First user', hint: 'A real human using the product (inner-circle counts).', tag: 'guarantee', critical: true },
-  { day: 60, label: 'App ready for store submission', hint: 'Also the last day to give 30-day notice and still wind down by Day 90.', tag: 'last day to give notice', critical: false },
+  { day: 60, label: 'App store-ready (or scale-ready)', hint: 'App ready for store submission on mobile projects, or product ready to scale for non-mobile. Also the last day to give 30-day notice and still wind down by Day 90.', tag: 'last day to give notice', critical: false },
   { day: 90, label: 'First dollar of revenue', hint: 'End of the 90-day engagement. Renewals carry the next mission.', tag: 'engagement ends', critical: false },
 ];
 
@@ -58,16 +58,30 @@ const relOf = (a: (typeof assets)[number]) => ({
   feeds: a.data.feeds.map((id) => ({ id, title: titleOf[id] })).filter((n) => n.title),
 });
 
+// Live items sort ahead of coming-soon within a phase, so the usable path is always
+// encountered first; order is the tie-breaker within each status.
+const statusRank = (s: string) => (s === 'live' ? 0 : 1);
 const itemsIn = (slug: string) =>
-  assets.filter((a) => a.data.phase === slug).sort((a, b) => a.data.order - b.data.order);
+  assets
+    .filter((a) => a.data.phase === slug)
+    .sort((a, b) => statusRank(a.data.status) - statusRank(b.data.status) || a.data.order - b.data.order);
 
-const bands = BANDS.map((b) => ({
-  ...b,
-  milestones: COMMITMENTS.filter((c) => c.day >= b.dayRange[0] && c.day <= b.dayRange[1]),
-  groups: b.phases
+const bands = BANDS.map((b) => {
+  const groups = b.phases
     .map((slug) => ({ slug, label: labelOf[slug], items: itemsIn(slug) }))
-    .filter((g) => g.items.length > 0),
-})).filter((b) => b.groups.length > 0);
+    .filter((g) => g.items.length > 0);
+  const items = groups.flatMap((g) => g.items);
+  const liveCount = items.filter((a) => a.data.status === 'live').length;
+  // Flag a band whose live plays are outnumbered by planned ones, so we can frame it
+  // honestly as a roadmap rather than let it read as a run of empty pages.
+  const mostlyPlanned = items.length - liveCount > liveCount;
+  return {
+    ...b,
+    milestones: COMMITMENTS.filter((c) => c.day >= b.dayRange[0] && c.day <= b.dayRange[1]),
+    groups,
+    mostlyPlanned,
+  };
+}).filter((b) => b.groups.length > 0);
 
 const ctaFor = (kind: string) =>
   kind === 'template' ? 'View template →' : kind === 'tool' ? 'Open tool →' : 'View play →';
@@ -142,6 +156,12 @@ const ctaFor = (kind: string) =>
         <div class="band-head">
           <span class="band-days">{band.days}</span>
           <h2 class="band-title">{band.title}</h2>
+          {band.mostlyPlanned && (
+            <p class="band-lead">
+              Most of this track is still on the roadmap. The plays marked <strong>Live</strong> are
+              ready to run now; the rest are planned and go live as they're built.
+            </p>
+          )}
         </div>
 
         {band.groups.map((g) => (
@@ -149,22 +169,15 @@ const ctaFor = (kind: string) =>
             <h3 class="subphase-title">{g.label}</h3>
             <div class="grid">
               {g.items.map((a) => (
-                a.data.status === 'live' ? (
-                  <a class="card" href={`/library/${a.id}`}>
-                    <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
-                    <h4 class="card-title">{a.data.title}</h4>
-                    <p class="card-summary">{a.data.summary}</p>
-                    <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} linked={false} />
-                    <span class="card-cta">{ctaFor(a.data.kind)}</span>
-                  </a>
-                ) : (
-                  <div class="card card-disabled">
-                    <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
-                    <h4 class="card-title">{a.data.title}</h4>
-                    <p class="card-summary">{a.data.summary}</p>
-                    <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} linked={false} />
-                  </div>
-                )
+                <div class:list={['card', a.data.status === 'live' ? 'card-live' : 'card-disabled']}>
+                  <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
+                  <h4 class="card-title">{a.data.title}</h4>
+                  <p class="card-summary">{a.data.summary}</p>
+                  <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} />
+                  {a.data.status === 'live' && (
+                    <a class="card-cta card-cta-link" href={`/library/${a.id}`}>{ctaFor(a.data.kind)}</a>
+                  )}
+                </div>
               ))}
             </div>
           </div>
@@ -184,7 +197,14 @@ const ctaFor = (kind: string) =>
     ))}
 
     <section class="band">
-      <div class="band-head"><h2 class="band-title">Projects</h2></div>
+      <div class="band-head">
+        <h2 class="band-title">Projects</h2>
+        <p class="band-lead">
+          Counts differ by design: the template lists the full 38-item kickoff checklist
+          (the full mobile task map plus milestones), while a case study tracks a curated set of
+          milestone markers. For the canonical day-by-day list, use the Task Map Generator.
+        </p>
+      </div>
       <div class="grid">
         {projects
           .slice()
@@ -288,6 +308,8 @@ const ctaFor = (kind: string) =>
   .band-head { border-top: 2px solid var(--coral); padding-top: 18px; margin-bottom: 28px; }
   .band-days { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); }
   .band-title { font-family: var(--serif); font-size: clamp(24px, 3.4vw, 34px); font-weight: 400; color: var(--white); line-height: 1.1; margin-top: 4px; }
+  .band-lead { font-size: 13.5px; line-height: 1.65; color: var(--muted-blue); max-width: 640px; margin-top: 12px; }
+  .band-lead strong { color: var(--off-white); font-weight: 700; }
 
   .subphase { margin-bottom: 32px; }
   .subphase-title { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted-blue); margin-bottom: 16px; }
@@ -333,13 +355,20 @@ const ctaFor = (kind: string) =>
   @media (max-width: 767px) { .grid { grid-template-columns: 1fr; } }
 
   .card {
+    position: relative;
     display: flex; flex-direction: column; gap: 10px;
     background: var(--navy-card); border: 1px solid var(--navy-mid);
     border-radius: 10px; padding: 22px; text-decoration: none;
     transition: border-color 0.18s, transform 0.18s;
   }
-  a.card:hover { border-color: var(--coral); transform: translateY(-3px); }
+  a.card:hover, .card-live:hover { border-color: var(--coral); transform: translateY(-3px); }
+  .card-live { cursor: pointer; }
   .card-disabled { opacity: 0.55; }
+  /* Stretched link: the CTA anchor covers the whole card so any non-link area navigates,
+     while the Needs/Feeds tag links sit above it (z-index) and stay independently clickable. */
+  .card-cta-link { text-decoration: none; }
+  .card-cta-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
+  .card :global(.rel a) { position: relative; z-index: 2; }
   .badges { display: flex; gap: 8px; flex-wrap: wrap; }
   .card-title { font-family: var(--serif); font-size: 19px; font-weight: 400; color: var(--white); line-height: 1.25; margin-top: 4px; }
   .card-summary { font-size: 13px; line-height: 1.7; color: var(--muted-blue); }

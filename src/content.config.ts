@@ -24,6 +24,9 @@ const projects = defineCollection({
     title: z.string(),
     status: z.enum(['active', 'complete', 'template']),
     summary: z.string(),
+    // Optional one-line caption shown under the checklist count, explaining what the
+    // total represents (so different denominators across projects don't read as contradictory).
+    checklistNote: z.string().optional(),
     assetsUsed: z.array(z.string()).default([]),
     checklist: z
       .array(

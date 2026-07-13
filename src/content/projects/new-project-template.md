@@ -2,6 +2,7 @@
 title: "Your project starts here"
 status: "template"
 summary: "What every new project looks like on Day 0 — the full kickoff checklist, nothing done yet. Copy it to track your own run."
+checklistNote: "38 items = the full mobile configuration (all 36 Task Map Generator tasks, including the Apple & Google Developer steps) plus the Day 30 and Day 90 milestone markers. A web-only project runs 33 of these."
 assetsUsed: []
 checklist:
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Founder orbit users identified & commitment obtained", done: false, note: "Critical — blocks downstream work" }
@@ -49,14 +50,15 @@ looks like the moment you start: every kickoff task laid out, nothing done yet.
 
 ## How to use it
 
-The checklist above mirrors the [Task Map Generator](/library/task-map-generator)
-checklist — the granular, day-by-day list of everything a PO runs from kickoff
-through the Day-30 (first user) and Day-90 (first dollar) milestones. Copy it into
-your own project case study and check items off as you go.
+The checklist above is the [Task Map Generator](/library/task-map-generator)
+list shown in full: all 36 tasks for a mobile project (33 if there's no mobile app),
+plus the Day 30 (first user) and Day 90 (first dollar) milestone markers, for a total
+of 38 rows. It's the granular, day-by-day list of everything a PO runs from kickoff.
+Copy it into your own project case study and check items off as you go.
 
 ## Keeping it current
 
 On a real project, the checklist updates itself through the feedback widget's
 **Progress update** flow — send a progress note and the project's `checklist:`
 frontmatter is updated, moving the counts you see here. This placeholder stays at
-0 / 38 on purpose, as the Day-0 reference.
+0 / 38 on purpose, as the Day-0 reference (38 = the full mobile task map plus the two milestones).
