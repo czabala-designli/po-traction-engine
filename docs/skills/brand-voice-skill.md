@@ -72,8 +72,12 @@ Present the full set at once (don't make the PO go trait-by-trait) and ask for o
 > - **[Trait 1]** but not *[proposed opposite]*
 > - **[Trait 2]** but not *[proposed opposite]*
 > - **[Trait 3]** but not *[proposed opposite]*
+> - **[Trait 4, if chosen]** but not *[proposed opposite]*
+> - **[Trait 5, if chosen]** but not *[proposed opposite]*
 >
 > Look right, or want to swap any of the 'but not' words?"
+
+List one bullet per trait the PO actually picked (3 to 5), not a fixed three.
 
 This produces the "X but not Y" table for the output doc. Wait for confirmation before moving to Step 4.
 
