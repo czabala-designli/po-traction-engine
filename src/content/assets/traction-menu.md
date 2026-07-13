@@ -7,7 +7,11 @@ summary: "The running 60-day menu of traction actions — content, community, SE
 order: 1
 ---
 
-The Traction Menu is the optional, pick-from layer of the playbook. Once the mandatory foundation is in place (value proposition, landing page, PostHog, waitlist drip, first-cohort doc), you draw from this menu to choose the growth activities that fit your product's stage and ICP. Every activity is a full playbook: why it matters, when to run it, what you'll need, the step-by-step, templates, a definition of done, and how to talk about it with the client.
+The Traction Menu is the optional, pick-from layer of the playbook. Once the mandatory foundation is in place (value proposition, landing page, PostHog, waitlist drip, first-cohort doc), you draw from this menu to choose the growth activities that fit your product's stage and ICP.
+
+## Where it lives
+
+The full, client-friendly Traction Menu is a live app: <a href="https://tractionmenu.apps.designli.io/" target="_blank" rel="noopener">tractionmenu.apps.designli.io ↗</a> (opens in a new tab). Every activity is a full playbook: why it matters, when to run it, what you'll need, the step-by-step, templates, a definition of done, and how to talk about it with the client.
 
 ## What's inside
 
@@ -35,7 +39,3 @@ Each is tagged for B2B, B2C, or dev-dependent work, so you only see what fits yo
 ## How it relates to this library
 
 The plays already in this library (Value Proposition, Waitlist Landing Page, PostHog, Waitlist Email Sequence, ICP Research) are the mandatory foundation the menu assumes you've done. The Traction Menu is the wider catalog you graduate to for the Days 31–90 growth phase. The [Task Map Generator](/library/task-map-generator) and the `traction-plan` skill are what turn a selection from this menu into a dated, week-by-week plan for a specific project.
-
-## Where it lives
-
-The full, client-friendly Traction Menu is a live app: <a href="https://tractionmenu.apps.designli.io/" target="_blank" rel="noopener">tractionmenu.apps.designli.io ↗</a> (opens in a new tab).
