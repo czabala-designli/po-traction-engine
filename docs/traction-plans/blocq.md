@@ -8,10 +8,10 @@ ICP(s): [volleyball-coach](../../../blocq-sports-smoke/docs/icp-communities-voll
 First-cohort target: 5-10 volleyball coaches from Carl's own club (Revolution Volleyball Academy), then club directors · Success metric: coach adoption first (5-10 active coaches), then first director subscription (first dollar by Day 90)
 
 ## Foundation snapshot (per track)
-- Track 1 Landing + PostHog: Live, not activated (waitlist live at blocqsports.com; PostHog events/cohorts in progress; drip sequence not built)
-- Track 2 ICP communities: Not activated (research done, client approval pending; communities: Coaching Volleyball on Facebook, Volleyball Club Director & Administrators, VolleyTalk, r/volleyball, r/volleyballtraining)
-- Track 3 Client social (LinkedIn): Not done (no channel claimed; brand voice guide pending)
-- Track 4 Blog/SEO: Live, not activated (blog live at blocqsports.com/blog; verify sitemap, robots, JSON schema, Search Console; keyword repository pending)
+- Track 1 (Landing + PostHog): Live, not activated (waitlist live at blocqsports.com; PostHog events/cohorts in progress; drip sequence not built)
+- Track 2 (ICP communities): Not activated (research done, client approval pending; communities: Coaching Volleyball on Facebook, Volleyball Club Director & Administrators, VolleyTalk, r/volleyball, r/volleyballtraining)
+- Track 3 (Client social, LinkedIn): Not done (no channel claimed; brand voice guide pending)
+- Track 4 (Blog/SEO): Live, not activated (blog live at blocqsports.com/blog; verify sitemap, robots, JSON schema, Search Console; keyword repository pending)
 
 ## Detailed plan (next 4 weeks)
 | Date | Eng Wk / Day | Track | Theme | Action (PO action, client-proofed) | Owner | Status | Notes (companion) |
@@ -30,10 +30,10 @@ First-cohort target: 5-10 volleyball coaches from Carl's own club (Revolution Vo
 | 27 Jul 2026 | Week 8 / Day 54 | Communities | Grassroots cadence | PO prompts client via Basecamp to interact with another 3-5 posts, continuing weekly hereafter. | PO → 👤 client | Not Started | weekly cadence going forward |
 
 ## Horizon (to Day 90)
-- Track 1: Once the product is released, convert the waitlist page to a signup page and switch waitlist emails to a weekly cadence.
-- Track 2: Weeks 9-10, continue the weekly cadence (interaction plus one post) in coach communities. Weeks 10-12, shift the second motion to directors (Volleyball Club Director & Administrators, VolleyTalk) with an adoption story ("coaches in X clubs already use this"); open JVA outreach (guest article, newsletter, roundtable) as a credibility channel.
-- Track 3: Once brand voice is defined, ghost-write founder LinkedIn posts as an English kit for Carl to post.
-- Track 4: Continue the blog cadence on target keywords; stand up a Google Business Profile for discovery (coaches search Google, not LinkedIn).
+- Track 1 (Landing + PostHog): Once the product is released, convert the waitlist page to a signup page and switch waitlist emails to a weekly cadence.
+- Track 2 (ICP communities): Weeks 9-10, continue the weekly cadence (interaction plus one post) in coach communities. Weeks 10-12, shift the second motion to directors (Volleyball Club Director & Administrators, VolleyTalk) with an adoption story ("coaches in X clubs already use this"); open JVA outreach (guest article, newsletter, roundtable) as a credibility channel.
+- Track 3 (Client social, LinkedIn): Once brand voice is defined, ghost-write founder LinkedIn posts as an English kit for Carl to post.
+- Track 4 (Blog/SEO): Continue the blog cadence on target keywords; stand up a Google Business Profile for discovery (coaches search Google, not LinkedIn).
 - Optional extra (ASO): once the product is live, run app store optimization via `aso-listing`.
 - Toward Day 90: first director subscription (first dollar goal). Revisit monetization framing with the client as adoption proof accrues.
 

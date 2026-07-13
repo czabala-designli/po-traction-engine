@@ -121,10 +121,10 @@ Business type: [B2B/B2C/B2B2C] · Stage: [stage] · ICP(s): [...]
 First-cohort target: [...] · Success metric: [...]
 
 ## Foundation snapshot (per track)
-- Track 1 Landing + PostHog: [live / activate: what's missing]
-- Track 2 ICP communities: [...]
-- Track 3 Client social ([LinkedIn|IG/FB]): [...]
-- Track 4 Blog/SEO: [...]
+- Track 1 (Landing + PostHog): [live / activate: what's missing]
+- Track 2 (ICP communities): [...]
+- Track 3 (Client social, [LinkedIn|IG/FB]): [...]
+- Track 4 (Blog/SEO): [...]
 - Optional extras on: [ASO | cold outreach | ...] (omit line if none)
 
 ## Detailed plan (next 4 weeks)
@@ -132,10 +132,10 @@ First-cohort target: [...] · Success metric: [...]
 |---|---|---|---|---|---|---|---|
 
 ## Horizon (to Day 90)
-- Track 1: [...]
-- Track 2: [...]
-- Track 3: [...]
-- Track 4: [...]
+- Track 1 (Landing + PostHog): [...]
+- Track 2 (ICP communities): [...]
+- Track 3 (Client social): [...]
+- Track 4 (Blog/SEO): [...]
 
 ## Weekly learning log
 | Week | What we tried | What we learned (3 bullets max) | Next move |
