@@ -5,6 +5,8 @@ import StatusBadge from '../../components/StatusBadge.astro';
 import KindBadge from '../../components/KindBadge.astro';
 import AssetRelations from '../../components/AssetRelations.astro';
 import TaskMapGenerator from '../../components/TaskMapGenerator.astro';
+import PrevNext from '../../components/PrevNext.astro';
+import { sequenceNeighbors } from '../../lib/nav';
 
 export async function getStaticPaths() {
   const entries = await getCollection('assets');
@@ -22,6 +24,7 @@ const needs = [
   ...(entry.data.needsNote ? [{ note: entry.data.needsNote }] : []),
 ];
 const feeds = entry.data.feeds.map((id) => ({ id, title: titleOf[id] })).filter((n) => n.title);
+const { prev, next } = sequenceNeighbors(all, entry.id);
 ---
 <Layout title={`${title} — PO Traction Library`} description={summary}>
   <main class="wrap">
@@ -53,6 +56,11 @@ const feeds = entry.data.feeds.map((id) => ({ id, title: titleOf[id] })).filter(
     <article class="body">
       <Content />
     </article>
+
+    <PrevNext
+      prev={prev ? { id: prev.id, title: prev.data.title } : null}
+      next={next ? { id: next.id, title: next.data.title } : null}
+    />
   </main>
 </Layout>
 

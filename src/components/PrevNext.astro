@@ -1,0 +1,43 @@
+---
+interface NavItem { id: string; title: string; }
+interface Props {
+  prev?: NavItem | null;
+  next?: NavItem | null;
+}
+const { prev = null, next = null } = Astro.props;
+---
+{(prev || next) && (
+  <nav class="prevnext" aria-label="Sequence">
+    {prev ? (
+      <a class="pn pn-prev" href={`/library/${prev.id}`}>
+        <span class="pn-dir">◀ Previous</span>
+        <span class="pn-title">{prev.title}</span>
+      </a>
+    ) : <span class="pn-empty" />}
+    {next ? (
+      <a class="pn pn-next" href={`/library/${next.id}`}>
+        <span class="pn-dir">Next ▶</span>
+        <span class="pn-title">{next.title}</span>
+      </a>
+    ) : <span class="pn-empty" />}
+  </nav>
+)}
+
+<style>
+  .prevnext {
+    display: flex; gap: 14px; margin-top: 48px; padding-top: 28px;
+    border-top: 1px solid var(--navy-mid);
+  }
+  .pn {
+    flex: 1 1 0; display: flex; flex-direction: column; gap: 4px;
+    padding: 14px 16px; border: 1px solid var(--navy-mid); border-radius: 10px;
+    background: var(--navy-card); text-decoration: none;
+    transition: border-color 0.18s, transform 0.18s;
+  }
+  .pn:hover { border-color: var(--coral); transform: translateY(-2px); }
+  .pn-next { text-align: right; }
+  .pn-empty { flex: 1 1 0; }
+  .pn-dir { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--coral); }
+  .pn-title { font-family: var(--serif); font-size: 16px; color: var(--off-white); line-height: 1.2; }
+  @media (max-width: 560px) { .prevnext { flex-direction: column; } .pn-next { text-align: left; } }
+</style>
