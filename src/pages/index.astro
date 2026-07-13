@@ -109,13 +109,19 @@ const ctaFor = (kind: string) =>
     </header>
 
     <a class="manifesto" href="https://hdd.designli.co/po-traction" target="_blank" rel="noopener">
-      <p class="manifesto-eyebrow">1 · Start with the why</p>
+      <div class="manifesto-top">
+        <p class="manifesto-eyebrow">1 · Start with the why</p>
+        <span class="manifesto-source" aria-hidden="true">External · hdd.designli.co</span>
+      </div>
       <h2 class="manifesto-title">PO as Traction Engine <span class="manifesto-ext" aria-hidden="true">↗</span></h2>
       <p class="manifesto-body">
         The manifesto behind this playbook — why getting a product's first users is now the PO's job,
         the two tracks you'll run, and how HDD applies to distribution. Read this before you run a single play.
       </p>
-      <span class="manifesto-cta">Read the manifesto ↗</span>
+      <span class="manifesto-cta">Read the manifesto on hdd.designli.co ↗</span>
+      <span class="manifesto-note">
+        The canonical version, hosted on Designli's HDD site. Opens in a new tab and may require a Designli Google sign-in.
+      </span>
     </a>
 
     {starter && (
@@ -285,7 +291,16 @@ const ctaFor = (kind: string) =>
     transition: border-color 0.18s, transform 0.18s, background 0.18s;
   }
   .manifesto:hover { border-color: var(--purple); background: rgba(88, 55, 123, 0.14); transform: translateY(-3px); }
-  .manifesto-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--purple-light, #A78BC4); margin-bottom: 10px; }
+  .manifesto-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .manifesto-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: var(--purple-light, #A78BC4); margin-bottom: 0; }
+  /* Explicit external-source marker — this content lives on a separate Designli property. */
+  .manifesto-source {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--purple-light, #A78BC4); background: rgba(88, 55, 123, 0.28);
+    border: 1px solid rgba(88, 55, 123, 0.6); border-radius: 6px; padding: 3px 8px;
+  }
+  .manifesto-note { display: block; margin-top: 10px; font-size: 11.5px; line-height: 1.5; color: var(--muted-blue); font-style: italic; }
   .manifesto-title { font-family: var(--serif); font-size: clamp(22px, 3vw, 30px); font-weight: 400; color: var(--white); line-height: 1.15; margin-bottom: 12px; }
   .manifesto-ext { font-size: 0.6em; color: var(--purple-light, #A78BC4); vertical-align: super; }
   .manifesto-body { font-size: 14px; line-height: 1.7; color: var(--muted-blue); max-width: 680px; margin-bottom: 16px; }
