@@ -1,3 +1,5 @@
+> **Scope (as of 2026-07-13):** This reference is the OPTIONAL-EXTRAS lookup for the traction-plan skill. The plan spine is fixed (the 4 tracks: Landing+PostHog, ICP communities, Client social, Blog/SEO) and is NOT chosen from this menu. Consult this file only when selecting the one or two optional extras that fit a project (ASO, cold outreach, referral loop, Google Business Profile, in-app review prompt, comparison pages).
+
 # HDD — PO as Traction Engine: Complete Reference
 
 > Source: hdd.designli.co (PO as Traction Engine, Core Traction Activities, Traction Menu + all 52 activity playbooks).
