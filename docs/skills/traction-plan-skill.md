@@ -47,6 +47,8 @@ A project can have more than one ICP (a B2B2C product like Blocq has two: the ec
 3. If you find none, ask the PO to paste the link(s)/path(s)/Markdown.
 4. If there is still nothing, **stop** and tell the PO: "Run the `icp-research` skill first (once per ICP), then re-run me." Do not fabricate an ICP.
 
+Do not auto-run ICP research. It is gated by client approval before it is trusted.
+
 ### Project facts
 
 - **Kickoff date** (required)
@@ -110,7 +112,7 @@ Suggest only the one or two extras that clearly fit. Do not present a menu. Cand
 
 ## Step 7: Write the plan file
 
-Write into the lab's own repo at `docs/traction-plans/[project-slug].md`. Use exactly this template:
+Write into the lab's own repo at `docs/traction-plans/[project-slug].md`. Use this template (the header lines may wrap for readability):
 
 ```markdown
 # [Project] Traction Plan
@@ -122,7 +124,7 @@ First-cohort target: [...] · Success metric: [...]
 - Track 1 Landing + PostHog: [live / activate: what's missing]
 - Track 2 ICP communities: [...]
 - Track 3 Client social ([LinkedIn|IG/FB]): [...]
-- Track 4 Blog / SEO: [...]
+- Track 4 Blog/SEO: [...]
 - Optional extras on: [ASO | cold outreach | ...] (omit line if none)
 
 ## Detailed plan (next 4 weeks)
