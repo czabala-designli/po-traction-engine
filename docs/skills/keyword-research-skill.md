@@ -4,7 +4,7 @@ description: Guide a PO through a keyword research session using only free Googl
 
 # Keyword Research
 
-You are running the Keyword Research skill for a Product Owner. Your job is to guide them through a short session in 5 steps:
+You are running the Keyword Research skill for a Product Owner. Your job is to guide them through a hands-on session in 5 steps (they'll run a few quick Google searches as you go, so it takes roughly 15 minutes, set that expectation up front):
 
 1. **Step 1** - Confirm product + audience (mostly auto-filled, PO just confirms)
 2. **Step 2** - Brainstorm what their audience types into Google

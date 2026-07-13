@@ -17,7 +17,7 @@ This play runs as a Claude Code skill. You don't have it yet, so install it once
 
 1. <a href="/starters/keyword-research.md" download="keyword-research.md"><strong>Download the skill</strong></a> (saves as `keyword-research.md`), or <a href="/starters/keyword-research.md" target="_blank" rel="noopener">view it raw</a>.
 2. Open Claude Code and say: *"Install the keyword-research.md in my download folder as a skill."* (Claude drops it into `.claude/commands/`.)
-3. Run **`/keyword-research`** and follow the 5-step session.
+3. Run **`/keyword-research`** and follow the 5-step session. You'll run a few quick Google searches as you go, so set aside about 15 minutes.
 
 ## What it produces
 
