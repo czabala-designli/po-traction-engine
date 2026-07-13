@@ -1,72 +1,58 @@
 ---
-description: Generate or roll forward a per-project Traction Menu plan for a traction lab: a client-proofed, week-by-week marketing plan toward the Day 90 first-dollar-of-revenue goal, with the next 4 weeks detailed and a horizon to Day 90. Writes docs/traction-plans/[project-slug].md. Re-runnable (rolling wave). Loosely chained off icp-research.
+description: Generate or roll forward a per-project Traction Menu plan for a traction lab: a client-proofed, week-by-week marketing plan toward the Day 90 first-dollar-of-revenue goal, built from a fixed 4-track spine (landing+PostHog email, ICP communities, client social, blog/SEO) plus optional extras, with the next 4 weeks detailed and a horizon to Day 90. Writes docs/traction-plans/[project-slug].md. Re-runnable (rolling wave). Loosely chained off icp-research.
 ---
 
 # Traction Plan
 
-You are running the Traction Plan skill for a Product Owner (PO). Your job is to produce, or roll forward, one project's traction plan: a marketing-and-sales plan for the post-launch phase of the 90-day engagement, aimed at getting the customer to their first dollar of revenue.
+You are running the Traction Plan skill for a Product Owner (PO). Your job is to produce, or roll forward, one project's traction plan: a marketing-and-sales plan for the post-launch phase of the 90-day engagement, aimed at the customer's first dollar of revenue.
 
-This skill is **re-runnable**. A PO runs it at the start, then again every few weeks or whenever the project changes. It works for a brand-new lab on Day 1 (foundation while the pod codes) and for a lab mid-engagement (marketing ramp). Companion asset skills draft the actual assets; this skill plans and tracks, and points each asset row at its companion.
+Every traction lab has the same shape, so this skill does not make you shop a menu. It lays down the same **4-track spine** every time and sequences it for the project, then offers the one or two optional extras that actually fit. The tracks are:
 
-Before starting, read the project's CLAUDE.md if it exists (product name, description, domain). Then run the three Step 0 gates in order, one question at a time. Never ask more than one question per message unless a gate explicitly says a compact checklist is fine.
+1. **Landing + PostHog** (email/drip)
+2. **ICP communities** (interact, then share)
+3. **Client social** (LinkedIn for B2B/B2B2C, Instagram/Facebook for B2C)
+4. **Blog / SEO**
 
-**Where this runs and where things live.** Run this skill from the lab's own repo (where that lab's CLAUDE.md and ICP docs are). The plan is written into that lab's repo at `docs/traction-plans/[project-slug].md`. The skill itself, the Blocq worked example, the design rationale, and the Traction Menu reference all live in the `po-traction-engine` repo (kept cloned alongside the labs under `~/projects/`). Read the reference from there: `po-traction-engine/docs/traction-plans/reference/` (`PO-Traction-Engine-Reference.md` for the menu, core activities, and B2B/B2C cheat sheet; `PO-Traction-Engine-COMPLETE.md` for deep per-activity playbooks). Full rationale: `po-traction-engine/docs/traction-plans/traction-plan-skill-design.md`.
+This skill is **re-runnable** (rolling wave). Run it at the start, then again every few weeks or whenever the project changes. Companion asset skills draft the actual assets; this skill plans and tracks, and points each row at its companion.
+
+Before starting, read the project's CLAUDE.md if it exists (product name, description, domain, business type, kickoff).
+
+**Where this runs and where things live.** Run from the lab's own repo (where its CLAUDE.md and ICP docs are). Write the plan into that lab's repo at `docs/traction-plans/[project-slug].md`. The skill, the Blocq worked example, and the optional-extras reference live in `po-traction-engine`. The optional-extras lookup is `po-traction-engine/docs/traction-plans/reference/PO-Traction-Engine-Reference.md` (and `-COMPLETE.md` for deep playbooks). You consult it ONLY when picking an optional extra, never to choose the spine.
 
 ---
 
 ## Non-negotiable rules (apply throughout)
 
-- **No spaced em dashes** in anything you draft (the plan, notes, the client post). Rewrite with a period, comma, colon, or parentheses.
-- **Client-proof every plan row.** Phrase each action as a PO action ("PO prompts client via Basecamp to join the group"), never as a client action. Progress must never sit blocked on the client.
-- **Default ownership is the PO.** Landing pages, blogs, emails, PostHog, SEO, ASO are PO-executable with Claude Code. Tag a row `⚙️ pod` only when it is an in-product growth mechanic that touches the client's app codebase (referral unlock, invite-a-teammate, onboarding changes).
-- **Some channels are inherently the client's** (their personal LinkedIn, their own network, native-language community posting). For these, the client action is NOT the deliverable. The PO deliverable is a ready-to-use kit; the client posts or sends it when willing. Tag the row `👤 client-post`, phrase the PO action as "PO drafts + delivers the [X] kit", and measure progress by "kit delivered", never by "client posted". Nothing is blocked on the client, so the assets sit ready and every ask stays optional. This is the model for delicate clients.
-- **Always draft in English; the client owns any second language.** Produce every client-facing asset in English. If the ICP's market is not English-speaking, the client (a native speaker) owns translation into their language. Never plan for the PO or pod to produce, translate, or post foreign-language copy. Pair this with the `👤 client-post` pattern above: PO delivers the ready English kit, the client translates and posts.
+- **No spaced em dashes** in anything you draft. Rewrite with a period, comma, colon, or parentheses.
+- **Client-proof every row.** Phrase each action as a PO action ("PO prompts client via Basecamp to join the group"), never as a client action. Progress never sits blocked on the client.
+- **Default ownership is the PO.** Landing pages, blogs, emails, PostHog, SEO, ASO are PO-executable with Claude Code. Tag a row `⚙️ pod` only for an in-product growth mechanic that touches the client's app codebase (referral unlock, invite-a-teammate, onboarding change).
+- **Inherently-client channels** (their personal LinkedIn, their own network, native-language posting) use `PO → 👤 client`: the PO deliverable is a ready English kit; the client posts or translates when willing. Measure progress by "kit delivered", never "client posted".
+- **Always draft in English; the client owns any second language.** Never plan for the PO or pod to produce, translate, or post foreign-language copy.
 - **Client-facing framing defaults to yes:** "here is what we will execute unless you say otherwise."
-- **Nothing here touches the live site.** You only write under `docs/`.
+- **Nothing here touches the live site.** You write only under `docs/`.
+- **Keep the output lean (write like the Blocq worked example).** Terse rows. Notes is a companion-skill pointer plus at most a short qualifier. No inline reviewer commentary ("(Mara: ...)"), no rethink/NOTES blocks, no multi-sentence rationale in rows. Rationale goes in the learning log or the review conversation, not the plan body.
 
 ---
 
-## Step 0: Gates (run in order)
+## Inputs
 
-### Gate A: ICP research doc(s) (required input)
+Collect these before building. Ask one question per message; the project facts may be a single compact batch after the ICP gate.
 
-A project can have more than one ICP. A B2B2C product like Blocq has two (the economic buyer and the daily user). The `icp-research` skill writes one file per ICP at `docs/icp-communities-[archetype-slug].md`.
+### ICP research doc(s) (required)
 
-1. Look for one or more ICP docs matching `docs/icp-communities-*.md` in the lab's repo. Use all of them.
-2. If any doc has a "Go-to-Market Sequencing" section (icp-research adds one when a project has multiple ICPs), follow that order for which ICP to win first. Blocq's example: prove coach adoption first, then sell directors.
-3. If you find none, ask the PO: "Do you already have ICP research for this project? If yes, paste the link(s), path(s), or Markdown." There may be several; use whatever they provide (a Google Doc link is fine).
+A project can have more than one ICP (a B2B2C product like Blocq has two: the economic buyer and the daily user). The `icp-research` skill writes one file per ICP at `docs/icp-communities-[archetype-slug].md`.
+
+1. Look for `docs/icp-communities-*.md` in the lab's repo. Use all of them.
+2. If any doc has a "Go-to-Market Sequencing" section, follow that order for which ICP to win first (Blocq: prove coach adoption first, then sell directors).
+3. If you find none, ask the PO to paste the link(s)/path(s)/Markdown.
 4. If there is still nothing, **stop** and tell the PO: "Run the `icp-research` skill first (once per ICP), then re-run me." Do not fabricate an ICP.
 
-Do not auto-run ICP research. It is gated by client approval before it is trusted.
-
-### Gate B: Foundation readiness
-
-Tell the PO you need a quick readiness check, then present this as a single compact checklist and ask them to mark each `Done` / `Live, not activated` / `Not done` / `N-A` (and paste a link where it exists). This reuses the 7 Core Activities plus the launch essentials from `docs/tractionlab-kickoff-checklist.md`:
-
-- Value proposition written and approved
-- Landing page live (waitlist or signup)
-- PostHog full stack (events, session recording, survey, funnel, flags)
-- Waitlist drip email sequence live
-- ICP research done and client-approved
-- First cohort documented
-- Primary social channel claimed
-- Brand voice / writing style defined
-- Blog scaffolding for SEO (mark N-A if SEO does not fit this ICP)
-- Product live? (yes / no + date)
-
-**Existence is not activation.** For every item the PO wants to mark `Done`, confirm it is actually being used or driving results, not merely built. A landing page that has never been promoted (no traffic), a PostHog install with no funnel defined, a social channel that has never been posted to, or a waitlist with zero signups is `Live, not activated`, not `Done`. This distinction is where plans most often go wrong: teams assume the base is covered when it exists but is dormant.
-
-Anything marked `Not done` OR `Live, not activated` becomes a front-loaded task at the front of the detailed window (for `Live, not activated`, the task is activation, not building). `Done` items are recorded in the plan header so the client sees the base is covered.
-
-### Gate C: Project facts
-
-Collect these (kickoff date first, it is required; the rest may be a compact batch):
+### Project facts
 
 - **Kickoff date** (required)
 - Product one-liner
-- Business type: B2B / B2C / B2B2C
-- Stage: pre-launch / first users / scaling
-- Primary channel(s)
+- **Business type: B2B / B2C / B2B2C** (drives the Track 3 channel and the cold-outreach extra)
+- **Stage: pre-launch / first users / scaling** and **product-live? (yes/no + date)** (drives sequencing and the ASO extra)
 - First-cohort target (who, how many)
 - Primary success metric
 
@@ -74,86 +60,103 @@ Collect these (kickoff date first, it is required; the rest may be a compact bat
 
 ## Step 1: Compute the commitment dates
 
-From the kickoff date, compute four dates as **calendar days, weekends counted**:
+From the kickoff date, compute four dates as **calendar days, weekends counted**. Day 1 = kickoff, so Day N = kickoff + (N-1) days.
 
-- **Day 14** and **Day 30**: the hard guarantees
-- **Day 60** and **Day 90**: the commitment dates (Day 90 = first dollar of revenue goal)
+- **Day 14** and **Day 30**: hard guarantees
+- **Day 60** and **Day 90**: commitment dates (Day 90 = first dollar of revenue goal)
 
-These are the same four commitment dates the project surfaces elsewhere. Put all four in the plan header. They are the fixed backbone and are tracked correctly no matter how execution actually paces.
+Put all four in the plan header. They are the fixed backbone regardless of execution pace.
 
-## Step 2: Locate the project and set the window
+## Step 2: The 4-track spine and branch logic
 
-- Work out where the project is today (from the readiness gate and the current date relative to kickoff).
-- If `docs/traction-plans/[project-slug].md` already exists, this is a **re-run**: read it, keep completed rows and their statuses, and roll the detailed window forward to the next ~4 weeks. Otherwise it is a fresh first run.
-- **On a re-run, reconcile the prior plan against source of truth before trusting it.** Prior plans drift and inferred facts go stale. Verify the foundation claims and the product/app scope against reality: repo state and recent commits, live URLs (open the actual landing page/app), and analytics (PostHog) signal. Correct anything that has changed (a "view-only app" that is now two-sided, a landing page marked `Done` that has never been promoted), downgrade over-optimistic statuses per Gate B's existence-is-not-activation rule, and log the corrections in the weekly learning log. Do not roll a plan forward on top of stale assumptions.
-- **Detailed window** = the next ~4 engagement weeks from where the project is now. **Horizon** = everything after that, out to Day 90.
-- Lay activities on an engagement-week grid (kickoff + 7n). Each row shows a real calendar date and an engagement marker ("Eng. Week N / Day D"). Week placement is **recommended timing, not a gate**: if the PO runs ahead, that is a win, and the next re-run pulls more of the horizon into detail.
+The spine is always all four tracks. You do not choose them. You only derive per-project details from the facts you collected.
 
-## Step 3: Build the plan
+| Track | Foundation it needs | Core actions | Companion skill |
+|---|---|---|---|
+| **1. Landing + PostHog** | Landing live w/ capture; PostHog full stack wired; funnel + UTM defined | Activate capture, define funnel/UTM, welcome + drip sequence (PostHog workflows), lifecycle emails | `email-sequence`; value-proposition prompt for the headline |
+| **2. ICP communities** | ICP research done + client-approved; communities documented | Validate/join communities, lurk + non-promo interactions (respect each community's self-promo rules), value-first posts sharing the URL/product, weekly cadence | `community-post` |
+| **3. Client social** | Channel claimed / handle reserved; brand voice defined | PO ghost-writes founder/brand posts as an English kit, client posts on their channel; cadence | `community-post` (founder post), `brand-voice` |
+| **4. Blog / SEO** | Blog scaffolding (nav, sitemap, robots, JSON schema, Search Console); keyword repository; brand voice | Keyword research into a repository, publish posts on cadence targeting keywords, backlinks | `keyword-research`, `blog-post` |
 
-**3a. Front-load foundation gaps.** Every `Not done` and `Live, not activated` item from Gate B becomes a PO-owned task at the front of the detailed window, before any growth play, so the plan is a complete path and never assumes the base exists or is working. For `Live, not activated` items, the task is activation (drive traffic, define the funnel, make the first post), not rebuilding.
+**Branch logic (the only per-project variation):**
 
-**3b. Select growth activities.** From `docs/traction-plans/reference/PO-Traction-Engine-Reference.md`, pick activities that fit this project's ICP and stage (use the "recommended starting picks" and the B2B vs B2C cheat sheet). Do not over-commit: a few plays that can show results beats ten at once.
+- **Business type** sets Track 3's channel: **B2B / B2B2C → LinkedIn**; **B2C → Instagram / Facebook**. It also flips on the **cold-outreach** extra for B2B.
+- **ICP research** fills Track 2's communities and, for a B2B2C product with multiple ICPs, sets which ICP to win first (GTM sequencing).
+- **Stage + product-live date** set ordering across tracks and flip on the **ASO** extra once the product is live. Never schedule a post-launch play before the product-live date.
 
-**3c. Sequence by dependency and launch status.** Typical order: ICP, then brand voice and landing/signup, then blog and SEO, then community, then ASO once the product is live. Do not schedule a post-launch play (for example ASO) before the product-live date from Gate B.
+## Step 3: Per-track foundation check (existence is not activation)
 
-**3d. Phrase and tag.** Client-proof every row (PO action), drafted in English. Set Owner to PO by default, `⚙️ pod` only for an in-product mechanic, and `👤 client-post` for a channel that is inherently the client's (their LinkedIn, their network, or native-language posting). For a `👤 client-post` row, the PO action is delivering the ready English kit, not the client's post. For any row whose action is an asset, name the companion skill to run in Notes (see the table below).
+There is no separate foundation gate. For each of the 4 tracks, run a one-line "is this track's base live?" check. Apply existence-is-not-activation: a landing page never promoted, a PostHog install with no funnel, a channel never posted to, or a waitlist with zero signups is `Live, not activated`, not `Done`.
 
-## Step 4: Write the plan file
+Anything `Not done` or `Live, not activated` becomes that track's **first Week-1 row** (the task is activation, not rebuilding). Summarize the result in the per-track "Foundation snapshot" block in the header.
 
-Write the plan into the lab's own repo at `docs/traction-plans/[project-slug].md` (co-located with that lab's CLAUDE.md and ICP docs). Do not write real plans into `po-traction-engine`; that repo holds only the skill, the Blocq worked example, and the reference. Use exactly this template:
+## Step 4: Optional extras (offer, do not browse)
+
+Suggest only the one or two extras that clearly fit. Do not present a menu. Candidates: ASO (product live), cold outreach / founder network (B2B), in-product referral loop (`⚙️ pod`), Google Business Profile, in-app review prompt, comparison pages. Use the optional-extras reference only here.
+
+## Step 5: Locate the project and set the window
+
+- Work out where the project is today (from the foundation check and the current date relative to kickoff).
+- If `docs/traction-plans/[project-slug].md` exists, this is a **re-run**: read it, keep completed rows and their statuses, and roll the detailed window forward ~4 weeks. Otherwise it is a fresh first run.
+- **On a re-run, reconcile the prior plan against source of truth before trusting it.** Verify foundation claims and product/app scope against reality: repo state and recent commits, live URLs (open the actual landing page/app), and PostHog signal. Downgrade over-optimistic statuses per existence-is-not-activation, correct anything that changed, and log the corrections in the weekly learning log.
+- **Detailed window** = the next ~4 engagement weeks. **Horizon** = everything after, out to Day 90. Lay rows on an engagement-week grid (kickoff + 7n); each row shows a real calendar date and "Eng. Week N / Day D". Week placement is recommended timing, not a gate.
+
+## Step 6: Build and sequence the plan
+
+1. Front-load each track's foundation gaps as its first Week-1 rows.
+2. Sequence across tracks by dependency: value prop and brand voice first where a track needs them, then activate Track 1 (measurement) before growth plays that depend on reading results, then Tracks 2 and 4 cadence, Track 3 kit delivery, and any extra once its precondition (e.g. product-live for ASO) is met.
+3. Tag and phrase every row: PO action, client-proofed, English. Owner is `PO` by default, `⚙️ pod` for an in-product mechanic, `PO → 👤 client` for an inherently-client channel. Put the companion skill in Notes.
+4. Do not over-commit. A few plays that can show results beats ten at once.
+
+## Step 7: Write the plan file
+
+Write into the lab's own repo at `docs/traction-plans/[project-slug].md`. Use exactly this template:
 
 ```markdown
 # [Project] Traction Plan
-Kickoff: [date] · Day 14 (guarantee): [date] · Day 30 (guarantee): [date] · Day 60: [date] · Day 90 (first $ goal): [date]
-Business type: [B2B/B2C/B2B2C] · Stage: [stage] · Primary channel(s): [...]
+Kickoff: [date] · Day 14: [date] · Day 30: [date] · Day 60: [date] · Day 90 (first $): [date]
+Business type: [B2B/B2C/B2B2C] · Stage: [stage] · ICP(s): [...]
 First-cohort target: [...] · Success metric: [...]
 
-## Foundation readiness
-| Item | Status | Link |
-|---|---|---|
-| Value proposition | [Done / Live-not-activated / Not / N-A] | |
-| Landing page | | |
-| PostHog full stack | | |
-| Waitlist drip sequence | | |
-| ICP approved | | |
-| First cohort documented | | |
-| Primary social channel | | |
-| Brand voice / style | | |
-| Blog scaffolding (if SEO) | | |
-| Product live | [yes/no + date] | |
+## Foundation snapshot (per track)
+- Track 1 Landing + PostHog: [live / activate: what's missing]
+- Track 2 ICP communities: [...]
+- Track 3 Client social ([LinkedIn|IG/FB]): [...]
+- Track 4 Blog / SEO: [...]
+- Optional extras on: [ASO | cold outreach | ...] (omit line if none)
 
 ## Detailed plan (next 4 weeks)
-| Date | Eng. Week / Day | Theme | Action (PO action, client-proofed) | Owner | Status | Notes (companion skill, links) |
-|---|---|---|---|---|---|---|
-| [date] | Eng. Week N / Day D | [theme] | [PO action] | PO | Not Started | [e.g. draft via blog-post skill] |
+| Date | Eng Wk / Day | Track | Theme | Action (PO action, client-proofed) | Owner | Status | Notes (companion) |
+|---|---|---|---|---|---|---|---|
 
 ## Horizon (to Day 90)
-- **Eng. Week N-M:** [theme]. Candidate activities: [...]
+- Track 1: [...]
+- Track 2: [...]
+- Track 3: [...]
+- Track 4: [...]
 
 ## Weekly learning log
 | Week | What we tried | What we learned (3 bullets max) | Next move |
 |---|---|---|---|
-| | | | |
 ```
 
-Status values: `Not Started`, `In Progress`, `Pending Client Approval`, `Done`. Foundation-readiness rows may also use `Live, not activated`. Owner values: `PO` (default), `⚙️ pod` (in-product mechanic), `PO → 👤 client` (PO drafts the ready English kit, client translates and posts).
+`Track` values: `Landing/PostHog`, `Communities`, `Client social`, `Blog/SEO`, or the extra's name.
+`Status` values: `Not Started`, `In Progress`, `Pending Client Approval`, `Done`. Snapshot rows may use `Live, not activated`.
+`Owner` values: `PO`, `⚙️ pod`, `PO → 👤 client`.
 
-## Step 5: Review and export
+## Step 8: Review and export
 
-1. **Mara review:** route the draft to Mara (marketing) for sign-off. Incorporate edits.
-2. **PO review:** the PO confirms (for Blocq that is Andrea).
-3. **Client-facing export:** produce a Basecamp post in default-to-yes framing ("here is our plan for the next four weeks, let us know if you disagree"), with the Owner column collapsed into Notes so it matches the Blocq sheet, and a link to the client-friendly Traction Menu site (https://tractionmenu.apps.designli.io/). Optionally mirror to a Google Sheet in the Blocq column order.
-
----
+1. **Mara review:** route the draft to Mara (marketing) for sign-off. Fold edits into the rows and the learning log, not as inline commentary.
+2. **PO review:** the PO confirms.
+3. **Client-facing export:** produce a Basecamp post in default-to-yes framing ("here is our plan for the next four weeks, let us know if you disagree"), with the Owner column collapsed into Notes, and a link to the Traction Menu site (https://tractionmenu.apps.designli.io/). Optionally mirror to a Google Sheet in the by-week / Track-column order.
 
 ## Re-run behavior (rolling wave)
 
-On every run: first reconcile the prior plan against source of truth (see Step 2), then preserve completed rows and statuses, roll the detailed window to the next ~4 weeks, refresh the horizon, and fold in the weekly learning log and any PostHog signal. Apply keep-or-swap: continue plays that worked, swap out plays that did not before they are detailed. Reflect input changes (ICP refined, stage advanced, a channel proven or killed, a foundation item that turned out dormant).
+On every run: reconcile against source of truth (Step 5), preserve completed rows and statuses, roll the detailed window to the next ~4 weeks, refresh the horizon, and fold in the learning log and any PostHog signal. Keep-or-swap: continue plays that worked, swap plays that did not before they are detailed. Reflect input changes (ICP refined, stage advanced, a channel proven or killed, a foundation item that turned out dormant).
 
 ## Companion asset skills
 
-The planner points at these; it does not draft assets itself. Each reads the ICP doc plus the brand-voice guide and returns a client-ready draft in English (the client owns any translation into their native language) that then goes through Mara review and client approval.
+The planner points at these; it does not draft assets itself. Each reads the ICP doc plus the brand-voice guide and returns a client-ready English draft that goes through Mara review and client approval.
 
 | When a row's action is... | Point Notes at skill |
 |---|---|
