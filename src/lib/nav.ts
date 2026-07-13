@@ -12,6 +12,9 @@ export const BANDS: { label: string; phases: string[] }[] = [
 ];
 
 // Canonical journey order: by phase, then by `order` within a phase.
+// This is the sequence view used by the sidebar and prev/next. Note the homepage
+// grid intentionally sorts differently (live items before coming-soon within a phase)
+// to surface the usable path first, so grid order and sidebar order can diverge.
 export function orderedAssets(assets: Asset[]): Asset[] {
   return [...assets].sort(
     (a, b) =>
