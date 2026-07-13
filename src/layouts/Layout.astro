@@ -1,13 +1,15 @@
 ---
 import PostHog from '../components/posthog.astro';
 import FeedbackWidget from '../components/FeedbackWidget.astro';
+import SideNav from '../components/SideNav.astro';
 
 interface Props {
   title: string;
   description?: string;
+  sidebar?: boolean;
 }
 
-const { title, description = 'The Traction Engine — Coming Soon' } = Astro.props;
+const { title, description = 'The Traction Engine — Coming Soon', sidebar = true } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
@@ -20,8 +22,11 @@ const { title, description = 'The Traction Engine — Coming Soon' } = Astro.pro
     <title>{title}</title>
     <PostHog />
   </head>
-  <body>
-    <slot />
+  <body class:list={[{ 'has-sidenav': sidebar }]}>
+    {sidebar && <SideNav />}
+    <div class="app-main">
+      <slot />
+    </div>
     <FeedbackWidget />
   </body>
 </html>
@@ -42,6 +47,7 @@ const { title, description = 'The Traction Engine — Coming Soon' } = Astro.pro
     --light-card: #EAE8F4;
     --mid-line:   #C8C2D0;
     --bar-w:      5px;
+    --nav-w:      240px;
 
     --serif: Georgia, 'Times New Roman', serif;
     --sans:  'Calibri', 'Trebuchet MS', 'Lucida Sans Unicode', sans-serif;
@@ -79,5 +85,16 @@ const { title, description = 'The Traction Engine — Coming Soon' } = Astro.pro
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .app-main { min-height: 100vh; }
+  body.has-sidenav .app-main { margin-left: var(--nav-w); }
+
+  @media (min-width: 901px) {
+    body.has-sidenav::before { display: none; }
+  }
+  @media (max-width: 900px) {
+    :root { --nav-w: 0px; }
+    body.has-sidenav .app-main { margin-left: 0; }
   }
 </style>
