@@ -42,11 +42,14 @@ const isActive = (href: string) => (href.replace(/\/$/, '') || '/') === current;
         <p class="nav-group-label">{g.label}</p>
         {g.items.map((a) => (
           <a
-            class:list={['nav-item', { 'is-active': isActive(`/library/${a.id}`), 'is-soon': a.data.status !== 'live' }]}
-            href={`/library/${a.id}`}
+            class:list={['nav-item', { 'is-active': !a.data.externalUrl && isActive(`/library/${a.id}`), 'is-soon': a.data.status !== 'live', 'nav-external': !!a.data.externalUrl }]}
+            href={a.data.externalUrl ?? `/library/${a.id}`}
+            target={a.data.externalUrl ? '_blank' : undefined}
+            rel={a.data.externalUrl ? 'noopener' : undefined}
           >
             <span>{a.data.title}</span>
-            {a.data.status !== 'live' && <span class="soon">soon</span>}
+            {a.data.externalUrl && <span aria-hidden="true">↗</span>}
+            {a.data.status !== 'live' && !a.data.externalUrl && <span class="soon">soon</span>}
           </a>
         ))}
       </div>

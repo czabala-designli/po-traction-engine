@@ -10,6 +10,9 @@ const assets = defineCollection({
     status: z.enum(['live', 'coming-soon']),
     summary: z.string(),
     previewUrl: z.string().optional(),
+    // When set, the asset is an external reference: its card and sidebar item link out
+    // to this URL (new tab), like the homepage manifesto, instead of an internal page.
+    externalUrl: z.string().optional(),
     starter: z.boolean().default(false),
     order: z.number().default(99),
     needs: z.array(z.string()).default([]),

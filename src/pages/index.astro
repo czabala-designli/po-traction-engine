@@ -181,13 +181,18 @@ const ctaFor = (kind: string) =>
             <div class="grid">
               {g.items.map((a) => (
                 <div class:list={['card', a.data.status === 'live' ? 'card-live' : 'card-disabled']}>
-                  <div class="badges"><KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} /></div>
+                  <div class="badges">
+                    <KindBadge kind={a.data.kind} /><StatusBadge status={a.data.status} />
+                    {a.data.externalUrl && <span class="ext-chip">External ↗</span>}
+                  </div>
                   <h4 class="card-title">{a.data.title}</h4>
                   <p class="card-summary">{a.data.summary}</p>
                   <AssetRelations needs={relOf(a).needs} feeds={relOf(a).feeds} />
-                  {a.data.status === 'live' && (
+                  {a.data.externalUrl ? (
+                    <a class="card-cta card-cta-link" href={a.data.externalUrl} target="_blank" rel="noopener">Read on {new URL(a.data.externalUrl).hostname} ↗</a>
+                  ) : a.data.status === 'live' ? (
                     <a class="card-cta card-cta-link" href={`/library/${a.id}`}>{ctaFor(a.data.kind)}</a>
-                  )}
+                  ) : null}
                 </div>
               ))}
             </div>
@@ -388,6 +393,7 @@ const ctaFor = (kind: string) =>
   .card-disabled { opacity: 0.55; }
   /* Stretched link: the CTA anchor covers the whole card so any non-link area navigates,
      while the Needs/Feeds tag links sit above it (z-index) and stay independently clickable. */
+  .ext-chip { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--purple-light, #A78BC4); background: rgba(88, 55, 123, 0.22); border: 1px solid rgba(88, 55, 123, 0.5); border-radius: 5px; padding: 2px 7px; }
   .card-cta-link { text-decoration: none; }
   .card-cta-link::after { content: ''; position: absolute; inset: 0; z-index: 1; }
   .card :global(.rel a) { position: relative; z-index: 2; }
