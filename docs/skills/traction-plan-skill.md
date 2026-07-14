@@ -17,7 +17,7 @@ This skill is **re-runnable** (rolling wave). Run it at the start, then again ev
 
 Before starting, read the project's CLAUDE.md if it exists (product name, description, domain, business type, kickoff).
 
-**Where this runs and where things live.** Run from the lab's own repo (where its CLAUDE.md and ICP docs are). Write the plan into that lab's repo at `docs/traction-plans/[project-slug].md`. The skill, the Blocq worked example, and the optional-extras reference live in `po-traction-engine`. The optional-extras lookup is `po-traction-engine/docs/traction-plans/reference/PO-Traction-Engine-Reference.md` (and `-COMPLETE.md` for deep playbooks). You consult it ONLY when picking an optional extra, never to choose the spine.
+**Where this runs and where things live.** Run from the lab's own repo (where its CLAUDE.md and ICP docs are). Write the plan into that lab's repo at `docs/traction-plans/[project-slug].md`. The skill, the Blocq worked example, and the optional-extras reference live in `po-traction-engine`. The optional-extras lookup is `po-traction-engine/docs/traction-plans/reference/PO-Traction-Engine-Reference.md` (and `-COMPLETE.md` for deep playbooks). You consult it ONLY when picking an optional extra, never to choose the spine. If you were installed from the PO kit (no `po-traction-engine` repo present), these shared files live at `~/.claude/traction-engine/reference/` instead: look there for `PO-Traction-Engine-Reference.md`, `value-proposition-prompt.md`, and the `blocq.md` worked example. If neither location exists, skip the reference and pick extras from the candidate list in Step 4; the reference only enriches extras, it never gates the plan.
 
 ---
 
