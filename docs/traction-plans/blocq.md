@@ -7,6 +7,8 @@ Business type: B2B2C (club directors buy, coaches and players use) · Stage: fir
 ICP(s): [volleyball-coach](../../../blocq-sports-smoke/docs/icp-communities-volleyball-coach.md) (daily user), [club-director](../../../blocq-sports-smoke/docs/icp-communities-club-director.md) (economic buyer). GTM: prove coach adoption first (Day 0-30), then sell directors (Day 30-60).
 First-cohort target: 5-10 volleyball coaches from Carl's own club (Revolution Volleyball Academy), then club directors · Success metric: coach adoption first (5-10 active coaches), then first director subscription (first dollar by Day 90)
 
+> Baseline plan, meant to be co-built. This is a starting point from the 4-track spine; add rows for the client-specific plays you know matter. The spine is a floor, not a ceiling.
+
 ## Foundation snapshot (per track)
 - Track 1 (Landing + PostHog): Live, not activated (waitlist live at blocqsports.com; PostHog events/cohorts in progress; drip sequence not built)
 - Track 2 (ICP communities): Not activated (research done, client approval pending; communities: Coaching Volleyball on Facebook, Volleyball Club Director & Administrators, VolleyTalk, r/volleyball, r/volleyballtraining)

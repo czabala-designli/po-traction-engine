@@ -121,6 +121,8 @@ Kickoff: [date] · Day 14: [date] · Day 30: [date] · Day 60: [date] · Day 90 
 Business type: [B2B/B2C/B2B2C] · Stage: [stage] · ICP(s): [...]
 First-cohort target: [...] · Success metric: [...]
 
+> Baseline plan, meant to be co-built. This is a starting point from the 4-track spine; add rows for the client-specific plays you know matter. The spine is a floor, not a ceiling.
+
 ## Foundation snapshot (per track)
 - Track 1 (Landing + PostHog): [live / activate: what's missing]
 - Track 2 (ICP communities): [...]
