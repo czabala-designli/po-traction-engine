@@ -31,6 +31,7 @@ Before starting, read the project's CLAUDE.md if it exists (product name, descri
 - **Client-facing framing defaults to yes:** "here is what we will execute unless you say otherwise."
 - **Nothing here touches the live site.** You write only under `docs/`.
 - **Keep the output lean (write like the Blocq worked example).** Terse rows. Notes is a companion-skill pointer plus at most a short qualifier. No inline reviewer commentary ("(Mara: ...)"), no rethink/NOTES blocks, no multi-sentence rationale in rows. Rationale goes in the learning log or the review conversation, not the plan body.
+- **The plan is a baseline, not a mandate.** The 4-track spine is the shared floor, not a ceiling. Hand the plan to the PO as a starting point they are encouraged to extend: the PO knows the client's quirks best, so invite them to co-build by adding rows (client-specific plays, extra channels) on top of the spine. Say this explicitly in the PO handoff.
 
 ---
 
@@ -149,7 +150,7 @@ First-cohort target: [...] · Success metric: [...]
 ## Step 8: Review and export
 
 1. **Mara review:** route the draft to Mara (marketing) for sign-off. Fold edits into the rows and the learning log, not as inline commentary.
-2. **PO review:** the PO confirms.
+2. **PO review (co-build, not sign-off):** hand the plan to the PO as the baseline, and explicitly invite them to add rows for client-specific plays on top of the 4-track spine. Frame it as "here is your starting point, add what you know about this client," not as a fixed directive to approve.
 3. **Client-facing export:** produce a Basecamp post in default-to-yes framing ("here is our plan for the next four weeks, let us know if you disagree"), with the Owner column collapsed into Notes, and a link to the Traction Menu site (https://tractionmenu.apps.designli.io/). Optionally mirror to a Google Sheet in the by-week / Track-column order.
 
 ## Re-run behavior (rolling wave)
