@@ -8,7 +8,7 @@ You are running the Traction Plan skill for a Product Owner (PO). Your job is to
 
 Every traction lab has the same shape, so this skill does not make you shop a menu. It lays down the same **4-track spine** every time and sequences it for the project, then offers the one or two optional extras that actually fit. The tracks are:
 
-1. **Landing + PostHog** (email/drip)
+1. **Landing + PostHog** (email/drip for a waitlist; conversion + lifecycle otherwise)
 2. **ICP communities** (interact, then share)
 3. **Client social** (LinkedIn for B2B/B2B2C, Instagram/Facebook for B2C)
 4. **Blog / SEO**
@@ -55,7 +55,8 @@ Do not auto-run ICP research. It is gated by client approval before it is truste
 - **Kickoff date** (required)
 - Product one-liner
 - **Business type: B2B / B2C / B2B2C** (drives the Track 3 channel and the cold-outreach extra)
-- **Stage: pre-launch / first users / scaling** and **product-live? (yes/no + date)** (drives sequencing and the ASO extra)
+- **Stage: pre-launch / first users / scaling** and **product-live? (yes/no + date)** (drives sequencing, the Track 1 shape, and the ASO extra)
+- **Landing type: waitlist / marketing-download / none** (drives the Track 1 play: a waitlist landing gets capture plus a welcome/drip sequence; a marketing or "download here" landing, or an already-live product, gets conversion-to-install/signup and lifecycle instead, with no waitlist drip)
 - First-cohort target (who, how many)
 - Primary success metric
 
@@ -76,15 +77,16 @@ The spine is always all four tracks. You do not choose them. You only derive per
 
 | Track | Foundation it needs | Core actions | Companion skill |
 |---|---|---|---|
-| **1. Landing + PostHog** | Landing live w/ capture; PostHog full stack wired; funnel + UTM defined | Activate capture, define funnel/UTM, welcome + drip sequence (PostHog workflows), lifecycle emails | `email-sequence`; value-proposition prompt for the headline |
+| **1. Landing + PostHog** | Landing live (waitlist capture, or marketing/download page); PostHog full stack wired; funnel + UTM defined | Activate the landing's real conversion (waitlist capture, or install/signup for a download/live product), define funnel/UTM, then the fitting email path: for a waitlist, welcome + drip (PostHog workflows) plus lifecycle emails; for a download/live landing, in-product lifecycle/nurture only (no waitlist drip) | `email-sequence`; value-proposition prompt for the headline |
 | **2. ICP communities** | ICP research done + client-approved; communities documented | Validate/join communities, lurk + non-promo interactions (respect each community's self-promo rules), value-first posts sharing the URL/product, weekly cadence | `community-post` |
 | **3. Client social** | Channel claimed / handle reserved; brand voice defined | PO ghost-writes founder/brand posts as an English kit, client posts on their channel; cadence | `community-post` (founder post), `brand-voice` |
 | **4. Blog / SEO** | Blog scaffolding (nav, sitemap, robots, JSON schema, Search Console); keyword repository; brand voice | Keyword research into a repository, publish posts on cadence targeting keywords, backlinks | `keyword-research`, `blog-post` |
 
 **Branch logic (the only per-project variation):**
 
-- **Business type** sets Track 3's channel: **B2B / B2B2C → LinkedIn**; **B2C → Instagram / Facebook**. It also flips on the **cold-outreach** extra for B2B.
+- **Audience (from the ICP research) sets Track 3's channel; business type is only the fallback.** Post where the ICP docs say this audience actually gathers. Default to **LinkedIn for B2B / B2B2C** and **Instagram / Facebook for B2C** only when the ICP docs do not clearly point elsewhere (e.g. Buck Hub's ranchers live on Facebook and industry forums, not LinkedIn). Record the chosen channel in the Track 3 snapshot. Business type still flips on the **cold-outreach** extra for B2B.
 - **ICP research** fills Track 2's communities and, for a B2B2C product with multiple ICPs, sets which ICP to win first (GTM sequencing).
+- **Landing type + product-live** set Track 1's shape. A **waitlist landing (pre-launch)** gets capture, a welcome + drip sequence, and lifecycle emails (the default). A **marketing / "download here" landing, or an already-live product**, has no waitlist: Track 1 becomes conversion-to-install/signup, install and UTM attribution, ASO handoff, and in-product lifecycle/nurture. Plan a welcome/drip email sequence only when there is genuine email capture that fits (newsletter/nurture), never a waitlist welcome by default.
 - **Stage + product-live date** set ordering across tracks and flip on the **ASO** extra once the product is live. Never schedule a post-launch play before the product-live date.
 
 ## Step 3: Per-track foundation check (existence is not activation)
@@ -118,7 +120,7 @@ Write into the lab's own repo at `docs/traction-plans/[project-slug].md`. Use th
 ```markdown
 # [Project] Traction Plan
 Kickoff: [date] · Day 14: [date] · Day 30: [date] · Day 60: [date] · Day 90 (first $): [date]
-Business type: [B2B/B2C/B2B2C] · Stage: [stage] · ICP(s): [...]
+Business type: [B2B/B2C/B2B2C] · Stage: [stage] · Product live: [yes/no + date] · ICP(s): [...]
 First-cohort target: [...] · Success metric: [...]
 
 > Baseline plan, meant to be co-built. This is a starting point from the 4-track spine; add rows for the client-specific plays you know matter. The spine is a floor, not a ceiling.
