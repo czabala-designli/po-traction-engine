@@ -6,3 +6,6 @@ dist/
 node_modules/
 .DS_Store
 **/.DS_Store
+
+# Local-only scratch: PO traction-plan / ICP outputs for skill testing (contains client-unapproved drafts)
+traction skills/
