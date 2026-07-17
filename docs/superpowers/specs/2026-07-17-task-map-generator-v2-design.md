@@ -160,3 +160,23 @@ After the v2 build shipped, the Goffor canvas had gained items. Folded the gener
 - **Mobile migration is generic, not Goffor-specific** (also happened on Blocq): added "Prototype migrated from React Native Web to React Native + backend integration" (Owner DEV, Support TL, `dayRange [8,17]`, mobile-gated) in Week 2.
 - **Week 4:** added "Iterate app based on feedback" (Owner DEV, Support PO, `dayRange [22,26]`).
 - **Left out as Goffor-specific:** nothing — the React Native migration was reclassified as generic mobile work per the PO.
+
+## Addendum 3 2026-07-17 — Activity List Workshop reconciliation
+
+Folded in the "Traction Labs Activity List Workshop" (Fathom call 750332411) plus the latest canvas wording. Generic changes only; team-tracking and 60-90 day items deferred.
+
+**New tasks:** Google Workspace (Day 1, critical); client business-entity/LLC check (Day 1, critical, mobile, enables DUNS/company Apple account); explicit legal-advice task (advise attorney or the generator site, we do not draft); split integrations into research+architecture (b-5) vs a client-facing tools/integrations list (b-6); product PostHog SDK (Week 1, DEV); product event plan + implementation via AI skills (Week 3); North Star metric (Week 3); product funnels + session recordings (Week 4); definition-of-ready with client (Week 4); store-submission risk + internal-account fallback (Week 2, mobile).
+
+**PostHog split into two tracks:** "PostHog · waitlist" (landing analytics, PO, unchanged Week 1-2) and "PostHog · product" (SDK Day 1, custom events Week 3, funnels/recordings Week 4).
+
+**Moves:** monetization doc Day 7 → Day 3; testable build → Week 2 as "testable web variant to get customer feedback" (design not approved until end of discovery week).
+
+**Renames:** "client disagreement window" → "client feedback window" (+ 3-step decision tree in the label); "Vercel project created" → "prototype project deployed to get customer feedback"; integrations task reworded.
+
+**Owner changes:** account-setup tasks add TL as support (PO owns acquisition/walkthrough, TL owns technical setup); PostHog email channels add TL; discovery injection framed as pod-owned.
+
+**Legal decision:** ordering is client's attorney → the generator site (app-privacy-policy-generator.firebaseapp.com) → our templates as a last-resort fallback only when go-live is blocked. Generator reflects advise-only; CLAUDE.md legal-templates caveat still open for discussion.
+
+**Deferred / out of scope:** GitHub Projects + `TractionLabActivities` label + Cortex (team tracking, not a generator task); 60-90 day activities (separate meeting); PRD "events redefined" duplication (Stefhanie/Felix aligning); PO onboarding walkthrough refresh; PTO +3-day clause.
+
+**Maximal-case count after this pass:** 73 rows (69 tasks + 4 milestone markers) mobile; 66 web-only.

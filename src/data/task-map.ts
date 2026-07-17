@@ -8,6 +8,10 @@
 // OWNER + SUPPORT: `owner` is the one role accountable / doing the task; `support`
 // lists roles that assist or VALIDATE that what's created makes sense.
 // `show` gates conditional tasks — see the plan/spec for the predicate rules.
+//
+// PostHog is modelled as two tracks: "PostHog · waitlist" (the landing-page
+// analytics the PO owns) and "PostHog · product" (the app's own instrumentation:
+// SDK on Day 1, custom events planned/implemented in Week 3, funnels in Week 4).
 
 export type RoleId = 'PO' | 'SA' | 'DES' | 'DEV' | 'TL' | 'CLIENT';
 
@@ -39,8 +43,8 @@ export const GUARANTEES = [
   { day: 90, label: 'First dollar of revenue', tag: 'engagement ends' },
 ];
 
-// Discovery injection — CONFIRMED. Days 1-5, led by Solutions Architect + Designer,
-// POD participates in all five (context matters). Renders as a parallel overlay.
+// Discovery injection — CONFIRMED. Days 1-5, owned by the whole pod (Solutions
+// Architect + Designer lead the sessions, PO participates in all five). Parallel overlay.
 export const WORKSHOPS_DISCOVERY = [
   { day: 1, title: 'Understanding the Business', duration: '2h',
     whatWeDo: 'Kickoff, product overview, business model, features, users, branding/design questionnaire, and current issues.',
@@ -74,16 +78,16 @@ export const WORKSHOPS_DESIGN = [
     whatWeDo: 'Present final designs and hand off to delivery. (To be confirmed.)', lead: ['SA', 'DES'], support: ['PO'] },
 ];
 
-// Before kick off — pre-Day-1 phase (~2 business days before Day 1). Repo + Vercel
-// are always required; the PRD/TRD, integrations plan, and additional-tools setup
-// only exist when prior information exists.
+// Before kick off — pre-Day-1 phase (~2 business days before Day 1). Repo + prototype
+// deploy are always required; the PRD/TRD, integrations research, and tools list only
+// exist when prior information exists.
 export const BEFORE = [
   { id: 'b-1', label: 'Repo created from the traction-lab template', day: 0, owner: 'TL', support: [] },
-  { id: 'b-2', label: 'Vercel project created (for prototypes/previews)', day: 0, owner: 'TL', support: [] },
+  { id: 'b-2', label: 'Prototype project deployed to get customer feedback (Vercel)', day: 0, owner: 'TL', support: [] },
   { id: 'b-3', label: 'First PRD iteration', day: 0, owner: 'PO', support: ['TL', 'DEV'], show: { priorInfo: true } },
   { id: 'b-4', label: 'First TRD iteration', day: 0, owner: 'TL', support: ['PO', 'DEV'], show: { priorInfo: true } },
-  { id: 'b-5', label: 'Third-party integrations overview plan (e.g. AI, payment gateways, IAP)', day: 0, owner: 'TL', support: [], show: { priorInfo: true } },
-  { id: 'b-6', label: 'Additional required tools added to the stack', day: 0, owner: 'TL', support: [], show: { priorInfo: true } },
+  { id: 'b-5', label: 'Research & plan architecture for all third-party integrations (AI, payment gateways, IAP, etc.)', day: 0, owner: 'TL', support: [], show: { priorInfo: true } },
+  { id: 'b-6', label: 'Create the client-facing list of required tools & integrations', day: 0, owner: 'TL', support: [], show: { priorInfo: true } },
 ];
 
 // Weeks 1-4. `day` is the semantic Day N (Day 1 = kickoff). Task dates pull off
@@ -98,21 +102,27 @@ export const WEEKS = [
       { name: 'Day 1 blockers', tasks: [
         { id: 'w1-1', label: 'Founder orbit users identified & commitment obtained', day: 1, owner: 'PO', support: ['CLIENT'], critical: true },
         { id: 'w1-2', label: 'Founder domain name confirmed', day: 1, owner: 'PO', support: ['CLIENT'], critical: true },
-        { id: 'w1-3', label: 'Apple Developer account process started', day: 1, owner: 'PO', support: ['CLIENT'], critical: true, show: { mobile: true } },
-        { id: 'w1-3a', label: 'DUNS number requested (required for Apple Developer account)', day: 1, owner: 'PO', support: ['CLIENT'], critical: true, show: { mobile: true } },
-        { id: 'w1-3b', label: 'Google Play Console account process started', day: 1, owner: 'PO', support: ['CLIENT'], critical: true, show: { mobile: true } },
-        { id: 'w1-golist', label: "Full go-live asset list sent to client (terms, privacy policy, domain, store & processor accounts, anything else that blocks go-live)", day: 1, owner: 'PO', support: ['CLIENT'] },
+        { id: 'w1-workspace', label: 'Google Workspace set up for founder email (Outlook acceptable)', day: 1, owner: 'PO', support: ['TL', 'CLIENT'], critical: true },
+        { id: 'w1-llc', label: 'Client business entity (LLC) confirmed — enables the DUNS number and a company Apple Developer account (we confirm it, we do not set it up)', day: 1, owner: 'PO', support: ['CLIENT'], critical: true, show: { mobile: true } },
+        { id: 'w1-3', label: 'Apple Developer account process started', day: 1, owner: 'PO', support: ['CLIENT', 'TL'], critical: true, show: { mobile: true } },
+        { id: 'w1-3a', label: 'DUNS number requested (required for Apple Developer account)', day: 1, owner: 'PO', support: ['CLIENT', 'TL'], critical: true, show: { mobile: true } },
+        { id: 'w1-3b', label: 'Google Play Console account process started', day: 1, owner: 'PO', support: ['CLIENT', 'TL'], critical: true, show: { mobile: true } },
+        { id: 'w1-golist', label: "Full go-live asset list sent to client (domain, store & processor accounts, anything else that blocks go-live)", day: 1, owner: 'PO', support: ['CLIENT'] },
+        { id: 'w1-legal', label: 'Advise client to source Terms, EULA & Privacy Policy from their attorney (or self-generate at app-privacy-policy-generator.firebaseapp.com). We do not draft these.', day: 2, owner: 'PO', support: ['CLIENT'] },
         { id: 'w1-standby', label: "Client's standby list of orbit users collected and kept on hand (a list, not a single name)", day: 1, owner: 'PO', support: ['CLIENT'] },
         { id: 'w1-4a', label: "Repo created under client's own GitHub org (enables code transfer anytime)", day: 1, owner: 'TL', support: [] },
         { id: 'w1-stores', label: 'Store apps and CI/CD pipelines set up', day: 1, owner: 'TL', support: ['DEV'], show: { mobile: true } },
         { id: 'w1-backend', label: 'Backend creation (ongoing)', day: 1, dayRange: [1, 7], owner: 'DEV', support: ['TL'] },
       ] },
-      { name: 'PostHog', tasks: [
+      { name: 'PostHog · waitlist', tasks: [
         { id: 'w1-5', label: 'PostHog account created & project configured', day: 1, owner: 'PO', support: [] },
         { id: 'w1-6', label: 'Internal cohort created (PO, Dev, TL)', day: 1, owner: 'PO', support: [] },
         { id: 'w1-7', label: 'Customer cohort created (founder & stakeholders)', day: 1, owner: 'PO', support: [] },
         { id: 'w1-8', label: 'Dynamic cohort configured for all other signups', day: 2, owner: 'PO', support: [] },
-        { id: 'w1-9', label: 'PostHog email channels configured', day: 2, owner: 'PO', support: [] },
+        { id: 'w1-9', label: 'PostHog email channels configured (domain/DNS)', day: 2, owner: 'PO', support: ['TL'] },
+      ] },
+      { name: 'PostHog · product', tasks: [
+        { id: 'w1-sdk', label: 'PostHog SDK installed in the product app (captures out-of-the-box events)', day: 2, owner: 'DEV', support: ['PO'] },
       ] },
       { name: 'Landing page & emails', tasks: [
         { id: 'w1-10', label: 'Value proposition written & approved', day: 2, owner: 'PO', support: ['CLIENT'] },
@@ -121,14 +131,13 @@ export const WEEKS = [
         { id: 'w1-12', label: 'PostHog tracking connected to landing page', day: 4, owner: 'PO', support: [] },
         { id: 'w1-13', label: 'Feedback widget integrated, routing to GitHub Issues', day: 4, owner: 'PO', support: [] },
         { id: 'w1-14', label: 'Slack notification for new feedback configured', day: 4, owner: 'PO', support: [] },
-        { id: 'w1-build4', label: 'Testable build in the client\'s hands (mock data / web variant if needed)', day: 4, owner: 'DEV', support: ['TL'], critical: true },
         { id: 'w1-15', label: '3 waitlist emails drafted & configured in PostHog', day: 5, owner: 'PO', support: [] },
         { id: 'w1-prd', label: 'PRD drafted & refined (ongoing, from discovery/prior context)', day: 1, dayRange: [1, 8], owner: 'PO', support: ['TL', 'DEV'] },
         { id: 'w1-trd', label: 'TRD drafted & refined (ongoing)', day: 1, dayRange: [1, 8], owner: 'TL', support: ['PO', 'DEV'] },
       ] },
       { name: 'Strategy', tasks: [
         { id: 'w1-mondisc', label: 'Early monetization discussion held with the client', day: 1, owner: 'PO', support: ['CLIENT'] },
-        { id: 'w1-16', label: 'Monetization strategy documented', day: 7, owner: 'PO', support: ['CLIENT'] },
+        { id: 'w1-16', label: 'Monetization strategy documented (dictates Stripe / IAP integration)', day: 3, owner: 'PO', support: ['CLIENT'] },
       ] },
     ],
   },
@@ -137,7 +146,9 @@ export const WEEKS = [
     groups: [
       { name: 'Build', tasks: [
         { id: 'w2-infra', label: 'Dev & staging infrastructure created', day: 8, owner: 'TL', support: ['DEV'] },
+        { id: 'w2-webvariant', label: 'Testable web variant deployed to get customer feedback (after design is approved)', day: 8, owner: 'DEV', support: ['TL'] },
         { id: 'w2-migrate', label: 'Prototype migrated from React Native Web to React Native + backend integration (ongoing)', day: 8, dayRange: [8, 17], owner: 'DEV', support: ['TL'], show: { mobile: true } },
+        { id: 'w2-storefallback', label: "Store-submission risk assessed: if client store accounts are blocked, create the app in Designli's own developer account (labelled 'traction lab') to hit Day 30, then transfer to the client later", day: 8, owner: 'TL', support: ['PO'], show: { mobile: true } },
       ] },
       { name: 'Users', tasks: [
         { id: 'w2-7', label: 'Personal outreach completed for founder orbit users', day: 8, owner: 'PO', support: [] },
@@ -151,9 +162,9 @@ export const WEEKS = [
         { id: 'w2-2', label: 'Profile complete: logo, banner, bio, waitlist link', day: 9, owner: 'PO', support: [] },
         { id: 'w2-3', label: 'First post published', day: 9, owner: 'PO', support: [] },
       ] },
-      { name: 'PostHog', tasks: [
-        { id: 'w2-4', label: 'All PostHog events verified against internal cohort', day: 10, owner: 'PO', support: [] },
-        { id: 'w2-5', label: 'PostHog funnel configured with minimum event set', day: 11, owner: 'PO', support: [] },
+      { name: 'PostHog · waitlist', tasks: [
+        { id: 'w2-4', label: 'All waitlist PostHog events verified against internal cohort', day: 10, owner: 'PO', support: [] },
+        { id: 'w2-5', label: 'Waitlist PostHog funnel configured with minimum event set', day: 11, owner: 'PO', support: [] },
       ] },
       { name: 'Marketing', tasks: [
         { id: 'w2-6', label: 'Target persona one-pager complete', day: 12, owner: 'PO', support: [] },
@@ -167,12 +178,17 @@ export const WEEKS = [
   {
     id: 'w3', title: 'Week 3 — Conversion', priority: 'Priority 3', range: [15, 21],
     groups: [
-      { name: 'Launch', tasks: [
-        { id: 'w3-4', label: 'Landing page converted from waitlist to signup', day: 18, owner: 'PO', support: [] },
-        { id: 'w3-5', label: 'Onboarding drip sequence active', day: 19, owner: 'PO', support: [] },
+      { name: 'PostHog · product', tasks: [
+        { id: 'w3-eventplan', label: 'Product PostHog event plan generated from the PRD/TRD + code (PO runs the AI skill)', day: 15, owner: 'PO', support: [] },
+        { id: 'w3-eventimpl', label: 'Custom product events implemented from the plan (Dev runs the AI skill)', day: 16, owner: 'DEV', support: ['TL'] },
+        { id: 'w3-northstar', label: 'North Star metric agreed with the client (from the event plan; set within month 1)', day: 16, owner: 'PO', support: ['CLIENT'] },
       ] },
-      { name: 'Post-commitment', tasks: [
-        { id: 'w3-disagree', label: 'Client disagreement window: make the changes they ask for and nothing else (no new scope)', day: 15, owner: 'DEV', support: ['TL', 'PO'] },
+      { name: 'Launch', tasks: [
+        { id: 'w3-4', label: 'Landing page converted from waitlist to signup (once the Day 14 milestone is met)', day: 18, owner: 'PO', support: [] },
+        { id: 'w3-5', label: 'Onboarding drip sequence active for new signups', day: 19, owner: 'PO', support: [] },
+      ] },
+      { name: 'Client feedback window', tasks: [
+        { id: 'w3-disagree', label: 'Client feedback window: work the feedback decision tree — critical fixes on the existing build first, then push to get users on the app for real data, then negotiate post-Day-30 roadmap items', day: 15, owner: 'PO', support: ['DEV', 'TL'] },
         { id: 'w3-standby', label: 'Keep working down the standby list (more users turns "met" into "obviously met")', day: 15, owner: 'PO', support: ['CLIENT'] },
         { id: 'w3-mon', label: 'Monetization model designed & scheduled into the plan', day: 20, owner: 'PO', support: ['TL'] },
       ] },
@@ -187,9 +203,12 @@ export const WEEKS = [
       { name: 'Users', tasks: [
         { id: 'w4-1', label: 'First user interviews completed', day: 24, owner: 'PO', support: ['CLIENT'] },
         { id: 'w4-2', label: 'Interview findings documented & summarized', day: 25, owner: 'PO', support: [] },
+        { id: 'w4-dor', label: 'Definition of ready agreed with the client (when the product is ready to bring on more users)', day: 26, owner: 'PO', support: ['CLIENT'] },
       ] },
-      { name: 'PostHog', tasks: [
-        { id: 'w4-3', label: 'PostHog funnel reviewed, drop-offs identified', day: 25, owner: 'PO', support: [] },
+      { name: 'PostHog · product', tasks: [
+        { id: 'w4-funnels', label: 'First product funnels built from the critical user paths', day: 24, owner: 'PO', support: [] },
+        { id: 'w4-sessions', label: 'PostHog session recordings reviewed to understand user behavior', day: 25, owner: 'PO', support: [] },
+        { id: 'w4-3', label: 'Product funnels reviewed, drop-offs identified', day: 25, owner: 'PO', support: [] },
       ] },
       { name: 'HDD', tasks: [
         { id: 'w4-4', label: 'First HDD experiment proposed & configured in PostHog', day: 27, owner: 'PO', support: [] },
@@ -213,5 +232,8 @@ export const THROUGHOUT = [
 export const OPERATING_NOTES = [
   'Beat dependency blockers with mock data or internal accounts. Build the core flow now; swap in real integrations when client credentials arrive.',
   'When the client goes quiet, keep building off the approved Discovery Injection. Do not stall waiting for answers.',
+  'Legal docs (Terms, EULA, Privacy Policy) come from the client\'s attorney, or the client self-generates them at app-privacy-policy-generator.firebaseapp.com. Designli does not draft client legal docs; our templates are a last-resort fallback only when go-live is otherwise blocked.',
+  'If the client has no domain or logo yet, use placeholders but tell them the app cannot be submitted until they are provided (reflect this in the contract).',
+  '5-10 active users are needed before HDD and funnel analysis reveal real patterns. You can still build funnels from the critical paths and watch session recordings with fewer.',
   'Days 31-90: monetization model implemented alongside the HDD cadence.',
 ];
