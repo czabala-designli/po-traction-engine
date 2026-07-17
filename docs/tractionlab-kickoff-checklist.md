@@ -45,8 +45,8 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] Day 4 — Slack notification for new feedback configured (Owner: PO)
 - [ ] Day 4 — Testable build in the client's hands, mock data / web variant if needed (Owner: Developer · Support: Tech Lead) [CRITICAL]
 - [ ] Day 5 — 3 waitlist emails drafted & configured in PostHog (Owner: PO)
-- [ ] Days 1-7 — PRD drafted & refined, ongoing from discovery/prior context (Owner: PO · Support: Tech Lead, Developer)
-- [ ] Days 1-7 — TRD drafted & refined, ongoing (Owner: Tech Lead · Support: PO, Developer)
+- [ ] Days 1-8 — PRD drafted & refined, ongoing from discovery/prior context (Owner: PO · Support: Tech Lead, Developer)
+- [ ] Days 1-8 — TRD drafted & refined, ongoing (Owner: Tech Lead · Support: PO, Developer)
 - [ ] Day 7 — Monetization strategy documented (Owner: PO · Support: Client)
 
 ## Week 2 — Activation (Priority 2)

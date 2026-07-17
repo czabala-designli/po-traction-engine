@@ -123,8 +123,8 @@ export const WEEKS = [
         { id: 'w1-14', label: 'Slack notification for new feedback configured', day: 4, owner: 'PO', support: [] },
         { id: 'w1-build4', label: 'Testable build in the client\'s hands (mock data / web variant if needed)', day: 4, owner: 'DEV', support: ['TL'], critical: true },
         { id: 'w1-15', label: '3 waitlist emails drafted & configured in PostHog', day: 5, owner: 'PO', support: [] },
-        { id: 'w1-prd', label: 'PRD drafted & refined (ongoing, from discovery/prior context)', day: 1, dayRange: [1, 7], owner: 'PO', support: ['TL', 'DEV'] },
-        { id: 'w1-trd', label: 'TRD drafted & refined (ongoing)', day: 1, dayRange: [1, 7], owner: 'TL', support: ['PO', 'DEV'] },
+        { id: 'w1-prd', label: 'PRD drafted & refined (ongoing, from discovery/prior context)', day: 1, dayRange: [1, 8], owner: 'PO', support: ['TL', 'DEV'] },
+        { id: 'w1-trd', label: 'TRD drafted & refined (ongoing)', day: 1, dayRange: [1, 8], owner: 'TL', support: ['PO', 'DEV'] },
       ] },
       { name: 'Strategy', tasks: [
         { id: 'w1-mondisc', label: 'Early monetization discussion held with the client', day: 1, owner: 'PO', support: ['CLIENT'] },
