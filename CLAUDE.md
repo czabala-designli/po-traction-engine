@@ -534,6 +534,8 @@ PostHog email DNS:  pending — designli.co DNS records not yet verified; 3 user
 
 ## Legal pages — Privacy Policy & Terms & Conditions
 
+> **Scope — read first.** These templates cover two cases only: (1) genuinely Designli-internal pages (like this PO traction library), and (2) a traction-lab **waitlist landing page** (simple email capture). A traction-lab waitlist page belongs to the **client**, not Designli; to unblock, the PO builds it and publishes it on a **PO-owned Vercel account**, then moves it to the client's own domain when ready. For the client's **product or app** (real users, payments, store submission), Designli does **not** draft Terms/EULA/Privacy Policy: advise the client to get them from their attorney, or to self-generate at [app-privacy-policy-generator.firebaseapp.com](https://app-privacy-policy-generator.firebaseapp.com/). Use these templates for a client product only as a **last-resort fallback** when go-live is otherwise blocked, and tell the client. Ordering: attorney → generator site → these templates.
+
 Every project that collects user data must have both pages live before going public.
 
 **Templates (reuse these for every new project):**
