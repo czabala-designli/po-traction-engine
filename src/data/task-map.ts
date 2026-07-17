@@ -24,11 +24,13 @@ export const ROLES: Record<RoleId, { label: string; color: string }> = {
   CLIENT: { label: 'Client',   color: '#D6A25B' }, // amber
 };
 
-// Path-driven defaults for the injection + prior-info toggles. The PO can override.
-export const PATH_DEFAULTS: Record<1 | 2 | 3, { discovery: boolean; design: boolean; priorInfo: boolean }> = {
-  1: { discovery: true,  design: false, priorInfo: true  }, // Impact Week
-  2: { discovery: false, design: false, priorInfo: true  }, // SolutionLab
-  3: { discovery: true,  design: false, priorInfo: false }, // From scratch
+// Path-driven defaults. A lab has ONE injection (discovery and design are two
+// flavours of the same week, never stacked), so `injection` is a single choice.
+// The PO can override.
+export const PATH_DEFAULTS: Record<1 | 2 | 3, { injection: 'none' | 'discovery' | 'design'; priorInfo: boolean }> = {
+  1: { injection: 'discovery', priorInfo: true  }, // Impact Week
+  2: { injection: 'none',      priorInfo: true  }, // SolutionLab
+  3: { injection: 'discovery', priorInfo: false }, // From scratch
 };
 
 export const TOTAL_DAYS = 96;
@@ -63,19 +65,17 @@ export const WORKSHOPS_DISCOVERY = [
     lead: ['SA', 'DES'], support: ['PO'] },
 ];
 
-// Design injection — PROVISIONAL (its own 5-day structure, exact sessions to be
-// confirmed). Safe to edit once the real sessions are known.
+// Design injection — CONFIRMED. A lighter, non-permanent injection used when work
+// is locked behind a design but the project should not wait: 3 sessions (1
+// requirements gathering + 2 design reviews). Same staffing as discovery
+// (Solutions Architect + Designer), PO participates.
 export const WORKSHOPS_DESIGN = [
-  { day: 1, title: 'Design kickoff & direction (provisional)', duration: 'TBC',
-    whatWeDo: 'Align on brand and visual direction. (Session content to be confirmed.)', lead: ['SA', 'DES'], support: ['PO'] },
-  { day: 2, title: 'Wireframes & workflow (provisional)', duration: 'TBC',
-    whatWeDo: 'Map the core workflow as wireframes. (To be confirmed.)', lead: ['SA', 'DES'], support: ['PO'] },
-  { day: 3, title: 'Hi-fi concepts review (provisional)', duration: 'TBC',
-    whatWeDo: 'Review high-fidelity concepts and align. (To be confirmed.)', lead: ['SA', 'DES'], support: ['PO'] },
-  { day: 4, title: 'Prototype & iteration (provisional)', duration: 'TBC',
-    whatWeDo: 'Build and iterate on the interactive prototype. (To be confirmed.)', lead: ['SA', 'DES'], support: ['PO'] },
-  { day: 5, title: 'Final design presentation (provisional)', duration: 'TBC',
-    whatWeDo: 'Present final designs and hand off to delivery. (To be confirmed.)', lead: ['SA', 'DES'], support: ['PO'] },
+  { day: 1, title: 'Requirements gathering', duration: '',
+    whatWeDo: 'Gather the design requirements and context for the work that is locked behind a design.', lead: ['SA', 'DES'], support: ['PO'] },
+  { day: 2, title: 'Design review', duration: '',
+    whatWeDo: 'Review design progress with the client and gather feedback.', lead: ['SA', 'DES'], support: ['PO'] },
+  { day: 3, title: 'Design review', duration: '',
+    whatWeDo: 'Second review: align and finalize the design direction.', lead: ['SA', 'DES'], support: ['PO'] },
 ];
 
 // Before kick off — pre-Day-1 phase (~2 business days before Day 1). Repo + prototype

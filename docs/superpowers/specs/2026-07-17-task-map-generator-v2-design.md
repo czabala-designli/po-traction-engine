@@ -180,3 +180,11 @@ Folded in the "Traction Labs Activity List Workshop" (Fathom call 750332411) plu
 **Deferred / out of scope:** GitHub Projects + `TractionLabActivities` label + Cortex (team tracking, not a generator task); 60-90 day activities (separate meeting); PRD "events redefined" duplication (Stefhanie/Felix aligning); PO onboarding walkthrough refresh; PTO +3-day clause.
 
 **Maximal-case count after this pass:** 73 rows (69 tasks + 4 milestone markers) mobile; 66 web-only.
+
+## Addendum 4 2026-07-17 — Injection model resolved (retires the provisionals)
+
+Answered in #taskforce-week1-discovery-injection-vibecoding (Raul, Keith):
+
+- **Design injection is confirmed as 3 sessions** (1 requirements gathering + 2 design reviews), same staffing as discovery (SA + Designer, PO participates). It is a lighter, non-permanent injection for when work is locked behind a design but the project should not wait. `WORKSHOPS_DESIGN` updated from the 5-session placeholder; no longer provisional.
+- **Discovery and design injection are synonyms — never stacked.** A lab has ONE injection. Replaced the two independent checkboxes with a single injection selector (None / Discovery / Design) and removed the both-injections Days 1-5/6-10 offset logic. `PATH_DEFAULTS.injection` is now a single value ('none' | 'discovery' | 'design'). Both previously-open provisional items are now closed.
+- Not generic: StratiqAI's design injection is an unbilled freebie (few hours of SA, secondary to PO sessions) — an explicit exception, not modelled.

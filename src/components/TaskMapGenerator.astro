@@ -34,8 +34,13 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
       <button type="button" class="ktm-generate" data-ktm-generate>Generate map</button>
     </div>
     <div class="ktm-toggles">
-      <label class="ktm-toggle"><input type="checkbox" data-ktm-discovery /> Discovery injection</label>
-      <label class="ktm-toggle"><input type="checkbox" data-ktm-design /> Design injection</label>
+      <label class="ktm-toggle">Injection:
+        <select data-ktm-injection class="ktm-inj-select">
+          <option value="none">None</option>
+          <option value="discovery">Discovery injection (5 sessions)</option>
+          <option value="design">Design injection (3 sessions)</option>
+        </select>
+      </label>
       <label class="ktm-toggle"><input type="checkbox" data-ktm-priorinfo /> Prior information exists (enables early PRD/TRD)</label>
       <label class="ktm-toggle"><input type="checkbox" data-ktm-mobile /> Includes a mobile app</label>
     </div>
@@ -54,19 +59,18 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
   const output = wrap.querySelector('[data-ktm-output]');
   const empty = wrap.querySelector('[data-ktm-empty]');
   const pathInput = wrap.querySelector('[data-ktm-path]');
-  const discoveryToggle = wrap.querySelector('[data-ktm-discovery]');
-  const designToggle = wrap.querySelector('[data-ktm-design]');
+  const injInput = wrap.querySelector('[data-ktm-injection]');
   const priorInfoToggle = wrap.querySelector('[data-ktm-priorinfo]');
 
   function ctx() {
-    const discovery = discoveryToggle.checked;
-    const design = designToggle.checked;
+    const inj = injInput.value; // 'none' | 'discovery' | 'design'
     return {
       path: Number(pathInput.value),
-      discovery, design,
+      discovery: inj === 'discovery',
+      design: inj === 'design',
       mobile: mobileToggle.checked,
       priorInfo: priorInfoToggle.checked,
-      injection: discovery || design,
+      injection: inj !== 'none',
     };
   }
   function taskMatches(t, c) {
@@ -82,8 +86,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
   }
   function applyPathDefaults() {
     const d = PATH_DEFAULTS[Number(pathInput.value)] || PATH_DEFAULTS[3];
-    discoveryToggle.checked = d.discovery;
-    designToggle.checked = d.design;
+    injInput.value = d.injection;
     priorInfoToggle.checked = d.priorInfo;
   }
   function roleChips(owner, support) {
@@ -157,8 +160,8 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
     try {
       localStorage.setItem(k, JSON.stringify({
         kickoff: dateInput.value, isMobile: mobileToggle.checked,
-        path: pathInput.value, discovery: discoveryToggle.checked,
-        design: designToggle.checked, priorInfo: priorInfoToggle.checked,
+        path: pathInput.value, injection: injInput.value,
+        priorInfo: priorInfoToggle.checked,
         checked,
       }));
     } catch (e) {}
@@ -173,8 +176,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
       if (data.kickoff) dateInput.value = data.kickoff;
       if (typeof data.isMobile === 'boolean') mobileToggle.checked = data.isMobile;
       if (data.path) pathInput.value = data.path;
-      if (typeof data.discovery === 'boolean') discoveryToggle.checked = data.discovery;
-      if (typeof data.design === 'boolean') designToggle.checked = data.design;
+      if (data.injection) injInput.value = data.injection;
       if (typeof data.priorInfo === 'boolean') priorInfoToggle.checked = data.priorInfo;
       checked = data.checked || {};
       return true;
@@ -209,13 +211,11 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
     }
     if (cc.discovery) {
       lines.push('## Discovery injection (Days 1-5, parallel)');
-      WORKSHOPS_DISCOVERY.forEach((w) => lines.push(`- Day ${w.day} (${w.duration}) — ${w.title}: ${w.whatWeDo}`));
+      WORKSHOPS_DISCOVERY.forEach((w) => lines.push(`- Day ${w.day}${w.duration ? ` (${w.duration})` : ''} — ${w.title}: ${w.whatWeDo}`));
       lines.push('');
-    }
-    if (cc.design) {
-      const off = cc.discovery ? 5 : 0;
-      lines.push('## Design injection (provisional)');
-      WORKSHOPS_DESIGN.forEach((w) => lines.push(`- Day ${w.day + off} (${w.duration}) — ${w.title}: ${w.whatWeDo}`));
+    } else if (cc.design) {
+      lines.push('## Design injection (Days 1-3, parallel)');
+      WORKSHOPS_DESIGN.forEach((w) => lines.push(`- Day ${w.day}${w.duration ? ` (${w.duration})` : ''} — ${w.title}: ${w.whatWeDo}`));
       lines.push('');
     }
     WEEKS.forEach((w) => {
@@ -291,12 +291,12 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
     }
 
     const injBlocks = [];
-    if (c0.discovery) injBlocks.push({ name: 'Discovery injection', sub: 'Days 1-5 · owned by the whole pod (Sol. Arch + Designer lead the sessions, PO participates)', ws: WORKSHOPS_DISCOVERY, offset: 0 });
-    if (c0.design) injBlocks.push({ name: 'Design injection', sub: 'Provisional 5-day structure · led by Solutions Architect + Designer', ws: WORKSHOPS_DESIGN, offset: c0.discovery ? 5 : 0 });
+    if (c0.discovery) injBlocks.push({ name: 'Discovery injection', sub: 'Days 1-5 · owned by the whole pod (Sol. Arch + Designer lead the sessions, PO participates)', ws: WORKSHOPS_DISCOVERY });
+    else if (c0.design) injBlocks.push({ name: 'Design injection', sub: 'Days 1-3 · owned by the whole pod (Sol. Arch + Designer lead, PO participates) — used when work is locked behind a design', ws: WORKSHOPS_DESIGN });
     injBlocks.forEach((b) => {
       h += `<details class="ktm-week ktm-phase" open><summary class="ktm-week-head"><span class="ktm-caret" aria-hidden="true">▸</span><span class="ktm-week-title">${esc(b.name)}</span><span class="ktm-week-meta">Parallel overlay</span></summary><div class="ktm-week-body"><p class="ktm-phase-sub">${esc(b.sub)}</p>`;
       b.ws.forEach((w) => {
-        h += `<div class="ktm-ws"><span class="ktm-ws-day">Day ${w.day + b.offset}</span><span class="ktm-ws-body"><span class="ktm-ws-title">${esc(w.title)} <span class="ktm-ws-dur">${esc(w.duration)}</span></span><span class="ktm-ws-what">${esc(w.whatWeDo)}</span>${roleChips(w.lead[0], w.lead.slice(1).concat(w.support))}</span></div>`;
+        h += `<div class="ktm-ws"><span class="ktm-ws-day">Day ${w.day}</span><span class="ktm-ws-body"><span class="ktm-ws-title">${esc(w.title)}${w.duration ? ` <span class="ktm-ws-dur">${esc(w.duration)}</span>` : ''}</span><span class="ktm-ws-what">${esc(w.whatWeDo)}</span>${roleChips(w.lead[0], w.lead.slice(1).concat(w.support))}</span></div>`;
       });
       h += '</div></details>';
     });
@@ -362,7 +362,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
   });
   mobileToggle.addEventListener('change', () => { if (!output.hidden) render(); persist(); });
   pathInput.addEventListener('change', () => { applyPathDefaults(); if (!output.hidden) render(); persist(); });
-  [discoveryToggle, designToggle, priorInfoToggle].forEach((el) =>
+  [injInput, priorInfoToggle].forEach((el) =>
     el.addEventListener('change', () => { if (!output.hidden) render(); persist(); }));
 
   applyPathDefaults();
@@ -386,6 +386,8 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
   .ktm-toggles { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 16px; }
   .ktm-toggle { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted-blue); cursor: pointer; }
   .ktm-toggle input { accent-color: var(--coral); }
+  .ktm-inj-select { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--navy-mid); background: var(--navy); color: var(--off-white); font-size: 13px; font-family: inherit; }
+  .ktm-inj-select:focus { outline: none; border-color: var(--coral); }
 
   .ktm-empty { font-size: 13px; color: var(--muted-blue); text-align: center; padding: 24px 0; }
 
