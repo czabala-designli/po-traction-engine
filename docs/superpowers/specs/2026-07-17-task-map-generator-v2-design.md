@@ -147,3 +147,16 @@ Regenerate `docs/tractionlab-kickoff-checklist.md` (served at `/starters/tractio
 
 - Design-injection workshop sessions (placeholder above).
 - Both-injections sequencing (Days 1–5 / 6–10) — not yet observed; revisit when it first happens.
+
+## Addendum 2026-07-17 — Goffor canvas reconciliation
+
+After the v2 build shipped, the Goffor canvas had gained items. Folded the generic ones in (Goffor-only specifics stay on Goffor's canvas):
+
+- **New `dayRange` field on tasks.** Ongoing work renders as a pulled start–end range ("Mon Jul 27 – Fri Jul 31") instead of a single date. Used by the items below. `day` still anchors the task to its week; `dayRange[0]` drives the displayed start.
+- **Before kick off:** added "Additional required tools added to the stack" (Owner TL, prior-info gated). Phase confirmed to sit ~2 business days before Day 1.
+- **PRD/TRD are ongoing, all paths.** Replaced the discovery-only one-shot PRD/TRD tasks with "PRD drafted & refined" (Owner PO, Support TL+DEV) and "TRD drafted & refined" (Owner TL, Support PO+DEV), both `dayRange [1,7]`, always shown. The pre-kickoff first-iteration PRD/TRD in the Before phase stays (prior-info gated).
+- **Backend creation is ongoing:** `dayRange [1,7]`.
+- **Dev & staging infrastructure moved from Week 1 (Day 1) to Week 2 (Day 8).**
+- **Mobile migration is generic, not Goffor-specific** (also happened on Blocq): added "Prototype migrated from React Native Web to React Native + backend integration" (Owner DEV, Support TL, `dayRange [8,17]`, mobile-gated) in Week 2.
+- **Week 4:** added "Iterate app based on feedback" (Owner DEV, Support PO, `dayRange [22,26]`).
+- **Left out as Goffor-specific:** nothing — the React Native migration was reclassified as generic mobile work per the PO.

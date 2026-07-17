@@ -11,6 +11,7 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] First PRD iteration (Owner: PO · Support: Tech Lead, Developer)
 - [ ] First TRD iteration (Owner: Tech Lead · Support: PO, Developer)
 - [ ] Third-party integrations overview plan, e.g. AI, payment gateways, IAP (Owner: Tech Lead)
+- [ ] Additional required tools added to the stack (Owner: Tech Lead)
 
 ## Discovery injection (Days 1-5, parallel, led by Solutions Architect + Designer, POD participates)
 - Day 1 (2h) Understanding the Business: kickoff, product overview, business model, features, users, branding/design questionnaire, current issues.
@@ -27,10 +28,9 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] Day 1 — Google Play Console account process started (Owner: PO · Support: Client) [CRITICAL] [MOBILE ONLY]
 - [ ] Day 1 — Full go-live asset list sent to client: terms, privacy policy, domain, store & processor accounts (Owner: PO · Support: Client)
 - [ ] Day 1 — Client's standby list of orbit users collected (Owner: PO · Support: Client)
-- [ ] Day 1 — Dev & staging infrastructure created (Owner: Tech Lead · Support: Developer)
 - [ ] Day 1 — Repo created under client's own GitHub org (Owner: Tech Lead)
 - [ ] Day 1 — Store apps and CI/CD pipelines set up (Owner: Tech Lead · Support: Developer) [MOBILE ONLY]
-- [ ] Day 1 — Backend creation started (Owner: Developer · Support: Tech Lead)
+- [ ] Days 1-7 — Backend creation, ongoing (Owner: Developer · Support: Tech Lead)
 - [ ] Day 1 — PostHog account created & project configured (Owner: PO)
 - [ ] Day 1 — Internal cohort created, PO/Dev/TL (Owner: PO)
 - [ ] Day 1 — Customer cohort created, founder & stakeholders (Owner: PO)
@@ -45,9 +45,13 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] Day 4 — Slack notification for new feedback configured (Owner: PO)
 - [ ] Day 4 — Testable build in the client's hands, mock data / web variant if needed (Owner: Developer · Support: Tech Lead) [CRITICAL]
 - [ ] Day 5 — 3 waitlist emails drafted & configured in PostHog (Owner: PO)
+- [ ] Days 1-7 — PRD drafted & refined, ongoing from discovery/prior context (Owner: PO · Support: Tech Lead, Developer)
+- [ ] Days 1-7 — TRD drafted & refined, ongoing (Owner: Tech Lead · Support: PO, Developer)
 - [ ] Day 7 — Monetization strategy documented (Owner: PO · Support: Client)
 
 ## Week 2 — Activation (Priority 2)
+- [ ] Day 8 — Dev & staging infrastructure created (Owner: Tech Lead · Support: Developer)
+- [ ] Days 8-17 — Prototype migrated from React Native Web to React Native + backend integration, ongoing (Owner: Developer · Support: Tech Lead) [MOBILE ONLY]
 - [ ] Day 8 — Personal outreach completed for founder orbit users (Owner: PO)
 - [ ] Day 8 — Drip campaign running for all waitlist signups (Owner: PO)
 - [ ] Day 8 — Primary social channel claimed with brand handle (Owner: PO)
@@ -68,6 +72,7 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] Day 20 — Monetization model designed & scheduled into the plan (Owner: PO · Support: Tech Lead)
 
 ## Week 4 — Learning (Priority 4)
+- [ ] Days 22-26 — Iterate app based on feedback, ongoing (Owner: Developer · Support: PO)
 - [ ] Day 24 — First user interviews completed (Owner: PO · Support: Client)
 - [ ] Day 25 — Interview findings documented & summarized (Owner: PO)
 - [ ] Day 25 — PostHog funnel reviewed, drop-offs identified (Owner: PO)

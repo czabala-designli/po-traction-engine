@@ -74,14 +74,16 @@ export const WORKSHOPS_DESIGN = [
     whatWeDo: 'Present final designs and hand off to delivery. (To be confirmed.)', lead: ['SA', 'DES'], support: ['PO'] },
 ];
 
-// Before kick off — pre-Day-1 phase. Repo + Vercel are always required; the
-// PRD/TRD/integrations plan only exist when prior information exists.
+// Before kick off — pre-Day-1 phase (~2 business days before Day 1). Repo + Vercel
+// are always required; the PRD/TRD, integrations plan, and additional-tools setup
+// only exist when prior information exists.
 export const BEFORE = [
   { id: 'b-1', label: 'Repo created from the traction-lab template', day: 0, owner: 'TL', support: [] },
   { id: 'b-2', label: 'Vercel project created (for prototypes/previews)', day: 0, owner: 'TL', support: [] },
   { id: 'b-3', label: 'First PRD iteration', day: 0, owner: 'PO', support: ['TL', 'DEV'], show: { priorInfo: true } },
   { id: 'b-4', label: 'First TRD iteration', day: 0, owner: 'TL', support: ['PO', 'DEV'], show: { priorInfo: true } },
   { id: 'b-5', label: 'Third-party integrations overview plan (e.g. AI, payment gateways, IAP)', day: 0, owner: 'TL', support: [], show: { priorInfo: true } },
+  { id: 'b-6', label: 'Additional required tools added to the stack', day: 0, owner: 'TL', support: [], show: { priorInfo: true } },
 ];
 
 // Weeks 1-4. `day` is the semantic Day N (Day 1 = kickoff). Task dates pull off
@@ -101,10 +103,9 @@ export const WEEKS = [
         { id: 'w1-3b', label: 'Google Play Console account process started', day: 1, owner: 'PO', support: ['CLIENT'], critical: true, show: { mobile: true } },
         { id: 'w1-golist', label: "Full go-live asset list sent to client (terms, privacy policy, domain, store & processor accounts, anything else that blocks go-live)", day: 1, owner: 'PO', support: ['CLIENT'] },
         { id: 'w1-standby', label: "Client's standby list of orbit users collected and kept on hand (a list, not a single name)", day: 1, owner: 'PO', support: ['CLIENT'] },
-        { id: 'w1-4', label: 'Dev & staging infrastructure created', day: 1, owner: 'TL', support: ['DEV'] },
         { id: 'w1-4a', label: "Repo created under client's own GitHub org (enables code transfer anytime)", day: 1, owner: 'TL', support: [] },
         { id: 'w1-stores', label: 'Store apps and CI/CD pipelines set up', day: 1, owner: 'TL', support: ['DEV'], show: { mobile: true } },
-        { id: 'w1-backend', label: 'Backend creation started', day: 1, owner: 'DEV', support: ['TL'] },
+        { id: 'w1-backend', label: 'Backend creation (ongoing)', day: 1, dayRange: [1, 7], owner: 'DEV', support: ['TL'] },
       ] },
       { name: 'PostHog', tasks: [
         { id: 'w1-5', label: 'PostHog account created & project configured', day: 1, owner: 'PO', support: [] },
@@ -122,8 +123,8 @@ export const WEEKS = [
         { id: 'w1-14', label: 'Slack notification for new feedback configured', day: 4, owner: 'PO', support: [] },
         { id: 'w1-build4', label: 'Testable build in the client\'s hands (mock data / web variant if needed)', day: 4, owner: 'DEV', support: ['TL'], critical: true },
         { id: 'w1-15', label: '3 waitlist emails drafted & configured in PostHog', day: 5, owner: 'PO', support: [] },
-        { id: 'w1-prd', label: 'First PRD iteration (from discovery context)', day: 5, owner: 'PO', support: ['TL', 'DEV'], show: { priorInfo: false, discovery: true } },
-        { id: 'w1-trd', label: 'First TRD iteration (from discovery context)', day: 6, owner: 'TL', support: ['PO', 'DEV'], show: { priorInfo: false, discovery: true } },
+        { id: 'w1-prd', label: 'PRD drafted & refined (ongoing, from discovery/prior context)', day: 1, dayRange: [1, 7], owner: 'PO', support: ['TL', 'DEV'] },
+        { id: 'w1-trd', label: 'TRD drafted & refined (ongoing)', day: 1, dayRange: [1, 7], owner: 'TL', support: ['PO', 'DEV'] },
       ] },
       { name: 'Strategy', tasks: [
         { id: 'w1-mondisc', label: 'Early monetization discussion held with the client', day: 1, owner: 'PO', support: ['CLIENT'] },
@@ -134,6 +135,10 @@ export const WEEKS = [
   {
     id: 'w2', title: 'Week 2 — Activation', priority: 'Priority 2', range: [8, 14],
     groups: [
+      { name: 'Build', tasks: [
+        { id: 'w2-infra', label: 'Dev & staging infrastructure created', day: 8, owner: 'TL', support: ['DEV'] },
+        { id: 'w2-migrate', label: 'Prototype migrated from React Native Web to React Native + backend integration (ongoing)', day: 8, dayRange: [8, 17], owner: 'DEV', support: ['TL'], show: { mobile: true } },
+      ] },
       { name: 'Users', tasks: [
         { id: 'w2-7', label: 'Personal outreach completed for founder orbit users', day: 8, owner: 'PO', support: [] },
         { id: 'w2-8', label: 'Drip campaign running for all waitlist signups', day: 8, owner: 'PO', support: [] },
@@ -176,6 +181,9 @@ export const WEEKS = [
   {
     id: 'w4', title: 'Week 4 — Learning', priority: 'Priority 4', range: [22, 28],
     groups: [
+      { name: 'Build', tasks: [
+        { id: 'w4-iterate', label: 'Iterate app based on feedback (ongoing)', day: 22, dayRange: [22, 26], owner: 'DEV', support: ['PO'] },
+      ] },
       { name: 'Users', tasks: [
         { id: 'w4-1', label: 'First user interviews completed', day: 24, owner: 'PO', support: ['CLIENT'] },
         { id: 'w4-2', label: 'Interview findings documented & summarized', day: 25, owner: 'PO', support: [] },
