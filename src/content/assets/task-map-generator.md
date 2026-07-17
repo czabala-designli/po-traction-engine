@@ -3,11 +3,11 @@ title: "Task Map Generator"
 kind: "tool"
 phase: "foundation"
 status: "live"
-summary: "The full 90-day task map — every dated task, blocker, and guarantee, ready to paste into Slack or Basecamp."
+summary: "The full cross-functional traction-lab operating model: pick an entry path, auto-date every task and guarantee, see who owns and supports each one, and copy it into Slack or Basecamp."
 order: 1
 ---
 
-The interactive generator above builds the complete TractionLab task map for your project: enter a kickoff date and every task and blocker across the 30-day sprint (Weeks 1–4) auto-dates through the Day-30 (first user) and Day-90 (first dollar) guarantees, with the critical blockers flagged. Check tasks off as you go — progress saves per project on this device — and copy the whole thing into a Slack Canvas or Basecamp.
+The interactive generator above builds the complete traction-lab task map for your project. Pick the entry path (Impact Week, SolutionLab, or from scratch), toggle the discovery/design injections and whether prior information exists, then enter a kickoff date. Every task auto-dates on calendar days (Day 1 = kickoff) and pulls off weekends to the prior Friday, while the Day 14 / 30 / 60 / 90 guarantees stay on their true contractual dates. Each task shows its owner and supporting roles, and the map covers the Before-kick-off phase, the injection workshop week, and the standing daily work. Check tasks off as you go (progress saves per project on this device) and copy the whole thing into a Slack Canvas or Basecamp.
 
 ## Prefer it offline?
 
