@@ -3,7 +3,7 @@
 // src/data/task-map.ts. Enter a kickoff date + entry path; every task auto-dates
 // on calendar days (Day 1 = kickoff), pulling off weekends; guarantees stay on
 // their true calendar date. Progress persists in localStorage per project.
-import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
+import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, WORKSHOPS_DESIGN, THROUGHOUT, OPERATING_NOTES } from '../data/task-map';
 ---
 
 <div class="ktm" data-ktm>
@@ -45,7 +45,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
   <div class="ktm-output" data-ktm-output hidden></div>
 </div>
 
-<script define:vars={{ WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS }}>
+<script define:vars={{ WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, WORKSHOPS_DESIGN, THROUGHOUT, OPERATING_NOTES }}>
   const wrap = document.querySelector('[data-ktm]');
   const dateInput = wrap.querySelector('[data-ktm-date]');
   const nameInput = wrap.querySelector('[data-ktm-name]');
@@ -141,6 +141,8 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
     WEEKS.forEach((w) => w.groups.forEach((g) => g.tasks.forEach((t) => {
       if (taskMatches(t, c)) list.push(t);
     })));
+    BEFORE.forEach((t) => { if (taskMatches(t, ctx())) list.push(t); });
+    THROUGHOUT.forEach((t) => list.push(t));
     return list;
   }
   function persist() {
@@ -189,6 +191,27 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
     const lines = [`# ${nameInput.value || 'TractionLab'} — Task Map`, `Kickoff: ${fmt(dayDate(kickoff, 1))}`];
     GUARANTEES.forEach((g) => lines.push(`Day ${g.day} · ${fmt(dayDate(kickoff, g.day))} — ${gLabel(g, isMobile)} (${g.tag})`));
     lines.push('');
+    const cc = ctx();
+    const beforeCC = BEFORE.filter((t) => taskMatches(t, cc));
+    if (beforeCC.length) {
+      lines.push('## Before kick off (Pre-Day 1)');
+      beforeCC.forEach((t) => {
+        const box = checked[t.id] ? '- [x]' : '- [ ]';
+        lines.push(`${box} ${t.label} ${ownersText(t)}`);
+      });
+      lines.push('');
+    }
+    if (cc.discovery) {
+      lines.push('## Discovery injection (Days 1-5, parallel)');
+      WORKSHOPS_DISCOVERY.forEach((w) => lines.push(`- Day ${w.day} (${w.duration}) — ${w.title}: ${w.whatWeDo}`));
+      lines.push('');
+    }
+    if (cc.design) {
+      const off = cc.discovery ? 5 : 0;
+      lines.push('## Design injection (provisional)');
+      WORKSHOPS_DESIGN.forEach((w) => lines.push(`- Day ${w.day + off} (${w.duration}) — ${w.title}: ${w.whatWeDo}`));
+      lines.push('');
+    }
     WEEKS.forEach((w) => {
       lines.push(`## ${w.title} (${w.priority})`);
       const c = ctx();
@@ -199,6 +222,11 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
       }));
       lines.push('');
     });
+    lines.push('## Throughout the 90 days');
+    THROUGHOUT.forEach((t) => lines.push(`- ${t.label} ${ownersText(t)}`));
+    lines.push('');
+    lines.push('## Operating notes');
+    OPERATING_NOTES.forEach((n) => lines.push(`- ${n}`));
     const btn = output.querySelector('[data-ktm-copy]');
     navigator.clipboard.writeText(lines.join('\n')).then(() => {
       if (btn) { btn.textContent = 'Copied!'; setTimeout(() => (btn.textContent = 'Copy checklist'), 2000); }
@@ -220,7 +248,8 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
     h += '<div class="ktm-miles">';
     guarantees.forEach((g) => {
       const tagCls = g.tag === 'guarantee' ? ' is-guarantee' : ' is-note';
-      h += `<div class="ktm-mile"><p class="ktm-mile-day">Day ${g.day}</p><p class="ktm-mile-date">${fmt(g.date)}</p><p class="ktm-mile-label">${esc(g.text)}</p><p class="ktm-mile-tag${tagCls}">${esc(g.tag)}</p></div>`;
+      const note = g.note ? `<p class="ktm-mile-note">${esc(g.note)}</p>` : '';
+      h += `<div class="ktm-mile"><p class="ktm-mile-day">Day ${g.day}</p><p class="ktm-mile-date">${fmt(g.date)}</p><p class="ktm-mile-label">${esc(g.text)}</p>${note}<p class="ktm-mile-tag${tagCls}">${esc(g.tag)}</p></div>`;
     });
     h += '</div>';
 
@@ -244,6 +273,28 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
     const pct = tasks.length ? Math.round((done / tasks.length) * 100) : 0;
     h += `<div class="ktm-progressbar"><div class="ktm-progress-group"><p class="ktm-progress" data-ktm-progress>${done} of ${tasks.length} tasks checked (${pct}%)</p><span class="ktm-saved">Saved on this device only. Use Copy checklist to keep a copy elsewhere.</span></div><button type="button" class="ktm-copy" data-ktm-copy>Copy checklist</button></div>`;
 
+    const c0 = ctx();
+    const beforeTasks = BEFORE.filter((t) => taskMatches(t, c0));
+    if (beforeTasks.length) {
+      h += '<details class="ktm-week ktm-phase" open><summary class="ktm-week-head"><span class="ktm-caret" aria-hidden="true">▸</span><span class="ktm-week-title">Before kick off</span><span class="ktm-week-meta">Pre-Day 1</span></summary><div class="ktm-week-body">';
+      beforeTasks.forEach((t) => {
+        const on = !!checked[t.id];
+        h += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}"><span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span><span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta">${roleChips(t.owner, t.support)}</span></span></div>`;
+      });
+      h += '</div></details>';
+    }
+
+    const injBlocks = [];
+    if (c0.discovery) injBlocks.push({ name: 'Discovery injection', sub: 'Days 1-5 · led by Solutions Architect + Designer · POD participates', ws: WORKSHOPS_DISCOVERY, offset: 0 });
+    if (c0.design) injBlocks.push({ name: 'Design injection', sub: 'Provisional 5-day structure · led by Solutions Architect + Designer', ws: WORKSHOPS_DESIGN, offset: c0.discovery ? 5 : 0 });
+    injBlocks.forEach((b) => {
+      h += `<details class="ktm-week ktm-phase" open><summary class="ktm-week-head"><span class="ktm-caret" aria-hidden="true">▸</span><span class="ktm-week-title">${esc(b.name)}</span><span class="ktm-week-meta">Parallel overlay</span></summary><div class="ktm-week-body"><p class="ktm-phase-sub">${esc(b.sub)}</p>`;
+      b.ws.forEach((w) => {
+        h += `<div class="ktm-ws"><span class="ktm-ws-day">Day ${w.day + b.offset}</span><span class="ktm-ws-body"><span class="ktm-ws-title">${esc(w.title)} <span class="ktm-ws-dur">${esc(w.duration)}</span></span><span class="ktm-ws-what">${esc(w.whatWeDo)}</span>${roleChips(w.lead[0], w.lead.slice(1).concat(w.support))}</span></div>`;
+      });
+      h += '</div></details>';
+    });
+
     WEEKS.forEach((w, wi) => {
       h += `<details class="ktm-week"${wi === 0 ? ' open' : ''}>`;
       h += `<summary class="ktm-week-head"><span class="ktm-caret" aria-hidden="true">▸</span><span class="ktm-week-title">${esc(w.title)}</span><span class="ktm-week-meta">${esc(w.priority)} · ${fmt(dayDate(kickoff, w.range[0]))} – ${fmt(dayDate(kickoff, w.range[1]))}</span></summary>`;
@@ -265,7 +316,16 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
       h += '</div></details>';
     });
 
+    h += '<div class="ktm-throughout"><p class="ktm-eyebrow">Throughout the 90 days</p>';
+    THROUGHOUT.forEach((t) => {
+      const on = !!checked[t.id];
+      h += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}"><span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span><span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta">${roleChips(t.owner, t.support)}</span></span></div>`;
+    });
+    h += '</div>';
     h += '<div class="ktm-hdd"><strong>Week 5 onward — HDD Mode:</strong> every change becomes a hypothesis with a PostHog experiment set up before it ships. Weekly client meetings report hypothesis → metric before → metric after → conclusion → next experiment, through Day 90.</div>';
+    h += '<div class="ktm-notes"><p class="ktm-eyebrow">Operating notes</p><ul>';
+    OPERATING_NOTES.forEach((n) => { h += `<li>${esc(n)}</li>`; });
+    h += '</ul></div>';
 
     output.innerHTML = h;
     output.hidden = false;
@@ -383,6 +443,21 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
 
   .ktm-hdd { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 16px 18px; margin-top: 8px; font-size: 13px; line-height: 1.6; color: var(--off-white); }
   .ktm-hdd strong { color: var(--coral); }
+
+  .ktm-phase { border-left: 3px solid var(--purple-light, #A78BC4); }
+  .ktm-phase-sub { font-size: 12px; color: var(--muted-blue); margin: 12px 0 10px; }
+  .ktm-ws { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .ktm-ws:last-child { border-bottom: none; }
+  .ktm-ws-day { flex: 0 0 auto; font-size: 11px; font-weight: 700; color: var(--purple-light, #A78BC4); min-width: 46px; }
+  .ktm-ws-body { display: flex; flex-direction: column; gap: 4px; }
+  .ktm-ws-title { font-size: 13.5px; color: var(--off-white); font-weight: 600; }
+  .ktm-ws-dur { font-size: 10.5px; color: var(--muted-blue); font-weight: 400; }
+  .ktm-ws-what { font-size: 12.5px; line-height: 1.5; color: var(--muted-blue); }
+  .ktm-mile-note { font-size: 11px; line-height: 1.5; color: var(--purple-light, #A78BC4); margin: 6px 0 0; }
+  .ktm-throughout { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 16px 18px; margin-top: 12px; }
+  .ktm-notes { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 16px 18px; margin-top: 12px; }
+  .ktm-notes ul { margin: 10px 0 0; padding-left: 18px; }
+  .ktm-notes li { font-size: 12.5px; line-height: 1.6; color: var(--off-white); margin-bottom: 6px; }
 
   @media (max-width: 560px) {
     .ktm-miles { grid-template-columns: 1fr; }
