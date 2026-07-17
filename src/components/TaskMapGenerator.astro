@@ -3,7 +3,7 @@
 // src/data/task-map.ts. Enter a kickoff date + entry path; every task auto-dates
 // on calendar days (Day 1 = kickoff), pulling off weekends; guarantees stay on
 // their true calendar date. Progress persists in localStorage per project.
-import { WEEKS, GUARANTEES } from '../data/task-map';
+import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
 ---
 
 <div class="ktm" data-ktm>
@@ -23,19 +23,29 @@ import { WEEKS, GUARANTEES } from '../data/task-map';
         <label for="ktm-name">Project name</label>
         <input type="text" id="ktm-name" placeholder="e.g. Volleyball / Blocq" data-ktm-name />
       </div>
+      <div class="ktm-field">
+        <label for="ktm-path">Entry path</label>
+        <select id="ktm-path" data-ktm-path>
+          <option value="1">1 · Impact Week</option>
+          <option value="2">2 · SolutionLab</option>
+          <option value="3" selected>3 · From scratch</option>
+        </select>
+      </div>
       <button type="button" class="ktm-generate" data-ktm-generate>Generate map</button>
     </div>
-    <label class="ktm-mobile">
-      <input type="checkbox" data-ktm-mobile />
-      This project includes a mobile app (adds Apple & Google Developer account tasks)
-    </label>
+    <div class="ktm-toggles">
+      <label class="ktm-toggle"><input type="checkbox" data-ktm-discovery /> Discovery injection</label>
+      <label class="ktm-toggle"><input type="checkbox" data-ktm-design /> Design injection</label>
+      <label class="ktm-toggle"><input type="checkbox" data-ktm-priorinfo /> Prior information exists (enables early PRD/TRD)</label>
+      <label class="ktm-toggle"><input type="checkbox" data-ktm-mobile /> Includes a mobile app</label>
+    </div>
   </div>
 
   <p class="ktm-empty" data-ktm-empty>Enter a kickoff date above to generate the map.</p>
   <div class="ktm-output" data-ktm-output hidden></div>
 </div>
 
-<script define:vars={{ WEEKS, GUARANTEES }}>
+<script define:vars={{ WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS }}>
   const wrap = document.querySelector('[data-ktm]');
   const dateInput = wrap.querySelector('[data-ktm-date]');
   const nameInput = wrap.querySelector('[data-ktm-name]');
@@ -43,6 +53,39 @@ import { WEEKS, GUARANTEES } from '../data/task-map';
   const genBtn = wrap.querySelector('[data-ktm-generate]');
   const output = wrap.querySelector('[data-ktm-output]');
   const empty = wrap.querySelector('[data-ktm-empty]');
+  const pathInput = wrap.querySelector('[data-ktm-path]');
+  const discoveryToggle = wrap.querySelector('[data-ktm-discovery]');
+  const designToggle = wrap.querySelector('[data-ktm-design]');
+  const priorInfoToggle = wrap.querySelector('[data-ktm-priorinfo]');
+
+  function ctx() {
+    const discovery = discoveryToggle.checked;
+    const design = designToggle.checked;
+    return {
+      path: Number(pathInput.value),
+      discovery, design,
+      mobile: mobileToggle.checked,
+      priorInfo: priorInfoToggle.checked,
+      injection: discovery || design,
+    };
+  }
+  function taskMatches(t, c) {
+    const s = t.show;
+    if (!s) return true;
+    if (s.paths && !s.paths.includes(c.path)) return false;
+    if (s.mobile && !c.mobile) return false;
+    if (s.discovery && !c.discovery) return false;
+    if (s.design && !c.design) return false;
+    if (typeof s.injection === 'boolean' && s.injection !== c.injection) return false;
+    if (typeof s.priorInfo === 'boolean' && s.priorInfo !== c.priorInfo) return false;
+    return true;
+  }
+  function applyPathDefaults() {
+    const d = PATH_DEFAULTS[Number(pathInput.value)] || PATH_DEFAULTS[3];
+    discoveryToggle.checked = d.discovery;
+    designToggle.checked = d.design;
+    priorInfoToggle.checked = d.priorInfo;
+  }
 
   const TOTAL_DAYS = 96;
   let checked = {};
@@ -72,11 +115,10 @@ import { WEEKS, GUARANTEES } from '../data/task-map';
     return n ? `tractionlab-map:${n}` : null;
   }
   function visibleTasks() {
-    const isMobile = mobileToggle.checked;
+    const c = ctx();
     const list = [];
     WEEKS.forEach((w) => w.groups.forEach((g) => g.tasks.forEach((t) => {
-      if (t.mobileOnly && !isMobile) return;
-      list.push(t);
+      if (taskMatches(t, c)) list.push(t);
     })));
     return list;
   }
@@ -84,7 +126,12 @@ import { WEEKS, GUARANTEES } from '../data/task-map';
     const k = storageKey();
     if (!k) return;
     try {
-      localStorage.setItem(k, JSON.stringify({ kickoff: dateInput.value, isMobile: mobileToggle.checked, checked }));
+      localStorage.setItem(k, JSON.stringify({
+        kickoff: dateInput.value, isMobile: mobileToggle.checked,
+        path: pathInput.value, discovery: discoveryToggle.checked,
+        design: designToggle.checked, priorInfo: priorInfoToggle.checked,
+        checked,
+      }));
     } catch (e) {}
   }
   function loadSaved() {
@@ -96,6 +143,10 @@ import { WEEKS, GUARANTEES } from '../data/task-map';
       const data = JSON.parse(raw);
       if (data.kickoff) dateInput.value = data.kickoff;
       if (typeof data.isMobile === 'boolean') mobileToggle.checked = data.isMobile;
+      if (data.path) pathInput.value = data.path;
+      if (typeof data.discovery === 'boolean') discoveryToggle.checked = data.discovery;
+      if (typeof data.design === 'boolean') designToggle.checked = data.design;
+      if (typeof data.priorInfo === 'boolean') priorInfoToggle.checked = data.priorInfo;
       checked = data.checked || {};
       return true;
     } catch (e) {
@@ -215,7 +266,11 @@ import { WEEKS, GUARANTEES } from '../data/task-map';
     if (loadSaved()) { genBtn.disabled = !dateInput.value; if (dateInput.value) render(); }
   });
   mobileToggle.addEventListener('change', () => { if (!output.hidden) render(); persist(); });
+  pathInput.addEventListener('change', () => { applyPathDefaults(); if (!output.hidden) render(); persist(); });
+  [discoveryToggle, designToggle, priorInfoToggle].forEach((el) =>
+    el.addEventListener('change', () => { if (!output.hidden) render(); persist(); }));
 
+  applyPathDefaults();
   genBtn.disabled = !dateInput.value;
 </script>
 
@@ -233,6 +288,11 @@ import { WEEKS, GUARANTEES } from '../data/task-map';
   .ktm-generate:disabled { background: var(--navy-mid); color: var(--muted-blue); cursor: not-allowed; }
   .ktm-mobile { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-size: 13px; color: var(--muted-blue); cursor: pointer; }
   .ktm-mobile input { accent-color: var(--coral); }
+  .ktm-field select { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--navy-mid); background: var(--navy); color: var(--off-white); font-size: 14px; font-family: inherit; }
+  .ktm-field select:focus { outline: none; border-color: var(--coral); }
+  .ktm-toggles { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 16px; }
+  .ktm-toggle { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted-blue); cursor: pointer; }
+  .ktm-toggle input { accent-color: var(--coral); }
 
   .ktm-empty { font-size: 13px; color: var(--muted-blue); text-align: center; padding: 24px 0; }
 
