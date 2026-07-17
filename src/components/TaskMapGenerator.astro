@@ -110,6 +110,16 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
     d.setDate(d.getDate() + (dayNum - 1));
     return d;
   }
+  // Task dates never land on a weekend: Saturday pulls back 1 day, Sunday pulls
+  // back 2 days, both to the prior Friday. Guarantees do NOT use this — they keep
+  // their true calendar date (they are contractual).
+  function workingDate(baseISO, dayNum) {
+    const d = dayDate(baseISO, dayNum);
+    const wd = d.getDay(); // 0 = Sun, 6 = Sat
+    if (wd === 6) d.setDate(d.getDate() - 1);
+    else if (wd === 0) d.setDate(d.getDate() - 2);
+    return d;
+  }
   // Always English, regardless of the viewer's system locale.
   function fmt(d) {
     return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
@@ -185,7 +195,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
       w.groups.forEach((g) => g.tasks.forEach((t) => {
         if (!taskMatches(t, c)) return;
         const box = checked[t.id] ? '- [x]' : '- [ ]';
-        lines.push(`${box} ${fmt(dayDate(kickoff, t.day))} — ${t.label} ${ownersText(t)}${t.critical ? '  (CRITICAL)' : ''}`);
+        lines.push(`${box} ${fmt(workingDate(kickoff, t.day))} — ${t.label} ${ownersText(t)}${t.critical ? '  (CRITICAL)' : ''}`);
       }));
       lines.push('');
     });
@@ -247,7 +257,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS } from '../data/task-map';
           const on = !!checked[t.id];
           h += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}">`;
           h += `<span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span>`;
-          h += `<span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta"><span class="ktm-task-date">${fmt(dayDate(kickoff, t.day))}</span>${roleChips(t.owner, t.support)}</span></span>`;
+          h += `<span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta"><span class="ktm-task-date">${fmt(workingDate(kickoff, t.day))}</span>${roleChips(t.owner, t.support)}</span></span>`;
           if (t.critical) h += '<span class="ktm-critical">Critical</span>';
           h += '</div>';
         });
