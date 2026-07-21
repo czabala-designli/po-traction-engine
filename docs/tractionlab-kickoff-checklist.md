@@ -29,7 +29,7 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] Day 1 — DUNS number requested, required for Apple Developer account (Owner: PO · Support: Client, Tech Lead) [CRITICAL] [MOBILE ONLY]
 - [ ] Day 1 — Google Play Console account process started (Owner: PO · Support: Client, Tech Lead) [CRITICAL] [MOBILE ONLY]
 - [ ] Day 1 — Full go-live asset list sent to client: domain, store & processor accounts, anything else that blocks go-live (Owner: PO · Support: Client)
-- [ ] Day 2 — Advise client to source Terms, EULA & Privacy Policy from their attorney, or self-generate at app-privacy-policy-generator.firebaseapp.com. We do not draft these (Owner: PO · Support: Client)
+- [ ] Day 2 — Advise client to source Terms, EULA & Privacy Policy from their attorney, or self-generate at app-privacy-policy-generator.firebaseapp.com. We do not draft these. Missing legal docs block go-live / app submission (Owner: PO · Support: Client) [CRITICAL]
 - [ ] Day 1 — Client's standby list of orbit users collected (Owner: PO · Support: Client)
 - [ ] Day 1 — Repo created under client's own GitHub org (Owner: Tech Lead)
 - [ ] Day 1 — Store apps and CI/CD pipelines set up (Owner: Tech Lead · Support: Developer) [MOBILE ONLY]

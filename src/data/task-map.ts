@@ -108,7 +108,7 @@ export const WEEKS = [
         { id: 'w1-3a', label: 'DUNS number requested (required for Apple Developer account)', day: 1, owner: 'PO', support: ['CLIENT', 'TL'], critical: true, show: { mobile: true } },
         { id: 'w1-3b', label: 'Google Play Console account process started', day: 1, owner: 'PO', support: ['CLIENT', 'TL'], critical: true, show: { mobile: true } },
         { id: 'w1-golist', label: "Full go-live asset list sent to client (domain, store & processor accounts, anything else that blocks go-live)", day: 1, owner: 'PO', support: ['CLIENT'] },
-        { id: 'w1-legal', label: 'Advise client to source Terms, EULA & Privacy Policy from their attorney (or self-generate at app-privacy-policy-generator.firebaseapp.com). We do not draft these.', day: 2, owner: 'PO', support: ['CLIENT'] },
+        { id: 'w1-legal', label: 'Advise client to source Terms, EULA & Privacy Policy from their attorney (or self-generate at app-privacy-policy-generator.firebaseapp.com). We do not draft these. Missing legal docs block go-live / app submission.', day: 2, owner: 'PO', support: ['CLIENT'], critical: true },
         { id: 'w1-standby', label: "Client's standby list of orbit users collected and kept on hand (a list, not a single name)", day: 1, owner: 'PO', support: ['CLIENT'] },
         { id: 'w1-4a', label: "Repo created under client's own GitHub org (enables code transfer anytime)", day: 1, owner: 'TL', support: [] },
         { id: 'w1-stores', label: 'Store apps and CI/CD pipelines set up', day: 1, owner: 'TL', support: ['DEV'], show: { mobile: true } },

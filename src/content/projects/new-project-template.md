@@ -19,7 +19,7 @@ checklist:
   - { milestone: "Week 1 · Foundation", label: "Day 1 — DUNS number requested (required for Apple Developer account)", done: false, note: "Owner: PO, Support: Client, Tech Lead · Critical · mobile only" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Google Play Console account process started", done: false, note: "Owner: PO, Support: Client, Tech Lead · Critical · mobile only" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Full go-live asset list sent to client (domain, store & processor accounts, anything else that blocks go-live)", done: false, note: "Owner: PO, Support: Client" }
-  - { milestone: "Week 1 · Foundation", label: "Day 2 — Advise client to source Terms, EULA & Privacy Policy from their attorney (or self-generate at app-privacy-policy-generator.firebaseapp.com). We do not draft these.", done: false, note: "Owner: PO, Support: Client" }
+  - { milestone: "Week 1 · Foundation", label: "Day 2 — Advise client to source Terms, EULA & Privacy Policy from their attorney (or self-generate at app-privacy-policy-generator.firebaseapp.com). We do not draft these. Missing legal docs block go-live / app submission.", done: false, note: "Owner: PO, Support: Client · Critical" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Client's standby list of orbit users collected and kept on hand (a list, not a single name)", done: false, note: "Owner: PO, Support: Client" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Repo created under client's own GitHub org (enables code transfer anytime)", done: false, note: "Owner: Tech Lead" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Store apps and CI/CD pipelines set up", done: false, note: "Owner: Tech Lead, Support: Developer · mobile only" }
