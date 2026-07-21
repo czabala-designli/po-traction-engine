@@ -50,19 +50,19 @@ export const GUARANTEES = [
 export const WORKSHOPS_DISCOVERY = [
   { day: 1, title: 'Understanding the Business', duration: '2h',
     whatWeDo: 'Kickoff, product overview, business model, features, users, branding/design questionnaire, and current issues.',
-    lead: ['SA', 'DES'], support: ['PO'] },
+    lead: ['SA', 'DES'], support: ['PO', 'TL', 'DEV'] },
   { day: 2, title: 'Design Concepts & Workflow', duration: '1h',
     whatWeDo: 'Align on design direction, brainstorm the main workflow, define the problem statement, and look at the future of the product.',
-    lead: ['SA', 'DES'], support: ['PO'] },
+    lead: ['SA', 'DES'], support: ['PO', 'TL', 'DEV'] },
   { day: 3, title: 'Prototype Demo & Review', duration: '1h',
     whatWeDo: 'Present progress on a live, interactive prototype and gather direct feedback.',
-    lead: ['SA', 'DES'], support: ['PO'] },
+    lead: ['SA', 'DES'], support: ['PO', 'TL', 'DEV'] },
   { day: 4, title: 'Prioritization Session', duration: '1.5h',
     whatWeDo: 'Collaborative working session to prioritize features and map what is critical for launch.',
-    lead: ['SA', 'DES'], support: ['PO'] },
+    lead: ['SA', 'DES'], support: ['PO', 'TL', 'DEV'] },
   { day: 5, title: 'Final Review & Next Steps', duration: '1h',
     whatWeDo: 'Final design presentation and a collaborative review of the custom 30-60-90 day execution milestones.',
-    lead: ['SA', 'DES'], support: ['PO'] },
+    lead: ['SA', 'DES'], support: ['PO', 'TL', 'DEV'] },
 ];
 
 // Design injection — CONFIRMED. A lighter, non-permanent injection used when work

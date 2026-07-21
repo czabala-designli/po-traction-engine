@@ -13,7 +13,7 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] Research & plan architecture for all third-party integrations: AI, payment gateways, IAP, etc. (Owner: Tech Lead)
 - [ ] Create the client-facing list of required tools & integrations (Owner: Tech Lead)
 
-## Discovery injection (Days 1-5, parallel, owned by the whole pod; Sol. Arch + Designer lead, PO participates)
+## Discovery injection (Days 1-5, parallel, owned by the whole pod; Sol. Arch + Designer lead, PO + Tech Lead + Developer all take an active part)
 - Day 1 (2h) Understanding the Business: kickoff, product overview, business model, features, users, branding/design questionnaire, current issues.
 - Day 2 (1h) Design Concepts & Workflow: align design direction, brainstorm the main workflow, define the problem statement, product future.
 - Day 3 (1h) Prototype Demo & Review: live interactive prototype, gather feedback.
