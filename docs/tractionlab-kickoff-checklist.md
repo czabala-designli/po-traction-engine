@@ -75,7 +75,7 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] Day 16 — North Star metric agreed with the client and saved as a PostHog saved metric so it appears in every experiment, from the event plan; set within month 1 (Owner: PO · Support: Client) [product]
 - [ ] Day 18 — Landing page converted from waitlist to signup, once the Day 14 milestone is met (Owner: PO)
 - [ ] Day 19 — Onboarding drip sequence active for new signups (Owner: PO)
-- [ ] Day 15 — Client feedback window: work the decision tree — critical fixes on the existing build first, then push to get users on the app for real data, then negotiate post-Day-30 roadmap items (Owner: PO · Support: Developer, Tech Lead)
+- [ ] Day 15 — Client feedback window: work the decision tree — (1) quick turnaround on the client's own feedback (fixes on the existing build, no new scope), (2) get the product into the client's close circle / orbit users' hands so real users can give feedback, (3) then negotiate post-Day-30 roadmap items for anything beyond (Owner: PO · Support: Developer, Tech Lead)
 - [ ] Day 15 — Keep working down the standby list (Owner: PO · Support: Client)
 - [ ] Day 20 — Monetization model designed & scheduled into the plan (Owner: PO · Support: Tech Lead)
 

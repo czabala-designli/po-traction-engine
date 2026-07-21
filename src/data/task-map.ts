@@ -188,7 +188,7 @@ export const WEEKS = [
         { id: 'w3-5', label: 'Onboarding drip sequence active for new signups', day: 19, owner: 'PO', support: [] },
       ] },
       { name: 'Client feedback window', tasks: [
-        { id: 'w3-disagree', label: 'Client feedback window: work the feedback decision tree — critical fixes on the existing build first, then push to get users on the app for real data, then negotiate post-Day-30 roadmap items', day: 15, owner: 'PO', support: ['DEV', 'TL'] },
+        { id: 'w3-disagree', label: "Client feedback window: work the decision tree — (1) quick turnaround on the client's own feedback (fixes on the existing build, no new scope), (2) get the product into the client's close circle / orbit users' hands so real users can give feedback, (3) then negotiate post-Day-30 roadmap items for anything beyond", day: 15, owner: 'PO', support: ['DEV', 'TL'] },
         { id: 'w3-standby', label: 'Keep working down the standby list (more users turns "met" into "obviously met")', day: 15, owner: 'PO', support: ['CLIENT'] },
         { id: 'w3-mon', label: 'Monetization model designed & scheduled into the plan', day: 20, owner: 'PO', support: ['TL'] },
       ] },
