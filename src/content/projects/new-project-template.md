@@ -58,7 +58,7 @@ checklist:
   - { milestone: "Week 2 · Activation", label: "Day 14 — \"We have met our commitment\" posted to Basecamp", done: false, note: "Owner: PO" }
   - { milestone: "Week 3 · Conversion", label: "Day 15 — Product PostHog event plan generated from the PRD/TRD + code (PO runs the AI skill)", done: false, note: "Owner: PO" }
   - { milestone: "Week 3 · Conversion", label: "Day 16 — Custom product events implemented from the plan (Dev runs the AI skill)", done: false, note: "Owner: Developer, Support: Tech Lead" }
-  - { milestone: "Week 3 · Conversion", label: "Day 16 — North Star metric agreed with the client (from the event plan; set within month 1)", done: false, note: "Owner: PO, Support: Client" }
+  - { milestone: "Week 3 · Conversion", label: "Day 16 — North Star metric agreed with the client and saved as a PostHog saved metric so it appears in every experiment (from the event plan; set within month 1)", done: false, note: "Owner: PO, Support: Client" }
   - { milestone: "Week 3 · Conversion", label: "Day 18 — Landing page converted from waitlist to signup (once the Day 14 milestone is met)", done: false, note: "Owner: PO" }
   - { milestone: "Week 3 · Conversion", label: "Day 19 — Onboarding drip sequence active for new signups", done: false, note: "Owner: PO" }
   - { milestone: "Week 3 · Conversion", label: "Day 15 — Client feedback window: work the feedback decision tree — critical fixes on the existing build first, then push to get users on the app for real data, then negotiate post-Day-30 roadmap items", done: false, note: "Owner: PO, Support: Developer, Tech Lead" }

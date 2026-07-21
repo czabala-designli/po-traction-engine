@@ -181,7 +181,7 @@ export const WEEKS = [
       { name: 'PostHog · product', tasks: [
         { id: 'w3-eventplan', label: 'Product PostHog event plan generated from the PRD/TRD + code (PO runs the AI skill)', day: 15, owner: 'PO', support: [] },
         { id: 'w3-eventimpl', label: 'Custom product events implemented from the plan (Dev runs the AI skill)', day: 16, owner: 'DEV', support: ['TL'] },
-        { id: 'w3-northstar', label: 'North Star metric agreed with the client (from the event plan; set within month 1)', day: 16, owner: 'PO', support: ['CLIENT'] },
+        { id: 'w3-northstar', label: 'North Star metric agreed with the client and saved as a PostHog saved metric so it appears in every experiment (from the event plan; set within month 1)', day: 16, owner: 'PO', support: ['CLIENT'] },
       ] },
       { name: 'Launch', tasks: [
         { id: 'w3-4', label: 'Landing page converted from waitlist to signup (once the Day 14 milestone is met)', day: 18, owner: 'PO', support: [] },
@@ -235,5 +235,6 @@ export const OPERATING_NOTES = [
   'Legal docs (Terms, EULA, Privacy Policy) come from the client\'s attorney, or the client self-generates them at app-privacy-policy-generator.firebaseapp.com. Designli does not draft client legal docs; our templates are a last-resort fallback only when go-live is otherwise blocked.',
   'If the client has no domain or logo yet, use placeholders but tell them the app cannot be submitted until they are provided (reflect this in the contract).',
   '5-10 active users are needed before HDD and funnel analysis reveal real patterns. You can still build funnels from the critical paths and watch session recordings with fewer.',
+  'Re-run the hdd-posthog skills on every new feature, module, or significant change to add or modify events. Treat each as a chance to use a feature flag (early access, or rolling out via the audience ladder).',
   'Days 31-90: monetization model implemented alongside the HDD cadence.',
 ];

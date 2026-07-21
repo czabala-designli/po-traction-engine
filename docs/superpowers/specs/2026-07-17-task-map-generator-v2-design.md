@@ -188,3 +188,12 @@ Answered in #taskforce-week1-discovery-injection-vibecoding (Raul, Keith):
 - **Design injection is confirmed as 3 sessions** (1 requirements gathering + 2 design reviews), same staffing as discovery (SA + Designer, PO participates). It is a lighter, non-permanent injection for when work is locked behind a design but the project should not wait. `WORKSHOPS_DESIGN` updated from the 5-session placeholder; no longer provisional.
 - **Discovery and design injection are synonyms — never stacked.** A lab has ONE injection. Replaced the two independent checkboxes with a single injection selector (None / Discovery / Design) and removed the both-injections Days 1-5/6-10 offset logic. `PATH_DEFAULTS.injection` is now a single value ('none' | 'discovery' | 'design'). Both previously-open provisional items are now closed.
 - Not generic: StratiqAI's design injection is an unbilled freebie (few hours of SA, secondary to PO sessions) — an explicit exception, not modelled.
+
+## Addendum 5 2026-07-21 — Validation-canvas feedback (Goffor)
+
+Feedback left as comments on the Goffor validation canvas. PO accepted two, declined two:
+
+- **Applied:** North Star task now also says "saved as a PostHog saved metric so it appears in every experiment" (Miguel).
+- **Applied:** new operating note — "Re-run the hdd-posthog skills on every new feature, module, or significant change to add or modify events; treat each as a chance to use a feature flag (early access, or audience-ladder rollout)" (Miguel).
+- **Declined by PO:** (1) reworking the event-plan input to name discovery business goals, and (2) moving custom-event plan/implementation earlier (Week 3 → ~Day 12) for a measurable Day-14 build. Custom events stay in Week 3 as decided at the Activity List Workshop.
+- **No change needed:** Felix's note that the Before-phase PRD/TRD depend on a prior discovery — already gated by `show: { priorInfo: true }`.

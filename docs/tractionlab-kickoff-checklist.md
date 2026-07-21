@@ -72,7 +72,7 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 ## Week 3 — Conversion (Priority 3)
 - [ ] Day 15 — Product PostHog event plan generated from the PRD/TRD + code, PO runs the AI skill (Owner: PO) [product]
 - [ ] Day 16 — Custom product events implemented from the plan, Dev runs the AI skill (Owner: Developer · Support: Tech Lead) [product]
-- [ ] Day 16 — North Star metric agreed with the client, from the event plan; set within month 1 (Owner: PO · Support: Client) [product]
+- [ ] Day 16 — North Star metric agreed with the client and saved as a PostHog saved metric so it appears in every experiment, from the event plan; set within month 1 (Owner: PO · Support: Client) [product]
 - [ ] Day 18 — Landing page converted from waitlist to signup, once the Day 14 milestone is met (Owner: PO)
 - [ ] Day 19 — Onboarding drip sequence active for new signups (Owner: PO)
 - [ ] Day 15 — Client feedback window: work the decision tree — critical fixes on the existing build first, then push to get users on the app for real data, then negotiate post-Day-30 roadmap items (Owner: PO · Support: Developer, Tech Lead)
@@ -108,5 +108,6 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - Legal docs (Terms, EULA, Privacy Policy) come from the client's attorney, or the client self-generates them at app-privacy-policy-generator.firebaseapp.com. Designli does not draft client legal docs; our templates are a last-resort fallback only when go-live is otherwise blocked.
 - If the client has no domain or logo yet, use placeholders but tell them the app cannot be submitted until they are provided (reflect this in the contract).
 - 5-10 active users are needed before HDD and funnel analysis reveal real patterns. You can still build funnels from the critical paths and watch session recordings with fewer.
+- Re-run the hdd-posthog skills on every new feature, module, or significant change to add or modify events. Treat each as a chance to use a feature flag (early access, or rolling out via the audience ladder).
 - Days 31-90: monetization model implemented alongside the HDD cadence.
 - Week 5 onward — HDD Mode: every change is a hypothesis with a PostHog experiment before it ships; weekly client meetings report metric before/after.
