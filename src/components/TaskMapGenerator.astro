@@ -151,7 +151,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
       if (taskMatches(t, c)) list.push(t);
     })));
     BEFORE.forEach((t) => { if (taskMatches(t, ctx())) list.push(t); });
-    THROUGHOUT.forEach((t) => list.push(t));
+    // THROUGHOUT items are standing daily practices, not completable tasks — excluded from the count.
     return list;
   }
   function persist() {
@@ -322,10 +322,9 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
       h += '</div></details>';
     });
 
-    h += '<div class="ktm-throughout"><p class="ktm-eyebrow">Throughout the 90 days</p>';
+    h += '<div class="ktm-throughout"><p class="ktm-eyebrow">Throughout the 90 days</p><p class="ktm-standing-note">Standing practices, not one-time tasks, so they are not checked off.</p>';
     THROUGHOUT.forEach((t) => {
-      const on = !!checked[t.id];
-      h += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}"><span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span><span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta">${roleChips(t.owner, t.support)}</span></span></div>`;
+      h += `<div class="ktm-standing"><span class="ktm-standing-dot" aria-hidden="true">↻</span><span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta">${roleChips(t.owner, t.support)}</span></span></div>`;
     });
     h += '</div>';
     h += '<div class="ktm-hdd"><strong>Week 5 onward — HDD Mode:</strong> every change becomes a hypothesis with a PostHog experiment set up before it ships. Weekly client meetings report hypothesis → metric before → metric after → conclusion → next experiment, through Day 90.</div>';
@@ -461,6 +460,10 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
   .ktm-ws-what { font-size: 12.5px; line-height: 1.5; color: var(--muted-blue); }
   .ktm-mile-note { font-size: 11px; line-height: 1.5; color: var(--purple-light, #A78BC4); margin: 6px 0 0; }
   .ktm-throughout { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 16px 18px; margin-top: 12px; }
+  .ktm-standing-note { font-size: 11.5px; color: var(--muted-blue); margin: 0 0 10px; font-style: italic; }
+  .ktm-standing { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .ktm-standing:last-child { border-bottom: none; }
+  .ktm-standing-dot { margin-top: 1px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; color: var(--purple-light, #A78BC4); line-height: 1; }
   .ktm-notes { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 16px 18px; margin-top: 12px; }
   .ktm-notes ul { margin: 10px 0 0; padding-left: 18px; }
   .ktm-notes li { font-size: 12.5px; line-height: 1.6; color: var(--off-white); margin-bottom: 6px; }
