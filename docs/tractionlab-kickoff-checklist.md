@@ -23,42 +23,42 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 ## Week 1 — Foundation (Priority 1)
 - [ ] Day 1 — Founder orbit users identified & commitment obtained (Owner: PO · Support: Client) [CRITICAL]
 - [ ] Day 1 — Founder domain name confirmed (Owner: PO · Support: Client) [CRITICAL]
-- [ ] Day 1 — Google Workspace set up for founder email, Outlook acceptable (Owner: PO · Support: Tech Lead, Client) [CRITICAL]
-- [ ] Day 1 — Client business entity (LLC) confirmed: enables the DUNS number and a company Apple Developer account. We confirm it, we do not set it up (Owner: PO · Support: Client) [CRITICAL] [MOBILE ONLY]
-- [ ] Day 1 — Apple Developer account process started (Owner: PO · Support: Client, Tech Lead) [CRITICAL] [MOBILE ONLY]
-- [ ] Day 1 — DUNS number requested, required for Apple Developer account (Owner: PO · Support: Client, Tech Lead) [CRITICAL] [MOBILE ONLY]
-- [ ] Day 1 — Google Play Console account process started (Owner: PO · Support: Client, Tech Lead) [CRITICAL] [MOBILE ONLY]
-- [ ] Day 1 — Full go-live asset list sent to client: domain, store & processor accounts, anything else that blocks go-live (Owner: PO · Support: Client)
-- [ ] Day 2 — Advise client to source Terms, EULA & Privacy Policy from their attorney, or self-generate at app-privacy-policy-generator.firebaseapp.com. We do not draft these. Missing legal docs block go-live / app submission (Owner: PO · Support: Client) [CRITICAL]
-- [ ] Day 1 — Client's standby list of orbit users collected (Owner: PO · Support: Client)
-- [ ] Day 1 — Repo created under client's own GitHub org (Owner: Tech Lead)
-- [ ] Day 1 — Store apps and CI/CD pipelines set up (Owner: Tech Lead · Support: Developer) [MOBILE ONLY]
-- [ ] Days 1-7 — Backend creation, ongoing (Owner: Developer · Support: Tech Lead)
+- [ ] Day 1 — Full go-live asset list sent to client (domain, store & processor accounts, anything else that blocks go-live) (Owner: PO · Support: Client)
+- [ ] Day 2 — Repo created under client's own GitHub org (enables code transfer anytime) (Owner: Tech Lead)
+- [ ] Day 2 — Google Workspace set up for founder email (Outlook acceptable) (Owner: PO · Support: Tech Lead, Client) [CRITICAL]
+- [ ] Day 2 — Client business entity (LLC) confirmed — enables the DUNS number and a company Apple Developer account (we confirm it, we do not set it up) (Owner: PO · Support: Client) [CRITICAL] [MOBILE ONLY]
+- [ ] Day 2 — DUNS number requested (required for Apple Developer account) (Owner: PO · Support: Client, Tech Lead) [CRITICAL] [MOBILE ONLY]
+- [ ] Day 2 — Advise client to source Terms, EULA & Privacy Policy from their attorney (or self-generate at app-privacy-policy-generator.firebaseapp.com). We do not draft these. Missing legal docs block go-live / app submission. (Owner: PO · Support: Client) [CRITICAL]
+- [ ] Day 2 — Client's standby list of orbit users collected and kept on hand (a list, not a single name) (Owner: PO · Support: Client)
+- [ ] Day 3 — Apple Developer account process started (Owner: PO · Support: Client, Tech Lead) [CRITICAL] [MOBILE ONLY]
+- [ ] Day 3 — Google Play Console account process started (Owner: PO · Support: Client, Tech Lead) [CRITICAL] [MOBILE ONLY]
+- [ ] Day 4 — Store apps and CI/CD pipelines set up (Owner: Tech Lead · Support: Developer) [MOBILE ONLY]
+- [ ] Days 1-7 — Backend creation (ongoing) (Owner: Developer · Support: Tech Lead)
 - [ ] Day 1 — PostHog account created & project configured (Owner: PO) [waitlist]
-- [ ] Day 1 — Internal cohort created, PO/Dev/TL (Owner: PO) [waitlist]
-- [ ] Day 1 — Customer cohort created, founder & stakeholders (Owner: PO) [waitlist]
-- [ ] Day 2 — Dynamic cohort configured for all other signups (Owner: PO) [waitlist]
-- [ ] Day 2 — PostHog email channels configured, domain/DNS (Owner: PO · Support: Tech Lead) [waitlist]
-- [ ] Day 2 — PostHog SDK installed in the product app, captures out-of-the-box events (Owner: Developer · Support: PO) [product]
-- [ ] Day 2 — Value proposition written & approved (Owner: PO · Support: Client)
-- [ ] Day 3 — ICP research completed (Owner: PO)
+- [ ] Day 2 — Internal cohort created (PO, Dev, TL) (Owner: PO) [waitlist]
+- [ ] Day 3 — Customer cohort created (founder & stakeholders) (Owner: PO) [waitlist]
+- [ ] Day 3 — Dynamic cohort configured for all other signups (Owner: PO) [waitlist]
+- [ ] Day 4 — PostHog email channels configured (domain/DNS) (Owner: PO · Support: Tech Lead) [waitlist]
+- [ ] Day 4 — PostHog SDK installed in the product app (captures out-of-the-box events) (Owner: Developer · Support: PO) [product]
+- [ ] Day 3 — Value proposition written & approved (Owner: PO · Support: Client)
+- [ ] Day 4 — ICP research completed (once discovery context is sufficient) (Owner: PO)
 - [ ] Day 4 — Waitlist landing page live (Owner: PO)
 - [ ] Day 4 — PostHog tracking connected to landing page (Owner: PO)
-- [ ] Day 4 — Feedback widget integrated, routing to GitHub Issues (Owner: PO)
-- [ ] Day 4 — Slack notification for new feedback configured (Owner: PO)
+- [ ] Day 5 — Feedback widget integrated, routing to GitHub Issues (Owner: PO)
+- [ ] Day 5 — Slack notification for new feedback configured (Owner: PO)
 - [ ] Day 5 — 3 waitlist emails drafted & configured in PostHog (Owner: PO)
-- [ ] Days 1-8 — PRD drafted & refined, ongoing from discovery/prior context (Owner: PO · Support: Tech Lead, Developer)
-- [ ] Days 1-8 — TRD drafted & refined, ongoing (Owner: Tech Lead · Support: PO, Developer)
+- [ ] Days 1-8 — PRD drafted & refined (ongoing, from discovery/prior context) (Owner: PO · Support: Tech Lead, Developer)
+- [ ] Days 1-8 — TRD drafted & refined (ongoing) (Owner: Tech Lead · Support: PO, Developer)
 - [ ] Day 1 — Early monetization discussion held with the client (Owner: PO · Support: Client)
-- [ ] Day 3 — Monetization strategy documented, dictates Stripe / IAP integration (Owner: PO · Support: Client)
+- [ ] Day 3 — Monetization strategy documented (dictates Stripe / IAP integration) (Owner: PO · Support: Client)
 
 ## Week 2 — Activation (Priority 2)
 - [ ] Day 8 — Dev & staging infrastructure created (Owner: Tech Lead · Support: Developer)
-- [ ] Day 8 — Testable web variant deployed to get customer feedback, after design is approved (Owner: Developer · Support: Tech Lead)
-- [ ] Days 8-17 — Prototype migrated from React Native Web to React Native + backend integration, ongoing (Owner: Developer · Support: Tech Lead) [MOBILE ONLY]
-- [ ] Day 8 — Store-submission risk assessed: if client store accounts are blocked, create the app in Designli's own developer account (labelled "traction lab") to hit Day 30, then transfer to the client later (Owner: Tech Lead · Support: PO) [MOBILE ONLY]
-- [ ] Day 8 — Personal outreach completed for founder orbit users (Owner: PO)
-- [ ] Day 8 — Drip campaign running for all waitlist signups (Owner: PO)
+- [ ] Day 9 — Testable web variant deployed to get customer feedback (after design is approved) (Owner: Developer · Support: Tech Lead)
+- [ ] Days 8-17 — Prototype migrated from React Native Web to React Native + backend integration (ongoing) (Owner: Developer · Support: Tech Lead) [MOBILE ONLY]
+- [ ] Day 8 — Store-submission risk assessed: if client store accounts are blocked, create the app in Designli's own developer account (labelled 'traction lab') to hit Day 30, then transfer to the client later (Owner: Tech Lead · Support: PO) [MOBILE ONLY]
+- [ ] Day 9 — Personal outreach completed for founder orbit users (Owner: PO)
+- [ ] Day 9 — Drip campaign running for all waitlist signups (Owner: PO)
 - [ ] Day 9 — Product live or webapp safety net deployed (Owner: Developer · Support: Tech Lead) [CRITICAL]
 - [ ] Day 8 — Primary social channel claimed with brand handle (Owner: PO)
 - [ ] Day 9 — Profile complete: logo, banner, bio, waitlist link (Owner: PO)
@@ -66,7 +66,7 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] Day 10 — All waitlist PostHog events verified against internal cohort (Owner: PO) [waitlist]
 - [ ] Day 11 — Waitlist PostHog funnel configured with minimum event set (Owner: PO) [waitlist]
 - [ ] Day 12 — Target persona one-pager complete (Owner: PO)
-- [ ] Day 14 — Deployed version live with a user from the standby list (Owner: Developer · Support: PO, Client) [CRITICAL]
+- [ ] Day 14 — Deployed version live with a user on it, pulled from the standby list (founder orbit counts) (Owner: Developer · Support: PO, Client) [CRITICAL]
 - [ ] Day 14 — "We have met our commitment" posted to Basecamp (Owner: PO)
 
 ## Week 3 — Conversion (Priority 3)

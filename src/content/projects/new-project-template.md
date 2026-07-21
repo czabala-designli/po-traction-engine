@@ -13,40 +13,40 @@ checklist:
   - { milestone: "Before kick off", label: "Create the client-facing list of required tools & integrations", done: false, note: "Owner: Tech Lead" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Founder orbit users identified & commitment obtained", done: false, note: "Owner: PO, Support: Client · Critical" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Founder domain name confirmed", done: false, note: "Owner: PO, Support: Client · Critical" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — Google Workspace set up for founder email (Outlook acceptable)", done: false, note: "Owner: PO, Support: Tech Lead, Client · Critical" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — Client business entity (LLC) confirmed — enables the DUNS number and a company Apple Developer account (we confirm it, we do not set it up)", done: false, note: "Owner: PO, Support: Client · Critical · mobile only" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — Apple Developer account process started", done: false, note: "Owner: PO, Support: Client, Tech Lead · Critical · mobile only" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — DUNS number requested (required for Apple Developer account)", done: false, note: "Owner: PO, Support: Client, Tech Lead · Critical · mobile only" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — Google Play Console account process started", done: false, note: "Owner: PO, Support: Client, Tech Lead · Critical · mobile only" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Full go-live asset list sent to client (domain, store & processor accounts, anything else that blocks go-live)", done: false, note: "Owner: PO, Support: Client" }
+  - { milestone: "Week 1 · Foundation", label: "Day 2 — Repo created under client's own GitHub org (enables code transfer anytime)", done: false, note: "Owner: Tech Lead" }
+  - { milestone: "Week 1 · Foundation", label: "Day 2 — Google Workspace set up for founder email (Outlook acceptable)", done: false, note: "Owner: PO, Support: Tech Lead, Client · Critical" }
+  - { milestone: "Week 1 · Foundation", label: "Day 2 — Client business entity (LLC) confirmed — enables the DUNS number and a company Apple Developer account (we confirm it, we do not set it up)", done: false, note: "Owner: PO, Support: Client · Critical · mobile only" }
+  - { milestone: "Week 1 · Foundation", label: "Day 2 — DUNS number requested (required for Apple Developer account)", done: false, note: "Owner: PO, Support: Client, Tech Lead · Critical · mobile only" }
   - { milestone: "Week 1 · Foundation", label: "Day 2 — Advise client to source Terms, EULA & Privacy Policy from their attorney (or self-generate at app-privacy-policy-generator.firebaseapp.com). We do not draft these. Missing legal docs block go-live / app submission.", done: false, note: "Owner: PO, Support: Client · Critical" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — Client's standby list of orbit users collected and kept on hand (a list, not a single name)", done: false, note: "Owner: PO, Support: Client" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — Repo created under client's own GitHub org (enables code transfer anytime)", done: false, note: "Owner: Tech Lead" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — Store apps and CI/CD pipelines set up", done: false, note: "Owner: Tech Lead, Support: Developer · mobile only" }
+  - { milestone: "Week 1 · Foundation", label: "Day 2 — Client's standby list of orbit users collected and kept on hand (a list, not a single name)", done: false, note: "Owner: PO, Support: Client" }
+  - { milestone: "Week 1 · Foundation", label: "Day 3 — Apple Developer account process started", done: false, note: "Owner: PO, Support: Client, Tech Lead · Critical · mobile only" }
+  - { milestone: "Week 1 · Foundation", label: "Day 3 — Google Play Console account process started", done: false, note: "Owner: PO, Support: Client, Tech Lead · Critical · mobile only" }
+  - { milestone: "Week 1 · Foundation", label: "Day 4 — Store apps and CI/CD pipelines set up", done: false, note: "Owner: Tech Lead, Support: Developer · mobile only" }
   - { milestone: "Week 1 · Foundation", label: "Days 1-7 — Backend creation (ongoing)", done: false, note: "Owner: Developer, Support: Tech Lead" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — PostHog account created & project configured", done: false, note: "Owner: PO" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — Internal cohort created (PO, Dev, TL)", done: false, note: "Owner: PO" }
-  - { milestone: "Week 1 · Foundation", label: "Day 1 — Customer cohort created (founder & stakeholders)", done: false, note: "Owner: PO" }
-  - { milestone: "Week 1 · Foundation", label: "Day 2 — Dynamic cohort configured for all other signups", done: false, note: "Owner: PO" }
-  - { milestone: "Week 1 · Foundation", label: "Day 2 — PostHog email channels configured (domain/DNS)", done: false, note: "Owner: PO, Support: Tech Lead" }
-  - { milestone: "Week 1 · Foundation", label: "Day 2 — PostHog SDK installed in the product app (captures out-of-the-box events)", done: false, note: "Owner: Developer, Support: PO" }
-  - { milestone: "Week 1 · Foundation", label: "Day 2 — Value proposition written & approved", done: false, note: "Owner: PO, Support: Client" }
-  - { milestone: "Week 1 · Foundation", label: "Day 3 — ICP research completed (once discovery context is sufficient)", done: false, note: "Owner: PO" }
+  - { milestone: "Week 1 · Foundation", label: "Day 2 — Internal cohort created (PO, Dev, TL)", done: false, note: "Owner: PO" }
+  - { milestone: "Week 1 · Foundation", label: "Day 3 — Customer cohort created (founder & stakeholders)", done: false, note: "Owner: PO" }
+  - { milestone: "Week 1 · Foundation", label: "Day 3 — Dynamic cohort configured for all other signups", done: false, note: "Owner: PO" }
+  - { milestone: "Week 1 · Foundation", label: "Day 4 — PostHog email channels configured (domain/DNS)", done: false, note: "Owner: PO, Support: Tech Lead" }
+  - { milestone: "Week 1 · Foundation", label: "Day 4 — PostHog SDK installed in the product app (captures out-of-the-box events)", done: false, note: "Owner: Developer, Support: PO" }
+  - { milestone: "Week 1 · Foundation", label: "Day 3 — Value proposition written & approved", done: false, note: "Owner: PO, Support: Client" }
+  - { milestone: "Week 1 · Foundation", label: "Day 4 — ICP research completed (once discovery context is sufficient)", done: false, note: "Owner: PO" }
   - { milestone: "Week 1 · Foundation", label: "Day 4 — Waitlist landing page live", done: false, note: "Owner: PO" }
   - { milestone: "Week 1 · Foundation", label: "Day 4 — PostHog tracking connected to landing page", done: false, note: "Owner: PO" }
-  - { milestone: "Week 1 · Foundation", label: "Day 4 — Feedback widget integrated, routing to GitHub Issues", done: false, note: "Owner: PO" }
-  - { milestone: "Week 1 · Foundation", label: "Day 4 — Slack notification for new feedback configured", done: false, note: "Owner: PO" }
+  - { milestone: "Week 1 · Foundation", label: "Day 5 — Feedback widget integrated, routing to GitHub Issues", done: false, note: "Owner: PO" }
+  - { milestone: "Week 1 · Foundation", label: "Day 5 — Slack notification for new feedback configured", done: false, note: "Owner: PO" }
   - { milestone: "Week 1 · Foundation", label: "Day 5 — 3 waitlist emails drafted & configured in PostHog", done: false, note: "Owner: PO" }
   - { milestone: "Week 1 · Foundation", label: "Days 1-8 — PRD drafted & refined (ongoing, from discovery/prior context)", done: false, note: "Owner: PO, Support: Tech Lead, Developer" }
   - { milestone: "Week 1 · Foundation", label: "Days 1-8 — TRD drafted & refined (ongoing)", done: false, note: "Owner: Tech Lead, Support: PO, Developer" }
   - { milestone: "Week 1 · Foundation", label: "Day 1 — Early monetization discussion held with the client", done: false, note: "Owner: PO, Support: Client" }
   - { milestone: "Week 1 · Foundation", label: "Day 3 — Monetization strategy documented (dictates Stripe / IAP integration)", done: false, note: "Owner: PO, Support: Client" }
   - { milestone: "Week 2 · Activation", label: "Day 8 — Dev & staging infrastructure created", done: false, note: "Owner: Tech Lead, Support: Developer" }
-  - { milestone: "Week 2 · Activation", label: "Day 8 — Testable web variant deployed to get customer feedback (after design is approved)", done: false, note: "Owner: Developer, Support: Tech Lead" }
+  - { milestone: "Week 2 · Activation", label: "Day 9 — Testable web variant deployed to get customer feedback (after design is approved)", done: false, note: "Owner: Developer, Support: Tech Lead" }
   - { milestone: "Week 2 · Activation", label: "Days 8-17 — Prototype migrated from React Native Web to React Native + backend integration (ongoing)", done: false, note: "Owner: Developer, Support: Tech Lead · mobile only" }
   - { milestone: "Week 2 · Activation", label: "Day 8 — Store-submission risk assessed: if client store accounts are blocked, create the app in Designli's own developer account (labelled 'traction lab') to hit Day 30, then transfer to the client later", done: false, note: "Owner: Tech Lead, Support: PO · mobile only" }
-  - { milestone: "Week 2 · Activation", label: "Day 8 — Personal outreach completed for founder orbit users", done: false, note: "Owner: PO" }
-  - { milestone: "Week 2 · Activation", label: "Day 8 — Drip campaign running for all waitlist signups", done: false, note: "Owner: PO" }
+  - { milestone: "Week 2 · Activation", label: "Day 9 — Personal outreach completed for founder orbit users", done: false, note: "Owner: PO" }
+  - { milestone: "Week 2 · Activation", label: "Day 9 — Drip campaign running for all waitlist signups", done: false, note: "Owner: PO" }
   - { milestone: "Week 2 · Activation", label: "Day 9 — Product live or webapp safety net deployed", done: false, note: "Owner: Developer, Support: Tech Lead · Critical" }
   - { milestone: "Week 2 · Activation", label: "Day 8 — Primary social channel claimed with brand handle", done: false, note: "Owner: PO" }
   - { milestone: "Week 2 · Activation", label: "Day 9 — Profile complete: logo, banner, bio, waitlist link", done: false, note: "Owner: PO" }
