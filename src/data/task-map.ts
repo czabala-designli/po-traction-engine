@@ -223,7 +223,7 @@ export const WEEKS = [
 
 // "True on all 90 days" — rendered as a standing list, no dates.
 export const THROUGHOUT = [
-  { id: 't-1', label: 'Daily Basecamp post: progress and any client blockers tracked publicly', owner: 'PO', support: [] },
+  { id: 't-1', label: 'Daily Basecamp post: progress and any client blockers tracked publicly (anyone on the pod can post it)', owner: 'PO', support: ['TL', 'DEV'] },
   { id: 't-2', label: 'Daily marketing/traction activity to the client, receptive or not (downtime goes to traction, never more code)', owner: 'PO', support: [] },
   { id: 't-3', label: 'Chase outstanding client go-live items every touch until every one is in', owner: 'PO', support: ['CLIENT'] },
 ];

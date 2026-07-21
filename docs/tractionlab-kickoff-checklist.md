@@ -92,7 +92,7 @@ This is the **maximal template** (from-scratch build, discovery injection on, pr
 - [ ] Day 28 — Monetization features scoped & prioritized (Owner: PO · Support: Tech Lead, Developer)
 
 ## Throughout the 90 days
-- Daily Basecamp post: progress and any client blockers tracked publicly (Owner: PO)
+- Daily Basecamp post: progress and any client blockers tracked publicly, anyone on the pod can post it (Owner: PO · Support: Tech Lead, Developer)
 - Daily marketing/traction activity to the client (Owner: PO)
 - Chase outstanding client go-live items every touch (Owner: PO · Support: Client)
 
