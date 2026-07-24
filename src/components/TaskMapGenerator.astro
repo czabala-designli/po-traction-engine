@@ -241,12 +241,27 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
       if (btn) { btn.textContent = 'Copied!'; setTimeout(() => (btn.textContent = 'Copy checklist'), 2000); }
     }).catch(() => {});
   }
+  // Bulk-set every task inside one section (a week or the Before block) at once —
+  // powers the per-section Check all / Clear all controls.
+  function bulkSet(sectionEl, value) {
+    sectionEl.querySelectorAll('[data-ktm-task]').forEach((el) => {
+      const id = el.getAttribute('data-ktm-task');
+      checked[id] = value;
+      el.classList.toggle('on', value);
+      el.setAttribute('aria-pressed', String(value));
+      el.querySelector('.ktm-box').textContent = value ? '✓' : '';
+    });
+    updateProgress();
+    persist();
+  }
   function render() {
     const kickoff = dateInput.value;
     if (!kickoff) return;
     const isMobile = mobileToggle.checked;
     const guarantees = GUARANTEES.map((g) => ({ ...g, date: dayDate(kickoff, g.day), text: gLabel(g, isMobile) }));
     let h = '';
+    // Per-section Check all / Clear all row — added only to sections with 2+ tasks.
+    const bulkBar = '<div class="ktm-bulk"><button type="button" class="ktm-bulk-btn" data-ktm-check-all>Check all</button><span class="ktm-bulk-sep" aria-hidden="true">·</span><button type="button" class="ktm-bulk-btn" data-ktm-clear-all>Clear all</button></div>';
 
     h += '<div class="ktm-legend"><span class="ktm-legend-label">Roles</span>';
     Object.keys(ROLES).forEach((r) => {
@@ -286,6 +301,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
     const beforeTasks = BEFORE.filter((t) => taskMatches(t, c0));
     if (beforeTasks.length) {
       h += '<details class="ktm-week ktm-phase" open><summary class="ktm-week-head"><span class="ktm-caret" aria-hidden="true">▸</span><span class="ktm-week-title">Before kick off</span><span class="ktm-week-meta">Pre-Day 1</span></summary><div class="ktm-week-body">';
+      if (beforeTasks.length > 1) h += bulkBar;
       beforeTasks.forEach((t) => {
         const on = !!checked[t.id];
         h += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}"><span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span><span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta">${roleChips(t.owner, t.support)}</span></span></div>`;
@@ -305,23 +321,28 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
     });
 
     WEEKS.forEach((w, wi) => {
+      const c = ctx();
+      let body = '';
+      let taskCount = 0;
+      w.groups.forEach((g) => {
+        const gtasks = g.tasks.filter((t) => taskMatches(t, c)).sort(bySchedule);
+        if (!gtasks.length) return;
+        body += `<p class="ktm-group">${esc(g.name)}</p>`;
+        gtasks.forEach((t) => {
+          taskCount++;
+          const on = !!checked[t.id];
+          body += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}">`;
+          body += `<span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span>`;
+          body += `<span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta"><span class="ktm-task-date">${taskDateText(kickoff, t)}</span>${roleChips(t.owner, t.support)}</span></span>`;
+          if (t.critical) body += '<span class="ktm-critical">Critical</span>';
+          body += '</div>';
+        });
+      });
       h += `<details class="ktm-week"${wi === 0 ? ' open' : ''}>`;
       h += `<summary class="ktm-week-head"><span class="ktm-caret" aria-hidden="true">▸</span><span class="ktm-week-title">${esc(w.title)}</span><span class="ktm-week-meta">${esc(w.priority)} · ${fmt(dayDate(kickoff, w.range[0]))} – ${fmt(dayDate(kickoff, w.range[1]))}</span></summary>`;
       h += '<div class="ktm-week-body">';
-      w.groups.forEach((g) => {
-        const c = ctx();
-        const gtasks = g.tasks.filter((t) => taskMatches(t, c)).sort(bySchedule);
-        if (!gtasks.length) return;
-        h += `<p class="ktm-group">${esc(g.name)}</p>`;
-        gtasks.forEach((t) => {
-          const on = !!checked[t.id];
-          h += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}">`;
-          h += `<span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span>`;
-          h += `<span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta"><span class="ktm-task-date">${taskDateText(kickoff, t)}</span>${roleChips(t.owner, t.support)}</span></span>`;
-          if (t.critical) h += '<span class="ktm-critical">Critical</span>';
-          h += '</div>';
-        });
-      });
+      if (taskCount > 1) h += bulkBar;
+      h += body;
       h += '</div></details>';
     });
 
@@ -354,6 +375,12 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
         if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); }
       });
     });
+    output.querySelectorAll('[data-ktm-check-all]').forEach((btn) =>
+      btn.addEventListener('click', () => bulkSet(btn.closest('.ktm-week'), true)),
+    );
+    output.querySelectorAll('[data-ktm-clear-all]').forEach((btn) =>
+      btn.addEventListener('click', () => bulkSet(btn.closest('.ktm-week'), false)),
+    );
     output.querySelector('[data-ktm-copy]').addEventListener('click', copyChecklist);
   }
 
@@ -429,6 +456,10 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
   .ktm-week-title { font-family: var(--serif); font-size: 17px; color: var(--white); }
   .ktm-week-meta { margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--purple-light, #A78BC4); background: rgba(88,55,123,0.25); padding: 3px 10px; border-radius: 6px; }
   .ktm-week-body { padding: 0 18px 16px; }
+  .ktm-bulk { display: flex; align-items: center; gap: 8px; margin: 12px 0 2px; }
+  .ktm-bulk-btn { background: none; border: none; padding: 0; cursor: pointer; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-blue); transition: color 0.15s; font-family: inherit; }
+  .ktm-bulk-btn:hover { color: var(--coral); }
+  .ktm-bulk-sep { color: var(--navy-mid); font-size: 10px; }
   .ktm-group { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-blue); margin: 14px 0 8px; }
 
   .ktm-task { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); cursor: pointer; }
