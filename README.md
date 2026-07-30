@@ -112,7 +112,8 @@ src/
   content/assets/*.md      one file per library asset
   content/projects/*.md    one file per project case study
   content.config.ts        Content Collections schemas
-docs/                      templates, reusable Claude Code prompts, traction plans
+docs/                      templates, reusable Claude Code prompts, skill designs, traction plans
+demo/                      narrated walkthrough videos (./demo/run.sh <walkthrough>)
 public/                    logo and static files
 ```
 

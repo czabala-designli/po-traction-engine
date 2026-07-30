@@ -12,7 +12,7 @@ This file gives Claude Code the context it needs to work on this project without
 
 ## What this project is
 
-An internal, static **library and playbook for Designli Product Owners**. Its home (`/`) indexes reusable **templates** (each = a live preview + the prompt that builds it + a short playbook) and **project case studies** with living checklists. It grew out of — and still hosts — a coming-soon **waitlist landing page**, now relocated to `/waitlist`, whose job is to collect signups into PostHog. There is no backend, no database, no auth. PostHog is the source of truth for all signups.
+An internal **library and playbook for Designli Product Owners**. Its home (`/`) lays out the 90-day traction engagement as a timeline and indexes reusable **assets** against it. Every asset has a `kind` (template, play, or tool) and a `phase` (foundation, activation, conversion, hdd, marketing), and each gets a recipe card at `/library/[slug]`: a live preview where one exists, the prompt or starter that builds it, and a short playbook. Alongside those sit **project case studies** at `/projects/[slug]` with living checklists. It grew out of, and still hosts, a **waitlist landing page**, now relocated to `/waitlist`, whose job is to collect signups into PostHog. There is no database and no auth. PostHog is the source of truth for all signups.
 
 This project is self-referential: it is the first project *in* the library, dogfooding the very playbook it shares. The original "how to build a waitlist landing page" playbook this file grew from is preserved verbatim at `docs/claude-md-landing-page-starter.md` — reuse that as the starting CLAUDE.md for a brand-new landing-page project.
 
@@ -74,10 +74,10 @@ Logo file:            designli-logo.png (coral icon mark, in /public)
 
 | Layer | Tool | Notes |
 |---|---|---|
-| Framework | Astro (static) | No SSR needed; keep it static |
+| Framework | Astro 6 + `@astrojs/vercel` adapter | Static apart from the one feedback API route (see Conventions) |
 | Hosting | Vercel | Connected to this GitHub repo; deploys on push to main |
 | Analytics + email | PostHog | Source of truth for signups, events, drip emails, and feature flags |
-| Email fallback | Loops.so or Resend | Only if PostHog Workflows cannot handle the drip sequence |
+| Email fallback | Loops.so or Resend | Not in use. PostHog email DNS is verified, so PostHog Workflows handles the drip. |
 | Feedback routing | GitHub Issues | Repo and token in env vars — see Project config section below |
 | Notifications | Slack incoming webhook | Webhook URL in env vars — see Project config section below |
 | Version control | GitHub | Main branch = production |
@@ -109,15 +109,23 @@ Do not run `npx @posthog/wizard@latest` before the Astro project exists — the 
 
 Never hardcode credentials. All secrets go in `.env` locally and in Vercel's environment settings for production.
 
+These five are the full set. They are what `.env.example` lists, what the code reads via
+`import.meta.env`, and what is set in Vercel for Production.
+
 ```
-POSTHOG_PUBLIC_API_KEY=        # PostHog project API key (public — safe to use client-side)
-GITHUB_TOKEN=                  # see Project config section below
-GITHUB_REPO=                   # see Project config section below — format: owner/repo-name
-SLACK_WEBHOOK_URL=             # see Project config section below
+PUBLIC_POSTHOG_PROJECT_TOKEN=   # PostHog project token (public, safe client-side)
+PUBLIC_POSTHOG_HOST=            # https://us.i.posthog.com
+GITHUB_TOKEN=                   # see Project config section below
+GITHUB_REPO=                    # see Project config section below, format: owner/repo-name
+SLACK_WEBHOOK_URL=              # see Project config section below
 ```
 
-PostHog's public API key is safe to expose in client-side code. It is not a secret.
-All other values are set in the Project config section and copied into Vercel's environment settings for production.
+Anything prefixed `PUBLIC_` is exposed to the browser by Astro, which is correct for the two
+PostHog values and wrong for everything else. PostHog's project token is safe to expose. It
+is not a secret.
+
+All other values are set in the Project config section and copied into Vercel's environment
+settings for production. To pull production values into a local `.env`, run `vercel env pull`.
 
 ---
 
@@ -133,9 +141,9 @@ PostHog handles analytics, cohorts, email channels, and the drip workflow. Set u
 - Customer cohort created manually: founder + stakeholders
 - Dynamic cohort configured to auto-capture all future signups
 
-On a returning session, check `.env` for `POSTHOG_PUBLIC_API_KEY` before running through this list — if the key is there, PostHog is already configured.
+On a returning session, check `.env` for `PUBLIC_POSTHOG_PROJECT_TOKEN` before running through this list. If the token is there, PostHog is already configured.
 
-**If PostHog Workflows cannot handle the drip sequence**, use Loops.so as the first fallback (native PostHog webhook integration). Resend is the second fallback for transactional-only email.
+**If PostHog Workflows cannot handle the drip sequence** on a *new* project, use Loops.so as the first fallback (native PostHog webhook integration). Resend is the second fallback for transactional-only email. This does not apply to this project: DNS is verified here and Workflows sends the drip.
 
 ### Event naming convention
 
@@ -420,32 +428,55 @@ gh issue close <number> --repo <GITHUB_REPO>
 │   └── [logo file]
 ├── src/
 │   pages/
-│     └── index.astro             # library home — derives its grid from the content collections
+│     └── index.astro             # library home: the 90-day timeline, derived from the collections
 │     └── waitlist.astro          # the waitlist landing page (also the Waitlist template's live preview)
-│     └── templates/[slug].astro  # recipe-card page per template (preview + prompt + playbook)
+│     └── library/[slug].astro    # recipe-card page per asset (preview + prompt + playbook)
 │     └── projects/[slug].astro   # case-study page per project (narrative + living checklist)
+│     └── starters/*.md.ts        # downloadable starter files, served as plain Markdown
 │     └── privacy.astro / terms.astro
 │     └── api/feedback.ts         # feedback widget → GitHub Issue + Slack (the only non-static route)
 │   layouts/
-│     └── Layout.astro            # shared shell — global styles + PostHog + FeedbackWidget on every page
+│     └── Layout.astro            # shared shell: global styles + PostHog + FeedbackWidget on every page
 │   components/
 │     └── WaitlistForm.astro      # form + PostHog event (supports multiple instances via instanceId prop)
 │     └── FeedbackWidget.astro    # feedback button + panel (Suggestion / Bug / Question / Progress)
+│     └── SideNav.astro           # library sidebar, grouped by phase
+│     └── PrevNext.astro          # previous/next asset links at the foot of a recipe card
+│     └── AssetRelations.astro    # renders an asset's needs / feeds dependency links
+│     └── TaskMapGenerator.astro  # interactive kickoff task map (data in src/data/task-map.ts)
 │     └── VariantSwitcher.astro   # desktop-only layout switcher for the waitlist page
 │     └── StatusBadge.astro       # Live / Coming Soon / Active / Complete status pill
+│     └── KindBadge.astro         # Template / Play / Tool pill
 │     └── Checklist.astro         # project progress checklist (done/total + items)
 │     └── posthog.astro           # PostHog init (mounted in Layout <head>)
 │   content/
-│     └── templates/*.md          # one Markdown file per template (frontmatter + playbook body)
+│     └── assets/*.md             # one Markdown file per library asset (frontmatter + playbook body)
 │     └── projects/*.md           # one Markdown file per project case study (+ checklist frontmatter)
-│   content.config.ts             # Content Collections schemas (templates, projects)
-├── .env                          # local secrets — never commit
+│   content.config.ts             # Content Collections schemas (assets, projects)
+│   data/task-map.ts              # task data behind the Task Map Generator
+│   lib/nav.ts                    # shared ordering/grouping used by the sidebar and prev/next
+├── docs/                         # reusable templates, prompts, skill designs, traction plans
+├── .env                          # local secrets, never commit
 ├── .env.example                  # committed template with empty values
 ├── astro.config.mjs
+├── README.md                     # short, human-facing repo intro
 └── CLAUDE.md                     # this file
 ```
 
-**Adding to the library:** drop a new Markdown file into `src/content/templates/` or `src/content/projects/` — the home index and the recipe-card / case-study pages generate automatically from the collections (`src/content.config.ts` defines the frontmatter schema). No page wiring needed. To update a project's progress, edit its `checklist:` frontmatter — this is exactly what the feedback widget's **Progress update** type feeds into (see the feedback issue-response flow).
+**Adding to the library:** drop a new Markdown file into `src/content/assets/` or
+`src/content/projects/`. The home timeline, the sidebar, and the recipe-card / case-study
+pages all generate automatically from the collections (`src/content.config.ts` defines the
+frontmatter schema). No page wiring needed.
+
+An asset's frontmatter drives where it lands: `kind` (template / play / tool) sets the badge,
+`phase` (foundation / activation / conversion / hdd / marketing) places it on the timeline,
+`order` sorts it within that phase, and `needs` / `feeds` (arrays of other asset slugs) draw
+the dependency links. Set `previewUrl` for an internal live preview, or `externalUrl` to make
+the card link out to another site instead of an internal page.
+
+To update a project's progress, edit its `checklist:` frontmatter and flip `done: true`. This
+is exactly what the feedback widget's **Progress update** type feeds into (see the feedback
+issue-response flow).
 
 ---
 
@@ -466,7 +497,7 @@ Check the Project details block first — brand colors and logo may already be f
 
 ## Conventions
 
-- Static only — no API routes, no server-side rendering unless absolutely required. Client-side JavaScript (including localStorage for variant persistence) is fine; only SSR and API routes are excluded.
+- Static by default. `src/pages/api/feedback.ts` is the single deliberate exception (it needs a server to hold the GitHub token and Slack webhook), and it is why the project runs on the `@astrojs/vercel` adapter rather than a pure static build. Do not add a second API route or any SSR page without a reason that good. Client-side JavaScript (including localStorage for variant persistence and signup state) is fine.
 - No unnecessary dependencies — if vanilla JS or an Astro component can do it, do not add a library
 - All secrets in env vars — `.env` is in `.gitignore`, `.env.example` is committed with empty values
 - UTM parameters must be captured on every `waitlist_signup_submitted` event — source attribution starts from day one
@@ -491,7 +522,7 @@ Never leave commits unpushed. If you deployed but did not commit, GitHub and pro
 ```
 <short subject line describing why the change was made>
 
-Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
 ```
 
 The subject line is required — commits with only a co-author trailer are unreadable in GitHub history. Write it as a reason, not a description (e.g. "fix form double-submit on mobile" not "updated WaitlistForm.astro").
@@ -514,8 +545,15 @@ Slack channel:      #taskforce-traction-menu
 Slack channel ID:   C0B80HAUAA2
 Slack webhook URL:  set in .env and Vercel env vars ✓
 GitHub token:       available via gh CLI auth (repo scope confirmed); feedback widget creating issues correctly ✓
-Loops.so:           LOOPS_API_KEY set in .env — activated as email fallback (PostHog email DNS not yet verified)
-PostHog email DNS:  pending — designli.co DNS records not yet verified; 3 users need welcome email re-triggered once resolved
+PostHog project:    455988 (org czabala-designli). The MCP can default to a different, empty
+                    project, so confirm the id before running any query.
+PostHog email DNS:  verified on designli.co (2026-07-01) ✓ PostHog Workflows sends the drip.
+Loops.so:           NOT in use. LOOPS_API_KEY is still in the local .env but is read by no
+                    code and is not set in Vercel. Safe to remove.
+Vercel env vars:    all five set for Production ✓ (`vercel env ls production` to confirm)
+Local .env gap:     GITHUB_TOKEN and GITHUB_REPO are missing locally, so the feedback widget
+                    only works in production. Run `vercel env pull` to test it on localhost.
+Open item:          3 backfilled early signups still need their welcome email re-triggered.
 ```
 
 ---
@@ -528,7 +566,14 @@ PostHog email DNS:  pending — designli.co DNS records not yet verified; 3 user
 |---|---|
 | `feedback_widget_prompt_web.md` | Add a feedback button + GitHub Issue + Slack notification to any web project (Astro, Next.js, etc.) |
 | `feedback_widget_prompt_mobile.md` | Add shake-to-report (screenshot + logs + breadcrumbs + backend proxy) to any React Native project |
-| `posthog_workflow_prompt.md` | Build a PostHog workflow (generic + a filled-in waitlist welcome drip with conversion exit) — draft, test, then enable with sign-off |
+| `posthog_workflow_prompt.md` | Build a PostHog workflow (generic + a filled-in waitlist welcome drip with conversion exit): draft, test, then enable with sign-off |
+| `value-proposition-prompt.md` | Draft and pressure-test a value proposition before any landing page copy exists |
+
+`docs/skills/` holds the design docs for the installable Claude Code skills the library ships
+(ICP research, traction plan, brand voice, keyword research, blog post, email sequence,
+outreach email, community post, ASO listing). `docs/superpowers/` holds the plan and spec
+documents behind past pieces of work, and `docs/traction-plans/` holds the per-lab marketing
+plans generated by the traction-plan skill.
 
 ---
 
@@ -630,8 +675,8 @@ General rule: exhaust available tools and existing config before escalating to t
 - Do not create accounts on the PO's behalf — guide them to do it, then wait. Retrieving credentials that already exist (via CLI or .env) is fine — see the Before asking the PO section above.
 - Do not add a backend or database — PostHog is the data layer for this phase
 - Do not implement auth — not needed on the landing page
-- Do not add a heavyweight CMS — library content (templates, projects) lives in Astro Content Collections as Markdown in `src/content/`; other page copy stays hardcoded
-- Do not activate Loops.so or Resend unless PostHog email is explicitly confirmed as unavailable
+- Do not add a heavyweight CMS — library content (assets, projects) lives in Astro Content Collections as Markdown in `src/content/`; other page copy stays hardcoded
+- Do not activate Loops.so or Resend. PostHog email DNS is verified and Workflows handles the drip, so a fallback provider would only add a second source of truth.
 
 ---
 
