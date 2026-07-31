@@ -3,7 +3,7 @@
 // src/data/task-map.ts. Enter a kickoff date + entry path; every task auto-dates
 // on calendar days (Day 1 = kickoff), pulling off weekends; guarantees stay on
 // their true calendar date. Progress persists in localStorage per project.
-import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, WORKSHOPS_DESIGN, THROUGHOUT, OPERATING_NOTES } from '../data/task-map';
+import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, WORKSHOPS_DESIGN, THROUGHOUT, OPERATING_NOTES, TOTAL_DAYS } from '../data/task-map';
 ---
 
 <div class="ktm" data-ktm>
@@ -50,7 +50,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
   <div class="ktm-output" data-ktm-output hidden></div>
 </div>
 
-<script define:vars={{ WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, WORKSHOPS_DESIGN, THROUGHOUT, OPERATING_NOTES }}>
+<script define:vars={{ WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, WORKSHOPS_DESIGN, THROUGHOUT, OPERATING_NOTES, TOTAL_DAYS }}>
   const wrap = document.querySelector('[data-ktm]');
   const dateInput = wrap.querySelector('[data-ktm-date]');
   const nameInput = wrap.querySelector('[data-ktm-name]');
@@ -104,8 +104,15 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
     const sup = (t.support || []).map((r) => ROLES[r].label).join(', ');
     return sup ? `(Owner: ${ROLES[t.owner].label} · Support: ${sup})` : `(Owner: ${ROLES[t.owner].label})`;
   }
+  // A task carrying `blocks` is a long-lead gate: its day is when work must START, and
+  // what it puts at risk matters more than its date. GUARANTEES is the id -> label source.
+  function gateOf(t) { return t.blocks ? GUARANTEES.find((g) => g.id === t.blocks) : null; }
+  function gateChip(t, isMobile) {
+    const g = gateOf(t);
+    if (!g) return '';
+    return `<span class="ktm-chip ktm-chip-gate" title="Start on this day. Blocks Day ${g.day}.">⚑ blocks ${esc(gLabel(g, isMobile))}</span>`;
+  }
 
-  const TOTAL_DAYS = 96;
   let checked = {};
 
   // Calendar days from kickoff, no weekend skipping. Day 1 = kickoff, counted inclusively —
@@ -227,10 +234,27 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
       const c = ctx();
       w.groups.forEach((g) => g.tasks.filter((t) => taskMatches(t, c)).sort(bySchedule).forEach((t) => {
         const box = checked[t.id] ? '- [x]' : '- [ ]';
-        lines.push(`${box} ${taskDateText(kickoff, t)} — ${t.label} ${ownersText(t)}${t.critical ? '  (CRITICAL)' : ''}`);
+        const gate = gateOf(t);
+        const gateNote = gate ? `  (GATE, starts here, blocks Day ${gate.day} ${gLabel(gate, isMobile)})` : '';
+        lines.push(`${box} ${taskDateText(kickoff, t)} — ${t.label} ${ownersText(t)}${t.critical ? '  (CRITICAL)' : ''}${gateNote}`);
       }));
       lines.push('');
     });
+    const gatesCC = [];
+    WEEKS.forEach((w) => w.groups.forEach((g) => g.tasks.forEach((t) => {
+      if (t.blocks && taskMatches(t, cc)) gatesCC.push(t);
+    })));
+    if (gatesCC.length) {
+      lines.push('## Go-live gates');
+      GUARANTEES.forEach((g) => {
+        const mine = gatesCC.filter((t) => t.blocks === g.id).sort(bySchedule);
+        if (!mine.length) return;
+        const open = mine.filter((t) => !checked[t.id]).length;
+        lines.push(`### Day ${g.day} · ${gLabel(g, isMobile)} (${open ? `${open} of ${mine.length} outstanding` : 'all clear'})`);
+        mine.forEach((t) => lines.push(`${checked[t.id] ? '- [x]' : '- [ ]'} ${t.label} (starts Day ${t.day})`));
+      });
+      lines.push('');
+    }
     lines.push('## Throughout the 90 days');
     THROUGHOUT.forEach((t) => lines.push(`- ${t.label} ${ownersText(t)}`));
     lines.push('');
@@ -333,7 +357,7 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
           const on = !!checked[t.id];
           body += `<div class="ktm-task${on ? ' on' : ''}" data-ktm-task="${t.id}" role="button" tabindex="0" aria-pressed="${on}">`;
           body += `<span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span>`;
-          body += `<span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta"><span class="ktm-task-date">${taskDateText(kickoff, t)}</span>${roleChips(t.owner, t.support)}</span></span>`;
+          body += `<span class="ktm-task-text"><span class="ktm-task-label">${esc(t.label)}</span><span class="ktm-task-meta"><span class="ktm-task-date">${taskDateText(kickoff, t)}</span>${roleChips(t.owner, t.support)}${gateChip(t, isMobile)}</span></span>`;
           if (t.critical) body += '<span class="ktm-critical">Critical</span>';
           body += '</div>';
         });
@@ -345,6 +369,30 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
       h += body;
       h += '</div></details>';
     });
+
+    // Go-live gates: the same tasks a second time, grouped by what they put at risk rather
+    // than by week. Display-only on purpose — these carry no data-ktm-task attribute, so the
+    // click handler and the per-section bulk bars still see exactly one node per task id.
+    const gateTasks = [];
+    WEEKS.forEach((w) => w.groups.forEach((g) => g.tasks.forEach((t) => {
+      if (t.blocks && taskMatches(t, c0)) gateTasks.push(t);
+    })));
+    if (gateTasks.length) {
+      h += '<div class="ktm-gates"><p class="ktm-eyebrow">Go-live gates</p><p class="ktm-standing-note">Long-lead items, dated above where the work must start. Each one blocks a contractual milestone, so an outstanding gate is a date at risk.</p>';
+      GUARANTEES.forEach((g) => {
+        const mine = gateTasks.filter((t) => t.blocks === g.id).sort(bySchedule);
+        if (!mine.length) return;
+        const open = mine.filter((t) => !checked[t.id]).length;
+        const count = open ? `${open} of ${mine.length} outstanding` : 'all clear';
+        h += `<div class="ktm-gate-group"><p class="ktm-gate-head">Day ${g.day} · ${esc(gLabel(g, isMobile))}<span class="ktm-gate-count${open ? ' ktm-gate-open' : ''}">${count}</span></p>`;
+        mine.forEach((t) => {
+          const on = !!checked[t.id];
+          h += `<div class="ktm-gate-item${on ? ' on' : ''}"><span class="ktm-box" aria-hidden="true">${on ? '✓' : ''}</span><span class="ktm-gate-label">${esc(t.label)}</span><span class="ktm-gate-day">starts Day ${t.day}</span></div>`;
+        });
+        h += '</div>';
+      });
+      h += '</div>';
+    }
 
     h += '<div class="ktm-throughout"><p class="ktm-eyebrow">Throughout the 90 days</p><p class="ktm-standing-note">Standing practices, not one-time tasks, so they are not checked off.</p>';
     THROUGHOUT.forEach((t) => {
@@ -498,6 +546,21 @@ import { WEEKS, GUARANTEES, ROLES, PATH_DEFAULTS, BEFORE, WORKSHOPS_DISCOVERY, W
   .ktm-standing { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
   .ktm-standing:last-child { border-bottom: none; }
   .ktm-standing-dot { margin-top: 1px; width: 16px; height: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; color: var(--purple-light, #A78BC4); line-height: 1; }
+  /* Go-live gates: amber, deliberately distinct from the coral used for Critical, because
+     a gate is a date at risk rather than a task that must not slip. */
+  .ktm-chip-gate { color: var(--amber, #D6A25B); border-color: var(--amber, #D6A25B); text-transform: none; letter-spacing: 0; }
+  .ktm-gates { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 16px 18px; margin-top: 12px; }
+  .ktm-gate-group { margin-top: 12px; }
+  .ktm-gate-group:first-of-type { margin-top: 0; }
+  .ktm-gate-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; font-size: 12px; font-weight: 700; color: var(--off-white); margin: 0 0 6px; }
+  .ktm-gate-count { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-blue); border: 1px solid var(--navy-mid); border-radius: 6px; padding: 2px 6px; white-space: nowrap; }
+  .ktm-gate-count.ktm-gate-open { color: var(--amber, #D6A25B); border-color: var(--amber, #D6A25B); }
+  .ktm-gate-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .ktm-gate-item:last-child { border-bottom: none; }
+  .ktm-gate-item.on .ktm-box { background: var(--coral); border-color: var(--coral); }
+  .ktm-gate-item.on .ktm-gate-label { text-decoration: line-through; color: var(--muted-blue); }
+  .ktm-gate-label { flex: 1; font-size: 12.5px; line-height: 1.5; color: var(--off-white); }
+  .ktm-gate-day { font-size: 11px; color: var(--muted-blue); white-space: nowrap; }
   .ktm-notes { background: var(--navy-card); border: 1px solid var(--navy-mid); border-radius: 12px; padding: 16px 18px; margin-top: 12px; }
   .ktm-notes ul { margin: 10px 0 0; padding-left: 18px; }
   .ktm-notes li { font-size: 12.5px; line-height: 1.6; color: var(--off-white); margin-bottom: 6px; }

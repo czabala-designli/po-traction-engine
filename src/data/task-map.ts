@@ -9,6 +9,11 @@
 // lists roles that assist or VALIDATE that what's created makes sense.
 // `show` gates conditional tasks — see the plan/spec for the predicate rules.
 //
+// GATES: a task with `blocks` set to a GUARANTEES id is a long-lead gate. Its `day` is
+// the day work must START, not a due date — these depend on parties outside the pod
+// (the client's attorney, Apple's review queue, DUNS issuance), so they are dated where
+// they begin and surfaced again in the go-live gates summary by what they put at risk.
+//
 // PostHog is modelled as two tracks: "PostHog · waitlist" (the landing-page
 // analytics the PO owns) and "PostHog · product" (the app's own instrumentation:
 // SDK on Day 1, custom events planned/implemented in Week 3, funnels in Week 4).
@@ -37,12 +42,15 @@ export const TOTAL_DAYS = 96;
 
 // Contractual milestones. ALWAYS rendered on the true calendar date (never pulled
 // off a weekend). Day 60 reads labelWeb for non-mobile projects.
+// `id` is the target of a task's `blocks` field (see GATES note below). Ids match
+// Josh's traction-tracker playbook.py where they genuinely match; `store_ready` is
+// that model's `launch`, renamed because Day 60 here is "ready to submit", not a launch.
 export const GUARANTEES = [
-  { day: 14, label: 'Refund window closes', tag: 'guarantee',
+  { id: 'refund', day: 14, label: 'Refund window closes', tag: 'guarantee',
     note: 'Also the internal aggressive target for the first user, buying a ~2-week buffer before the Day 30 commitment.' },
-  { day: 30, label: 'First user', tag: 'guarantee' },
-  { day: 60, label: 'App ready for store submission', labelWeb: 'Product ready to scale', tag: 'last day to give notice' },
-  { day: 90, label: 'First dollar of revenue', tag: 'engagement ends' },
+  { id: 'first_user', day: 30, label: 'First user', tag: 'guarantee' },
+  { id: 'store_ready', day: 60, label: 'App ready for store submission', labelWeb: 'Product ready to scale', tag: 'last day to give notice' },
+  { id: 'first_dollar', day: 90, label: 'First dollar of revenue', tag: 'engagement ends' },
 ];
 
 // Discovery injection — CONFIRMED. Days 1-5, owned by the whole pod (Solutions
@@ -149,6 +157,8 @@ export const WEEKS = [
         { id: 'w2-webvariant', label: 'Testable web variant deployed to get customer feedback (after design is approved)', day: 9, owner: 'DEV', support: ['TL'] },
         { id: 'w2-migrate', label: 'Prototype migrated from React Native Web to React Native + backend integration (ongoing)', day: 8, dayRange: [8, 17], owner: 'DEV', support: ['TL'], show: { mobile: true } },
         { id: 'w2-storefallback', label: "Store-submission risk assessed: if client store accounts are blocked, create the app in Designli's own developer account (labelled 'traction lab') to hit Day 30, then transfer to the client later", day: 8, owner: 'TL', support: ['PO'], show: { mobile: true } },
+        { id: 'w2-crash', label: 'Crash & error reporting wired (Sentry / PostHog) so production issues surface before users complain', day: 11, owner: 'DEV', support: ['TL'] },
+        { id: 'w2-backup', label: "Production data backup enabled (automated snapshots / PITR) so a first user's data can't be lost", day: 12, owner: 'TL', support: ['DEV'] },
       ] },
       { name: 'Users', tasks: [
         { id: 'w2-7', label: 'Personal outreach completed for founder orbit users', day: 9, owner: 'PO', support: [] },
@@ -156,6 +166,7 @@ export const WEEKS = [
       ] },
       { name: 'Launch', tasks: [
         { id: 'w2-9', label: 'Product live or webapp safety net deployed', day: 9, owner: 'DEV', support: ['TL'], critical: true },
+        { id: 'w2-testflight', label: 'TestFlight / Play internal testing track set up so a real first user can install the build', day: 10, owner: 'TL', support: ['DEV'], critical: true, blocks: 'first_user', show: { mobile: true } },
       ] },
       { name: 'Brand', tasks: [
         { id: 'w2-1', label: 'Primary social channel claimed with brand handle', day: 8, owner: 'PO', support: [] },
@@ -192,6 +203,13 @@ export const WEEKS = [
         { id: 'w3-standby', label: 'Keep working down the standby list (more users turns "met" into "obviously met")', day: 15, owner: 'PO', support: ['CLIENT'] },
         { id: 'w3-mon', label: 'Monetization model designed & scheduled into the plan', day: 20, owner: 'PO', support: ['TL'] },
       ] },
+      { name: 'Store & compliance', tasks: [
+        { id: 'w3-privacy', label: 'Privacy Policy & Terms finalized and hosted at a live URL (both stores require the privacy URL at submission)', day: 17, owner: 'PO', support: ['CLIENT'], critical: true, blocks: 'store_ready' },
+        { id: 'w3-support', label: 'Support contact email / page live and reachable (store listings require a support contact)', day: 18, owner: 'PO', support: ['CLIENT'], blocks: 'store_ready' },
+        { id: 'w3-deletion', label: 'Account / data-deletion flow in the app (or a documented web path) — a common cause of store rejection', day: 19, owner: 'DEV', support: ['TL'], critical: true, blocks: 'store_ready', show: { mobile: true } },
+        { id: 'w3-labels', label: "App Store privacy 'nutrition labels' and Play Data safety form completed accurately", day: 20, owner: 'PO', support: ['TL'], critical: true, blocks: 'store_ready', show: { mobile: true } },
+        { id: 'w3-assets', label: 'Store listing assets prepared: icon, screenshots, description, keywords', day: 20, owner: 'DES', support: ['PO'], blocks: 'store_ready', show: { mobile: true } },
+      ] },
     ],
   },
   {
@@ -209,13 +227,18 @@ export const WEEKS = [
         { id: 'w4-funnels', label: 'First product funnels built from the critical user paths', day: 24, owner: 'PO', support: [] },
         { id: 'w4-sessions', label: 'PostHog session recordings reviewed to understand user behavior', day: 25, owner: 'PO', support: [] },
         { id: 'w4-3', label: 'Product funnels reviewed, drop-offs identified', day: 25, owner: 'PO', support: [] },
+        { id: 'w4-revenue', label: 'Revenue / KPI instrumented specifically: the conversion-to-paid event plus an insight that would show the first paid conversion', day: 26, owner: 'PO', support: ['DEV'], critical: true, blocks: 'first_dollar' },
       ] },
       { name: 'HDD', tasks: [
         { id: 'w4-4', label: 'First HDD experiment proposed & configured in PostHog', day: 27, owner: 'PO', support: [] },
         { id: 'w4-5', label: 'Week 5 client meeting agenda built around results', day: 28, owner: 'PO', support: [] },
       ] },
       { name: 'Monetization', tasks: [
+        { id: 'w4-billing', label: "In-app purchase / Stripe billing configured with the client's bank & tax details, so the app can actually charge", day: 24, owner: 'DEV', support: ['TL', 'CLIENT'], critical: true, blocks: 'first_dollar' },
         { id: 'w4-6', label: 'Monetization features scoped & prioritized', day: 28, owner: 'PO', support: ['TL', 'DEV'] },
+      ] },
+      { name: 'Store submission', tasks: [
+        { id: 'w4-submission', label: 'App Store / Play review submission (Apple review takes 1-3 days and can reject)', day: 27, owner: 'TL', support: ['DEV', 'PO'], critical: true, blocks: 'store_ready', show: { mobile: true } },
       ] },
     ],
   },
@@ -226,6 +249,8 @@ export const THROUGHOUT = [
   { id: 't-1', label: 'Daily Basecamp post: progress and any client blockers tracked publicly (anyone on the pod can post it)', owner: 'PO', support: ['TL', 'DEV'] },
   { id: 't-2', label: 'Daily marketing/traction activity to the client, receptive or not (downtime goes to traction, never more code)', owner: 'PO', support: [] },
   { id: 't-3', label: 'Chase outstanding client go-live items every touch until every one is in', owner: 'PO', support: ['CLIENT'] },
+  { id: 't-4', label: 'HDD mode (Week 5 onward): every change ships as a hypothesis with a PostHog experiment, and the weekly client report gives hypothesis → metric before → after → conclusion → next', owner: 'PO', support: ['DEV', 'TL'] },
+  { id: 't-5', label: 'Days 31-90: monetization model implemented alongside the HDD cadence', owner: 'DEV', support: ['PO', 'TL'] },
 ];
 
 // Short operating principles surfaced as notes under the map.
@@ -236,5 +261,5 @@ export const OPERATING_NOTES = [
   'If the client has no domain or logo yet, use placeholders but tell them the app cannot be submitted until they are provided (reflect this in the contract).',
   '5-10 active users are needed before HDD and funnel analysis reveal real patterns. You can still build funnels from the critical paths and watch session recordings with fewer.',
   'Re-run the hdd-posthog skills on every new feature, module, or significant change to add or modify events. Treat each as a chance to use a feature flag (early access, or rolling out via the audience ladder).',
-  'Days 31-90: monetization model implemented alongside the HDD cadence.',
+  'Gates (flagged ⚑) are dated where the work must START, not when it is due. They depend on parties outside the pod — the client\'s attorney, Apple\'s review queue, DUNS issuance — so begin them on their day and chase them from there.',
 ];
