@@ -53,6 +53,7 @@ Do not auto-run ICP research. It is gated by client approval before it is truste
 ### Project facts
 
 - **Kickoff date** (required)
+- **Guarantee / launch day** (default **Day 30**). Check the signed work order and the project's CLAUDE.md: some accounts move the launch and the guarantee (e.g. PharmOfCourse launches at **Day 60** with a free Month 3 as the remedy, and has no Day 30 launch). Never assume Day 30 when the project says otherwise
 - Product one-liner
 - **Business type: B2B / B2C / B2B2C** (drives the Track 3 channel and the cold-outreach extra)
 - **Stage: pre-launch / first users / scaling** and **product-live? (yes/no + date)** (drives sequencing, the Track 1 shape, and the ASO extra)
@@ -66,10 +67,11 @@ Do not auto-run ICP research. It is gated by client approval before it is truste
 
 From the kickoff date, compute four dates as **calendar days, weekends counted**. Day 1 = kickoff, so Day N = kickoff + (N-1) days.
 
-- **Day 14** and **Day 30**: hard guarantees
+- **Day 14**: hard guarantee
+- **Guarantee / launch day**: **Day 30** by default, a hard guarantee. If the project moved it (e.g. to Day 60), use that day as the guarantee and launch, and treat Day 30 as an ordinary checkpoint, never as a launch
 - **Day 60** and **Day 90**: commitment dates (Day 90 = first dollar of revenue goal)
 
-Put all four in the plan header. They are the fixed backbone regardless of execution pace.
+Put all four in the plan header and name which one is the guarantee. They are the fixed backbone regardless of execution pace. Treat the guarantee day as the earliest possible product-live date for sequencing: never schedule a post-launch play before it.
 
 ## Step 2: The 4-track spine and branch logic
 
@@ -119,7 +121,7 @@ Write into the lab's own repo at `docs/traction-plans/[project-slug].md`. Use th
 
 ```markdown
 # [Project] Traction Plan
-Kickoff: [date] · Day 14: [date] · Day 30: [date] · Day 60: [date] · Day 90 (first $): [date]
+Kickoff: [date] · Day 14: [date] · Day 30: [date] · Day 60: [date] · Day 90 (first $): [date] · Guarantee / launch: Day [30 or as agreed]
 Business type: [B2B/B2C/B2B2C] · Stage: [stage] · Product live: [yes/no + date] · ICP(s): [...]
 First-cohort target: [...] · Success metric: [...]
 

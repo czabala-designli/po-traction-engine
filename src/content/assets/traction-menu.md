@@ -39,3 +39,9 @@ Each is tagged for B2B, B2C, or dev-dependent work, so you only see what fits yo
 ## How it relates to this library
 
 The plays already in this library (Value Proposition, Waitlist Landing Page, PostHog, Waitlist Email Sequence, ICP Research) are the mandatory foundation the menu assumes you've done. The Traction Menu is the wider catalog you graduate to for the Days 31–90 growth phase. The [Task Map Generator](/library/task-map-generator) and the `traction-plan` skill are what turn a selection from this menu into a dated, week-by-week plan for a specific project.
+
+## Install the traction-plan skill
+
+1. <a href="/starters/traction-plan.md" download="traction-plan.md"><strong>Download the skill</strong></a> (saves as `traction-plan.md`) — or <a href="/starters/traction-plan.md" target="_blank" rel="noopener">view it raw</a>.
+2. Open Claude Code and say: *"Install the traction-plan.md in my download folder as a skill."* (Claude drops it into `.claude/commands/`.)
+3. Run **`/traction-plan`** from the lab's repo. It asks for the kickoff date and the guarantee day (Day 30 by default, Day 60 on accounts that moved the launch).
